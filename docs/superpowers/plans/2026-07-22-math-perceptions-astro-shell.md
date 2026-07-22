@@ -518,7 +518,16 @@ Expected: a list of links (e.g. `](slope.md)`, `](./cartesian-plane.md)`).
 
 - [ ] **Step 2: Ensure sibling-page links are relative `.md` links**
 
-For links to other pages in the same unit, use a relative path to the source file so Astro rewrites it to the correct built URL **including** the base — e.g. `[slope](./slope.md)` or `[slope](slope.md)`. Do **not** hardcode `/math-perceptions/...` or bare `/levels/...` absolute routes into content. Leave already-relative `.md` links as-is.
+For links to other pages in the same unit, use a relative path to the source file so Astro rewrites it to the correct built URL **including** the base — e.g. `[slope](./slope.md)` or `[slope](slope.md)`. Do **not** hardcode `/math-perceptions/...` or bare `/levels/...` absolute routes into content. Leave already-relative `.md` links as-is (the originals mostly already use `slope.md`-style links).
+
+- [ ] **Step 2b: Remove the dangling reviewer-handoff link (carried from Task 5 review)**
+
+`site/src/content/docs/levels/grade10/unit-1-linear-relations/index.md` contains `[Expert Review Handoff](unit1-review.md)` (around line 67). That target was intentionally excluded from the published site (it lives only at `review/unit-1-review.md`), so the link can never resolve AND it exposes reviewer-only material from student-facing content — a §15 acceptance violation. Remove the link. If it sits on its own line or in a small "for reviewers"/handoff block, remove that whole line/block; if it is inline within a sentence that must stay, remove just the link (and any now-dangling label). Do not leave a bare `unit1-review.md` reference anywhere in the published tree. Confirm afterward:
+
+```bash
+cd site && grep -rn "unit1-review" src/content/docs/ ; echo "exit:$?"
+```
+Expected: no matches (`exit:1`).
 
 - [ ] **Step 3: Build and preview**
 
