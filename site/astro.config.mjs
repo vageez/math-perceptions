@@ -2,13 +2,16 @@ import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
+import rehypeMdLinks from './src/plugins/rehype-md-links.mjs';
+
+const base = '/math-perceptions';
 
 export default defineConfig({
   site: 'https://vageez.github.io',
-  base: '/math-perceptions',
+  base,
   markdown: {
     remarkPlugins: [remarkMath],
-    rehypePlugins: [rehypeKatex],
+    rehypePlugins: [rehypeKatex, [rehypeMdLinks, { base }]],
   },
   integrations: [
     starlight({
