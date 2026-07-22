@@ -19,7 +19,7 @@
 - **Migration is copy-never-delete:** `docs/` stays untouched and authoritative until Unit 1 is approved.
 - **Reviewer files never** live under `site/src/content/docs/`. `unit1-review.md` → `review/`.
 - **Sidebar order:** frontmatter `sidebar.order` in gaps of 10.
-- **Internal links:** prefer relative `.md` links between content files so Astro rewrites them base-correctly (see Task 6). Do **not** hardcode `/math-perceptions/...` into content.
+- **Internal links (VERIFIED RULE):** In Markdown/MDX **body** content, NEVER use root-absolute links like `/levels/grade10/` — Astro does **not** base-prefix them and they 404 under Pages (emitted verbatim as `/levels/...`). Use **relative URL links** (no leading slash, e.g. `levels/grade10/`, `grade10/`, `unit-1-linear-relations/`) for navigation, or **relative `.md`-file links** (`./slope.md`) between existing content pages — Astro rewrites those base-correctly. Starlight **component** links only (sidebar `link:`, hero `actions[].link`) ARE base-prefixed, so absolute paths like `/levels/grade10/` are correct *there* and nowhere else. Never hardcode `/math-perceptions/...` into content.
 - **Every task ends on a green build** (`npm run build` exit 0) unless the step explicitly labels a temporary red probe that the same task turns green.
 
 ---
@@ -233,10 +233,12 @@ import { Card, CardGrid } from '@astrojs/starlight/components';
 
 <CardGrid>
   <Card title="Grade 10" icon="open-book">
-    Linear Relations and more. [Start Grade 10](/levels/grade10/)
+    Linear Relations and more. [Start Grade 10](levels/grade10/)
   </Card>
 </CardGrid>
 ```
+
+Note: the hero `actions[].link: /levels/grade10/` above is a Starlight component prop and IS base-prefixed — keep it root-absolute. The `[Start Grade 10](levels/grade10/)` inside the Card is Markdown body — it must be **relative** (no leading slash) per the linking rule.
 
 - [ ] **Step 3: Create `site/src/content/docs/levels/index.md`**
 
@@ -246,8 +248,9 @@ title: Levels
 description: Choose your grade level.
 ---
 
-- [Grade 10](/levels/grade10/)
+- [Grade 10](grade10/)
 ```
+(Relative link — this page is served at `/levels/`, so `grade10/` resolves to `/levels/grade10/` under the base.)
 
 - [ ] **Step 4: Create `site/src/content/docs/levels/grade10/index.md`**
 
@@ -261,13 +264,14 @@ Grade 10 math, one unit at a time.
 
 ## Units
 
-- [Unit 1 — Linear Relations](/levels/grade10/unit-1-linear-relations/)
+- [Unit 1 — Linear Relations](unit-1-linear-relations/)
 - Unit 2 — Analytic Geometry *(coming soon)*
 - Unit 3 — Trigonometry *(coming soon)*
 - Unit 4 — Similarity & Congruency *(coming soon)*
 - Unit 5 — Functions *(coming soon)*
 - Unit 6 — Statistics *(coming soon)*
 ```
+(Relative link — this page is served at `/levels/grade10/`, so `unit-1-linear-relations/` resolves correctly under the base. The target is created in Task 5; until then this link 404s in preview, which is expected — Task 7 validates it once the unit exists.)
 
 - [ ] **Step 5: Build and verify routes exist**
 
@@ -276,14 +280,29 @@ cd site && npm run build && ls dist/levels/grade10/index.html dist/levels/index.
 ```
 Expected: all three files listed, exit 0. (With `base` set, `dist/` mirrors routes without the base prefix — the base is applied by the server, not the output tree.)
 
-- [ ] **Step 6: Manual smoke test under the base path**
+- [ ] **Step 6: Verify no base-unsafe absolute links leaked into the body**
+
+The home/levels/grade10 pages must not emit body links to a bare `/levels/...` (those 404 under Pages). Confirm the only `/math-perceptions/...`-or-relative forms are present:
+
+```bash
+cd site && grep -oE 'href="/levels/[^"]*"' dist/index.html dist/levels/index.html dist/levels/grade10/index.html
+```
+Expected: **no output** (no bare `/levels/...` hrefs). If any appear, the source used a root-absolute Markdown link — change it to relative (no leading slash) and rebuild.
+
+- [ ] **Step 7: Smoke test routes under the base path**
 
 ```bash
 cd site && npm run preview
 ```
-Visit `http://localhost:4321/math-perceptions/`. Confirm: home shows "Start Grade 10" → clicking reaches `/levels/grade10/`; the "Grade 10" sidebar group shows an "Overview" link; no "guides"/"reference" example pages appear. Stop the server (Ctrl-C).
+In another shell:
+```bash
+for p in "" levels/ levels/grade10/; do
+  echo "$(curl -s -o /dev/null -w '%{http_code}' http://localhost:4321/math-perceptions/$p)  /$p"
+done
+```
+Expected: `200` for `/`, `/levels/`, `/levels/grade10/`. Then in the browser at `http://localhost:4321/math-perceptions/`: the "Start Grade 10" hero button and the Grade 10 card both reach the Grade 10 landing; the "Grade 10" sidebar group shows an "Overview" link; no "guides"/"reference" example pages appear. (The grade10 landing's "Unit 1" link 404s until Task 5 — expected.) Stop the server (Ctrl-C).
 
-- [ ] **Step 7: Commit**
+- [ ] **Step 8: Commit**
 
 ```bash
 git add site/src/content/docs
