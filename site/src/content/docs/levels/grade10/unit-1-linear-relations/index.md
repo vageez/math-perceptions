@@ -64,7 +64,6 @@ By the end of Unit 1, I can:
 - [Unit 1 Formula Sheet](formula-sheet.md)
 - [Unit 1 Vocabulary](vocabulary.md)
 - [Unit 1 Exam Checklist](exam-checklist.md)
-- [Expert Review Handoff](unit1-review.md)
 
 ---
 
