@@ -12,7 +12,7 @@
 
 ## Global Constraints
 
-- **Node:** ≥ 20.3 (repo host has v26; CI uses Node 20). Astro 5 floor.
+- **Node:** Astro 7.1.3 requires Node **≥ 22.12.0**. Repo host has v26 (fine). CI: `withastro/action` defaults to Node 20, which Astro rejects — the workflow MUST set `node-version: 22` on the action (verified: without it, `astro build` fails "Node.js v20 is not supported").
 - **One collection:** all student pages live in the Starlight `docs` collection; directories create sections. Never one collection per namespace/unit.
 - **Base path:** `base: '/math-perceptions'`, `site: 'https://vageez.github.io'`. Dev/preview serve under `/math-perceptions/`.
 - **File type:** `.md` for study pages; `.mdx` only when a page genuinely needs a component (the home page's card grid qualifies).
@@ -630,6 +630,7 @@ jobs:
       - uses: withastro/action@v3
         with:
           path: ./site
+          node-version: 22   # Astro 7 needs Node >=22.12; the action defaults to 20 and would fail without this
   deploy:
     needs: build
     runs-on: ubuntu-latest
