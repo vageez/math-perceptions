@@ -187,7 +187,7 @@ export default defineConfig({
   },
   integrations: [
     starlight({
-      title: 'Grade 10 Math Study Guide',
+      title: 'Math Perceptions',
       description: 'A visual, exam-focused Grade 10 mathematics study guide.',
       customCss: ['./src/styles/custom.css'],
       sidebar: [
@@ -432,11 +432,11 @@ After copying:
 
 ## 13. Home page requirements
 
-The home page at `site/src/content/docs/index.md` should be student-oriented, not a project README.
+The home page at `site/src/content/docs/index.mdx` (`.mdx` because it uses Starlight card components) should be student-oriented, not a project README.
 
 It must contain:
 
-- the title **Grade 10 Math Study Guide**;
+- the site title **Math Perceptions** (with Grade 10 as the first level);
 - one sentence explaining that the guide is visual and exam-focused;
 - a prominent **Start Unit 1** link;
 - one card or link for each unit;
