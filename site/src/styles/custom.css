@@ -1,0 +1,28 @@
+@import 'katex/dist/katex.min.css';
+
+:root {
+  --sl-color-accent-low: #dbeafe;
+  --sl-color-accent: #2563eb;
+  --sl-color-accent-high: #172554;
+}
+
+.sl-markdown-content {
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.sl-markdown-content table {
+  width: 100%;
+}
+
+.sl-markdown-content img.hero-diagram {
+  display: block;
+  width: min(100%, 64rem);
+  margin-inline: auto;
+}
+
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-block: 0.5rem;
+}
