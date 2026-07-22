@@ -54,6 +54,8 @@ math-grade10/
 └── ASTRO_SETUP.md
 ```
 
+The GitHub repository behind this project is named `math-perceptions` (`github.com/vageez/math-perceptions`); the local project folder keeps its original name, `math-grade10`, for continuity with the PCPM research files that already lived there. The two names are not the same thing — when this document says "the repo," it means `math-perceptions`.
+
 Why use `site/`:
 
 - the current study content and research files remain undisturbed;
@@ -100,31 +102,37 @@ site/
     │   └── study/                # Optional MDX components added only when needed
     ├── content/
     │   └── docs/
-    │       ├── index.md
-    │       ├── unit-1-linear-relations/
-    │       │   ├── index.md
-    │       │   ├── cartesian-plane.md
-    │       │   ├── slope.md
-    │       │   ├── equation-of-a-line.md
-    │       │   ├── types-of-lines.md
-    │       │   ├── systems-of-equations.md
-    │       │   ├── formula-sheet.md
-    │       │   ├── vocabulary.md
-    │       │   └── exam-checklist.md
-    │       ├── unit-2-analytic-geometry/
-    │       │   └── index.md
-    │       ├── unit-3-trigonometry/
-    │       │   └── index.md
-    │       ├── unit-4-similarity-congruency/
-    │       │   └── index.md
-    │       ├── unit-5-functions/
-    │       │   └── index.md
-    │       └── unit-6-statistics/
-    │           └── index.md
+    │       ├── index.mdx
+    │       └── levels/
+    │           ├── index.md
+    │           └── grade10/
+    │               ├── index.md
+    │               ├── unit-1-linear-relations/
+    │               │   ├── index.md
+    │               │   ├── cartesian-plane.md
+    │               │   ├── slope.md
+    │               │   ├── equation-of-a-line.md
+    │               │   ├── types-of-lines.md
+    │               │   ├── systems-of-equations.md
+    │               │   ├── formula-sheet.md
+    │               │   ├── vocabulary.md
+    │               │   └── exam-checklist.md
+    │               ├── unit-2-analytic-geometry/
+    │               │   └── index.md
+    │               ├── unit-3-trigonometry/
+    │               │   └── index.md
+    │               ├── unit-4-similarity-congruency/
+    │               │   └── index.md
+    │               ├── unit-5-functions/
+    │               │   └── index.md
+    │               └── unit-6-statistics/
+    │                   └── index.md
     ├── content.config.ts
     └── styles/
         └── custom.css
 ```
+
+Grade 10 is one level in a `levels/` namespace, not the top of the content tree. This leaves room for other grades or courses to sit alongside `levels/grade10/` later without a second migration.
 
 ### Published versus internal files
 
@@ -161,24 +169,21 @@ The current pages use `$...$` and `$$...$$` notation. Configure KaTeX so formula
 Install:
 
 ```sh
-npm install @astrojs/markdown-remark remark-math rehype-katex katex
+npm install remark-math rehype-katex katex
 ```
 
-Configure the current Astro Markdown processor in `astro.config.mjs`:
+Configure Astro's Markdown plugins in `astro.config.mjs`:
 
 ```js
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
-import { unified } from '@astrojs/markdown-remark';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 
 export default defineConfig({
   markdown: {
-    processor: unified({
-      remarkPlugins: [remarkMath],
-      rehypePlugins: [rehypeKatex],
-    }),
+    remarkPlugins: [remarkMath],
+    rehypePlugins: [rehypeKatex],
   },
   integrations: [
     starlight({
@@ -189,38 +194,40 @@ export default defineConfig({
         { label: 'Start Here', link: '/' },
         {
           label: 'Unit 1 — Linear Relations',
-          items: [{ autogenerate: { directory: 'unit-1-linear-relations' } }],
+          items: [{ autogenerate: { directory: 'levels/grade10/unit-1-linear-relations' } }],
         },
         {
           label: 'Unit 2 — Analytic Geometry',
           collapsed: true,
-          items: [{ autogenerate: { directory: 'unit-2-analytic-geometry' } }],
+          items: [{ autogenerate: { directory: 'levels/grade10/unit-2-analytic-geometry' } }],
         },
         {
           label: 'Unit 3 — Trigonometry',
           collapsed: true,
-          items: [{ autogenerate: { directory: 'unit-3-trigonometry' } }],
+          items: [{ autogenerate: { directory: 'levels/grade10/unit-3-trigonometry' } }],
         },
         {
           label: 'Unit 4 — Similarity & Congruency',
           collapsed: true,
-          items: [{ autogenerate: { directory: 'unit-4-similarity-congruency' } }],
+          items: [{ autogenerate: { directory: 'levels/grade10/unit-4-similarity-congruency' } }],
         },
         {
           label: 'Unit 5 — Functions',
           collapsed: true,
-          items: [{ autogenerate: { directory: 'unit-5-functions' } }],
+          items: [{ autogenerate: { directory: 'levels/grade10/unit-5-functions' } }],
         },
         {
           label: 'Unit 6 — Statistics',
           collapsed: true,
-          items: [{ autogenerate: { directory: 'unit-6-statistics' } }],
+          items: [{ autogenerate: { directory: 'levels/grade10/unit-6-statistics' } }],
         },
       ],
     }),
   ],
 });
 ```
+
+**A nuance worth knowing:** the installed Astro (v7) also ships a newer `markdown.processor: unified({ ... })` API, imported from `@astrojs/markdown-remark`, and using the `remarkPlugins`/`rehypePlugins` form above prints a deprecation warning pointing at it. Do not "fix" that warning by switching to `processor` — it is a valid API, but **Starlight does not apply KaTeX plugins passed through `processor`**, so math silently fails to render with no build error (verified during implementation). The `remarkPlugins`/`rehypePlugins` form shown above is the one that actually renders math inside Starlight; the deprecation warning it prints is expected and should be left alone, not "resolved."
 
 Add KaTeX and study-guide styles in `src/styles/custom.css`:
 
@@ -258,7 +265,7 @@ Add KaTeX and study-guide styles in `src/styles/custom.css`:
 }
 ```
 
-If the installed Astro version changes the Markdown processor API, follow the version's official Markdown configuration and retain the same `remark-math` → `rehype-katex` processing goal.
+If a future Astro version changes the Markdown processor API again, confirm KaTeX actually renders inside a Starlight page before adopting the new option — do not assume the newest documented API is Starlight-compatible for plugin-based math. Retain the same `remark-math` → `rehype-katex` processing goal either way.
 
 ## 8. Content collection configuration
 
@@ -400,21 +407,23 @@ Copy first; do not delete the originals during migration.
 
 | Current source | Astro destination |
 |---|---|
-| `docs/unit-1-linear-relations/index.md` | `site/src/content/docs/unit-1-linear-relations/index.md` |
-| `docs/unit-1-linear-relations/cartesian-plane.md` | `site/src/content/docs/unit-1-linear-relations/cartesian-plane.md` |
-| `docs/unit-1-linear-relations/slope.md` | `site/src/content/docs/unit-1-linear-relations/slope.md` |
-| `docs/unit-1-linear-relations/equation-of-a-line.md` | `site/src/content/docs/unit-1-linear-relations/equation-of-a-line.md` |
-| `docs/unit-1-linear-relations/types-of-lines.md` | `site/src/content/docs/unit-1-linear-relations/types-of-lines.md` |
-| `docs/unit-1-linear-relations/systems-of-equations.md` | `site/src/content/docs/unit-1-linear-relations/systems-of-equations.md` |
-| `docs/unit-1-linear-relations/formula-sheet.md` | `site/src/content/docs/unit-1-linear-relations/formula-sheet.md` |
-| `docs/unit-1-linear-relations/vocabulary.md` | `site/src/content/docs/unit-1-linear-relations/vocabulary.md` |
-| `docs/unit-1-linear-relations/exam-checklist.md` | `site/src/content/docs/unit-1-linear-relations/exam-checklist.md` |
+| `docs/unit-1-linear-relations/index.md` | `site/src/content/docs/levels/grade10/unit-1-linear-relations/index.md` |
+| `docs/unit-1-linear-relations/cartesian-plane.md` | `site/src/content/docs/levels/grade10/unit-1-linear-relations/cartesian-plane.md` |
+| `docs/unit-1-linear-relations/slope.md` | `site/src/content/docs/levels/grade10/unit-1-linear-relations/slope.md` |
+| `docs/unit-1-linear-relations/equation-of-a-line.md` | `site/src/content/docs/levels/grade10/unit-1-linear-relations/equation-of-a-line.md` |
+| `docs/unit-1-linear-relations/types-of-lines.md` | `site/src/content/docs/levels/grade10/unit-1-linear-relations/types-of-lines.md` |
+| `docs/unit-1-linear-relations/systems-of-equations.md` | `site/src/content/docs/levels/grade10/unit-1-linear-relations/systems-of-equations.md` |
+| `docs/unit-1-linear-relations/formula-sheet.md` | `site/src/content/docs/levels/grade10/unit-1-linear-relations/formula-sheet.md` |
+| `docs/unit-1-linear-relations/vocabulary.md` | `site/src/content/docs/levels/grade10/unit-1-linear-relations/vocabulary.md` |
+| `docs/unit-1-linear-relations/exam-checklist.md` | `site/src/content/docs/levels/grade10/unit-1-linear-relations/exam-checklist.md` |
 | `docs/unit-1-linear-relations/unit1-review.md` | `review/unit-1-review.md` — not published |
+
+Destinations sit under `levels/grade10/` per the target structure in §5.
 
 After copying:
 
 1. Add frontmatter to every published file.
-2. Convert internal `.md` links to clean site routes such as `/unit-1-linear-relations/slope/`.
+2. Convert internal `.md` links to **relative** site routes (no leading slash) such as `../slope/` — see §14 for why absolute routes are wrong under this project's `base` path.
 3. Confirm formulas render.
 4. Confirm `<details>` answer blocks work.
 5. Confirm sidebar order.
@@ -442,20 +451,90 @@ Keep predictable URLs:
 
 ```text
 /
-/unit-1-linear-relations/
-/unit-1-linear-relations/cartesian-plane/
-/unit-1-linear-relations/slope/
-/unit-1-linear-relations/equation-of-a-line/
-/unit-1-linear-relations/types-of-lines/
-/unit-1-linear-relations/systems-of-equations/
-/unit-1-linear-relations/formula-sheet/
-/unit-1-linear-relations/vocabulary/
-/unit-1-linear-relations/exam-checklist/
+/levels/grade10/
+/levels/grade10/unit-1-linear-relations/
+/levels/grade10/unit-1-linear-relations/cartesian-plane/
+/levels/grade10/unit-1-linear-relations/slope/
+/levels/grade10/unit-1-linear-relations/equation-of-a-line/
+/levels/grade10/unit-1-linear-relations/types-of-lines/
+/levels/grade10/unit-1-linear-relations/systems-of-equations/
+/levels/grade10/unit-1-linear-relations/formula-sheet/
+/levels/grade10/unit-1-linear-relations/vocabulary/
+/levels/grade10/unit-1-linear-relations/exam-checklist/
 ```
+
+Every Grade 10 route carries the `/levels/grade10/` prefix — there is no shortcut directly from the site root to a unit.
 
 Once published, do not rename a slug casually. Stable URLs make bookmarks, review notes, and printed QR codes reliable.
 
-## 15. Validation commands
+### Internal links must be relative, not absolute
+
+The site is served under `base: '/math-perceptions'` (see §15, "GitHub Pages deployment"), and **Astro does not base-prefix root-absolute links written in Markdown**. A link authored as `/levels/grade10/unit-1-linear-relations/slope/` renders exactly as written and 404s once the site is live at `https://vageez.github.io/math-perceptions/...`, because the real path is `/math-perceptions/levels/grade10/unit-1-linear-relations/slope/`.
+
+This corrects the migration guidance in §12, which suggested converting links to "clean site routes" using an absolute path — under this project's `base`, that advice is wrong and must not be followed.
+
+Write internal Markdown links as **relative** paths instead (no leading slash), for example `../slope/` from a sibling page or `./slope/` from within the same directory. Astro resolves and base-prefixes relative links correctly regardless of `base`.
+
+## 15. GitHub Pages deployment
+
+The site is published to GitHub Pages from the `math-perceptions` repository, with `site/` as the Astro project root.
+
+`astro.config.mjs` must declare the deployment origin and the sub-path Pages serves it from:
+
+```js
+export default defineConfig({
+  site: 'https://vageez.github.io',
+  base: '/math-perceptions',
+  // ...markdown and integrations config as in §7
+});
+```
+
+Without both `site` and `base` set correctly, Starlight's sitemap, canonical URLs, and any root-absolute asset references will point at the wrong path once the site is live under `/math-perceptions/`.
+
+Deploy with the official [`withastro/action`](https://github.com/withastro/action) GitHub Actions workflow, configured to build from `site/` rather than the repository root. A minimal workflow:
+
+```yaml
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: withastro/action@v3
+        with:
+          path: site
+      - uses: actions/deploy-pages@v4
+        id: deployment
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/deploy-pages@v4
+        id: deployment
+```
+
+Enable Pages for the repository with the source set to "GitHub Actions" (Settings → Pages), not a branch. The published site's canonical URL is `https://vageez.github.io/math-perceptions/`.
+
+## 16. Validation commands
 
 Run from `site/`:
 
@@ -477,7 +556,7 @@ The implementation is acceptable only when:
 - the exam checklist is usable by keyboard;
 - reviewer-only files are not reachable from the public site.
 
-## 16. Migration phases
+## 17. Migration phases
 
 ### Phase A — Shell
 
@@ -504,7 +583,7 @@ The implementation is acceptable only when:
 - Add its directory to the sidebar.
 - Publish only after content and build validation.
 
-## 17. Definition of done
+## 18. Definition of done
 
 The Astro setup is complete when a student can:
 
@@ -519,7 +598,7 @@ The Astro setup is complete when a student can:
 
 The website shell is successful only if it makes studying simpler than opening the raw Markdown files.
 
-## 18. Official implementation references
+## 19. Official implementation references
 
 - [Starlight: Getting Started](https://starlight.astro.build/getting-started/)
 - [Starlight: Project Structure](https://starlight.astro.build/guides/project-structure/)
@@ -527,5 +606,7 @@ The website shell is successful only if it makes studying simpler than opening t
 - [Starlight: Sidebar Navigation](https://starlight.astro.build/guides/sidebar/)
 - [Starlight: Authoring Markdown](https://starlight.astro.build/guides/authoring-content/)
 - [Astro: Content Collections](https://docs.astro.build/en/guides/content-collections/)
+- [Astro: Deploy to GitHub Pages](https://docs.astro.build/en/guides/deploy/github/)
+- [withastro/action](https://github.com/withastro/action)
 
 Use these current official references during implementation rather than copying configuration from an older third-party tutorial.
