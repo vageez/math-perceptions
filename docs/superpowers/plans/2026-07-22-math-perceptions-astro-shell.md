@@ -19,7 +19,7 @@
 - **Migration is copy-never-delete:** `docs/` stays untouched and authoritative until Unit 1 is approved.
 - **Reviewer files never** live under `site/src/content/docs/`. `unit1-review.md` → `review/`.
 - **Sidebar order:** frontmatter `sidebar.order` in gaps of 10.
-- **Internal links (VERIFIED RULE):** In Markdown/MDX **body** content, NEVER use root-absolute links like `/levels/grade10/` — Astro does **not** base-prefix them and they 404 under Pages (emitted verbatim as `/levels/...`). Use **relative URL links** (no leading slash, e.g. `levels/grade10/`, `grade10/`, `unit-1-linear-relations/`) for navigation, or **relative `.md`-file links** (`./slope.md`) between existing content pages — Astro rewrites those base-correctly. Starlight **component** links only (sidebar `link:`, hero `actions[].link`) ARE base-prefixed, so absolute paths like `/levels/grade10/` are correct *there* and nowhere else. Never hardcode `/math-perceptions/...` into content.
+- **Internal links (VERIFIED RULE):** In Markdown/MDX **body** content, NEVER use root-absolute links like `/levels/grade10/` — Astro does **not** base-prefix them and they 404 under Pages (emitted verbatim as `/levels/...`). Use **relative URL links** (no leading slash, e.g. `levels/grade10/`, `grade10/`, `unit-1-linear-relations/`) for navigation, or **relative `.md`-file links** (`./slope.md`) between existing content pages — Astro rewrites those base-correctly. Only the Starlight **sidebar** `link:` prop is base-prefixed (verified: emits `/math-perceptions/…`), so absolute paths are correct *there* only. **The hero `actions[].link` prop is NOT base-prefixed** in Starlight 0.41.4 (verified by build + component source) — use a **relative** value there too (`levels/grade10/`, no leading slash). When unsure whether a given Starlight prop base-prefixes, prefer relative and confirm with the Step 6 grep. Never hardcode `/math-perceptions/...` into content.
 - **Every task ends on a green build** (`npm run build` exit 0) unless the step explicitly labels a temporary red probe that the same task turns green.
 
 ---
@@ -215,7 +215,7 @@ hero:
   tagline: See the math. Recognize the question. Pass the test.
   actions:
     - text: Start Grade 10
-      link: /levels/grade10/
+      link: levels/grade10/
       icon: right-arrow
       variant: primary
 ---
@@ -238,7 +238,7 @@ import { Card, CardGrid } from '@astrojs/starlight/components';
 </CardGrid>
 ```
 
-Note: the hero `actions[].link: /levels/grade10/` above is a Starlight component prop and IS base-prefixed — keep it root-absolute. The `[Start Grade 10](levels/grade10/)` inside the Card is Markdown body — it must be **relative** (no leading slash) per the linking rule.
+Note: both the hero `actions[].link` and the Card's Markdown link use the **relative** form `levels/grade10/` (no leading slash). In Starlight 0.41.4 the hero action is NOT base-prefixed, so a root-absolute value there would 404 under Pages — verified.
 
 - [ ] **Step 3: Create `site/src/content/docs/levels/index.md`**
 
@@ -320,11 +320,13 @@ git commit -m "feat: student home, levels index, and Grade 10 landing"
 - Consumes: nothing (documentation only).
 - Produces: a reference doc that no longer contradicts the implementation.
 
+Apply factual edits only — do not rewrite the doc's voice or restructure sections. Use the exact, verified facts below (they supersede some claims made earlier in this project's own review; ASTRO_SETUP must end up matching what was actually built).
+
 - [ ] **Step 1: Apply these edits to `ASTRO_SETUP.md`**
-  - §3 / §5: repo name `math-perceptions`; content tree nested under `levels/grade10/`.
-  - §7: replace the invalid `markdown.processor` / `unified` config with the corrected `markdown: { remarkPlugins: [remarkMath], rehypePlugins: [rehypeKatex] }` form (drop `@astrojs/markdown-remark` from the install).
-  - §14 URL contract: prefix all routes with `/levels/grade10/`.
-  - Add a "GitHub Pages deployment" section: `site` + `base: '/math-perceptions'` + the `withastro/action` workflow.
+  - §3 / §5: repo name `math-perceptions`; content tree nested under `levels/grade10/` (e.g. `site/src/content/docs/levels/grade10/unit-1-linear-relations/`).
+  - §7 (math config): the installed Astro is v7, where the correct math config is `markdown: { remarkPlugins: [remarkMath], rehypePlugins: [rehypeKatex] }` and the install is `remark-math rehype-katex katex` (no `@astrojs/markdown-remark`). Important nuance to state accurately: Astro v7 also offers a newer `markdown.processor: unified({...})` API from `@astrojs/markdown-remark`, and Astro emits a deprecation warning for the `remarkPlugins`/`rehypePlugins` form — BUT that form is required here because **Starlight does not apply KaTeX plugins passed via `processor`** (verified: math silently fails to render). So the deprecation warning is expected and must not be "fixed" by switching to `processor`. Do NOT describe the `processor`/`unified` form as "invalid" — it is valid but Starlight-incompatible for plugin-based math in this version.
+  - §14 URL contract: prefix all routes with `/levels/grade10/`. ALSO add a note that internal Markdown links must be **relative** (no leading slash), because Astro does not base-prefix root-absolute links and the site is served under `base: '/math-perceptions'` — so the doc's earlier advice to "convert links to clean absolute routes" would 404 under Pages and must be corrected to relative links.
+  - Add a "GitHub Pages deployment" section: `site: 'https://vageez.github.io'` + `base: '/math-perceptions'` in `astro.config.mjs`, plus the `withastro/action` workflow deploying from `site/`.
 
 - [ ] **Step 2: Commit**
 
