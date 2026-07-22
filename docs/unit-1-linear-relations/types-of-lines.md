@@ -1,0 +1,189 @@
+# Types of Lines & Intercepts
+
+> **Question:** How do I recognize special, parallel, and perpendicular lines?
+
+## Think of roads
+
+Parallel roads never meet. Perpendicular roads meet at a square corner. A horizontal road is flat; a vertical road goes straight up and down on the map.
+
+```text
+parallel                 perpendicular         special lines
+   /   /                       │                 y = 3  ─────
+  /   /                        │
+ same slope              ─────┼─────             x = 2    │
+ never meet                   90°                          │
+
+      y-intercept: where the line crosses the y-axis (x = 0)
+      x-intercept: where the line crosses the x-axis (y = 0)
+```
+
+## Horizontal and vertical exceptions
+
+These cannot both be written in ordinary `y = mx + b` form.
+
+| Type | Equation | Slope | What stays constant? |
+|---|---|---|---|
+| Horizontal | `y = c` | 0 | y-value |
+| Vertical | `x = c` | undefined | x-value |
+
+Examples:
+
+- `y = −4` contains every point whose y-coordinate is `−4`.
+- `x = 6` contains every point whose x-coordinate is `6`.
+
+## Standard form
+
+An equation like `2x + 3y = 12` is written in **standard form** `Ax + By = C`. The slope is not visible yet — rearrange to `y = mx + b` to read it.
+
+$$
+2x+3y=12
+$$
+
+$$
+3y=-2x+12
+$$
+
+$$
+y=-\frac23x+4
+$$
+
+So the slope is `−2/3` and the y-intercept is `(0, 4)`.
+
+> **Move the `x` term across, then divide every term by the number in front of `y`.**
+
+Standard form is handy for finding intercepts directly, shown next.
+
+## Intercepts
+
+### Find the x-intercept
+
+Set `y = 0`, then solve for `x`.
+
+### Find the y-intercept
+
+Set `x = 0`, then solve for `y`.
+
+Example: Find both intercepts of `2x + 3y = 12`.
+
+**x-intercept:**
+
+$$
+2x+3(0)=12 \Rightarrow x=6
+$$
+
+Point: `(6, 0)`.
+
+**y-intercept:**
+
+$$
+2(0)+3y=12 \Rightarrow y=4
+$$
+
+Point: `(0, 4)`.
+
+## Parallel lines
+
+Distinct parallel lines have the same slope and different intercepts.
+
+$$
+m_1=m_2
+$$
+
+Example:
+
+- `y = 3x + 1`
+- `y = 3x − 5`
+
+Both slopes are 3, so the lines are parallel.
+
+If both slope and intercept are the same, they are the **same line**, not two distinct parallel lines.
+
+## Perpendicular lines
+
+Non-vertical perpendicular slopes are negative reciprocals:
+
+$$
+m_1m_2=-1
+$$
+
+To find a negative reciprocal:
+
+1. Write the slope as a fraction.
+2. Flip numerator and denominator.
+3. Change the sign.
+
+| Original slope | Perpendicular slope |
+|---:|---:|
+| `2 = 2/1` | `−1/2` |
+| `−3/4` | `4/3` |
+| `1/5` | `−5` |
+
+A horizontal line and a vertical line are also perpendicular.
+
+## Worked example: a perpendicular equation
+
+Find the equation of the line perpendicular to `y = 2x + 3` through `(4, 1)`.
+
+1. Original slope is `2`.
+2. Perpendicular slope is `−1/2`.
+3. Substitute the point into `y = mx + b`:
+
+$$
+1=-\frac12(4)+b
+$$
+
+$$
+1=-2+b \Rightarrow b=3
+$$
+
+Answer:
+
+$$
+y=-\frac12x+3
+$$
+
+## When you see… think…
+
+| When you see… | Think… |
+|---|---|
+| `Ax + By = C` | Standard form — rearrange to `y = mx + b` to read the slope |
+| Find x-intercept | Set `y = 0` |
+| Find y-intercept | Set `x = 0` |
+| Same slope | Parallel or same line |
+| “Perpendicular” | Negative reciprocal slope |
+| `y = number` | Horizontal, slope 0 |
+| `x = number` | Vertical, undefined slope |
+
+## Common exam mistakes
+
+- Setting `x = 0` to find the x-intercept; set **y = 0**.
+- Saying parallel lines must have the same intercept.
+- Only flipping a perpendicular slope without changing its sign.
+- Treating `x = 4` as horizontal because 4 looks like an intercept.
+- Saying vertical slope is infinity; at this level, call it **undefined**.
+
+## Quick check
+
+1. Are `y = −4x + 1` and `y = −4x − 8` parallel, perpendicular, or neither?
+2. What slope is perpendicular to `−2/3`?
+3. Find the x-intercept of `y = 5x − 20`.
+
+<details>
+<summary>Answers</summary>
+
+1. Parallel.
+2. `3/2`.
+3. Set `y = 0`: `0 = 5x − 20`, so `x = 4`; the point is `(4, 0)`.
+
+</details>
+
+## Mission complete?
+
+- [ ] I know horizontal and vertical line equations.
+- [ ] I can rearrange standard form `Ax + By = C` into `y = mx + b`.
+- [ ] I can find both intercepts.
+- [ ] I recognize parallel lines by equal slopes.
+- [ ] I find a perpendicular slope by flipping and changing the sign.
+- [ ] I can write a parallel or perpendicular line through a point.
+
+[← Equation of a Line](equation-of-a-line.md) · [Next: Systems →](systems-of-equations.md)

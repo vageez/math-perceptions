@@ -1,0 +1,130 @@
+# Slope
+
+> **Question:** How do I recognize and calculate the steepness of a line?
+
+## Think of walking on a hill
+
+Slope describes how much your height changes for each step forward.
+
+```text
+positive slope       negative slope       zero slope       undefined slope
+       /                   \              ─────────              │
+   up / right          down \ right          flat              vertical
+      m > 0               m < 0              m = 0          denominator = 0
+
+                   • (x₂, y₂)
+                  /│
+                 / │ rise = y₂ − y₁
+                /  │
+      (x₁, y₁) •───┘
+                  run = x₂ − x₁
+```
+
+## The formula
+
+$$
+m=\frac{\text{rise}}{\text{run}}=\frac{y_2-y_1}{x_2-x_1}
+$$
+
+- `m` = slope
+- numerator = vertical change
+- denominator = horizontal change
+
+## Formal meaning
+
+Slope is the **rate of change** between two points: the change in `y` divided by the change in `x`.
+
+## Use it when
+
+- you are given two points;
+- a graph provides two exact points;
+- the question asks for slope, steepness, or rate of change;
+- you need to compare lines.
+
+If the equation is already `y = mx + b`, the slope is simply the number `m`.
+
+## Worked example
+
+Find the slope through `A(2, 3)` and `B(6, 11)`.
+
+$$
+m=\frac{11-3}{6-2}=\frac{8}{4}=2
+$$
+
+Meaning: for every 1 unit moved right, the line rises 2 units.
+
+### A reliable setup
+
+| Point | x | y |
+|---|---:|---:|
+| A | 2 | 3 |
+| B | 6 | 11 |
+
+Subtract in the same direction in the numerator and denominator.
+
+## What the number tells you
+
+| Slope | Picture | Meaning |
+|---|---|---|
+| `m > 0` | rises left to right | y increases as x increases |
+| `m < 0` | falls left to right | y decreases as x increases |
+| `m = 0` | horizontal | no vertical change |
+| undefined | vertical | no horizontal change; division by zero |
+
+## Missing-coordinate pattern
+
+If the slope is known, substitute the values and solve.
+
+Example: The slope through `(1, 4)` and `(5, y)` is `3`.
+
+$$
+3=\frac{y-4}{5-1}
+$$
+
+$$
+12=y-4 \quad\Rightarrow\quad y=16
+$$
+
+## When you see… think…
+
+| When you see… | Think… |
+|---|---|
+| Two points | `m = (y₂ − y₁)/(x₂ − x₁)` |
+| Rate of change | Slope |
+| Line rises left to right | Positive slope |
+| Line falls left to right | Negative slope |
+| Horizontal line | `m = 0` |
+| Vertical line | Undefined slope |
+
+## Common exam mistakes
+
+- Using `run/rise` instead of `rise/run`.
+- Subtracting y-values in one direction and x-values in the other.
+- Mixing an x-coordinate into the numerator.
+- Saying a vertical slope is `0`; it is **undefined**.
+- Trusting the drawing instead of using exact coordinates.
+
+## Quick check
+
+1. Find the slope through `(−1, 2)` and `(3, 10)`.
+2. What kind of slope does `x = 5` have?
+3. A line has slope `−3/4`. Does it rise or fall from left to right?
+
+<details>
+<summary>Answers</summary>
+
+1. `m = (10 − 2)/(3 − (−1)) = 8/4 = 2`.
+2. Undefined; the line is vertical.
+3. It falls.
+
+</details>
+
+## Mission complete?
+
+- [ ] I can identify positive, negative, zero, and undefined slope.
+- [ ] I know slope means rise divided by run.
+- [ ] I can calculate slope from two points.
+- [ ] I keep the subtraction order consistent.
+- [ ] I can explain what a slope means in a situation.
+
+[← Cartesian Plane](cartesian-plane.md) · [Next: Equation of a Line →](equation-of-a-line.md)

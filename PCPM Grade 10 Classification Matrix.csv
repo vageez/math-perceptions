@@ -1,0 +1,307 @@
+#,Skill code,Curriculum skill,Cat.,IXL category name,Reasoning,Step 1,Step 2,Step 3,Pipeline,Steps,Composed?,Changed in v2 re-pass
+1,A.1,Factors,A,Numbers,Break a number into its multiplicative parts,Decompose,,,Decompose,1,Atomic,
+2,A.2,Prime factorization,A,Numbers,Break a number into irreducible components,Decompose,,,Decompose,1,Atomic,
+3,A.3,Greatest common factor,A,Numbers,"Decompose both numbers, then compare shared parts",Decompose,Compare,,Decompose -> Compare,2,Composed,
+4,A.4,Least common multiple,A,Numbers,"Decompose, then rebuild the smallest shared whole",Decompose,Compose,,Decompose -> Compose,2,Composed,
+5,A.5,GCF and LCM: word problems,A,Numbers,"Translate a situation, then decompose numbers",Represent,Decompose,Compare,Represent -> Decompose -> Compare,3,Composed,Was Represent+Decompose. Cap hid the Compare step.
+6,A.6,Square roots,A,Numbers,Rewrite a number as its inverse-power equivalent,Transform,,,Transform,1,Atomic,
+7,A.7,Cube roots,A,Numbers,Rewrite a number as its inverse-power equivalent,Transform,,,Transform,1,Atomic,
+8,A.8,Classify rational and irrational numbers,A,Numbers,Assign an object to a category by its properties,Identify,,,Identify,1,Atomic,
+9,A.9,Classify numbers,A,Numbers,Assign an object to a category by its properties,Identify,,,Identify,1,Atomic,
+10,A.10,Compare and order rational numbers,A,Numbers,Judge relative magnitude,Compare,,,Compare,1,Atomic,
+11,A.11,Absolute value and opposites,A,Numbers,Rewrite a number under a distance/sign operation,Transform,,,Transform,1,Atomic,Was Transform+Measure. Applying the operation is Transform.
+12,A.12,Number lines,A,Numbers,Place quantity onto a spatial representation,Represent,,,Represent,1,Atomic,
+13,A.13,Convert between decimals and fractions,A,Numbers,Rewrite the same value in another notation,Transform,,,Transform,1,Atomic,
+14,B.1,Powers with integer bases,B,Exponents,Rewrite a power in expanded/evaluated form,Transform,,,Transform,1,Atomic,
+15,B.2,Powers with decimal and fractional bases,B,Exponents,Rewrite a power in expanded/evaluated form,Transform,,,Transform,1,Atomic,
+16,B.3,Negative exponents,B,Exponents,Rewrite using an equivalent-form rule,Transform,,,Transform,1,Atomic,
+17,B.4,Multiplication with exponents,B,Exponents,Rewrite using an equivalent-form rule,Transform,,,Transform,1,Atomic,
+18,B.5,Division with exponents,B,Exponents,Rewrite using an equivalent-form rule,Transform,,,Transform,1,Atomic,
+19,B.6,Multiplication and division with exponents,B,Exponents,Rewrite using an equivalent-form rule,Transform,,,Transform,1,Atomic,
+20,B.7,Power rule,B,Exponents,Apply a general rewrite rule to any instance,Transform,,,Transform,1,Atomic,"Was Transform+Generalize. Applying the power rule is Transform executing its own rule, not generalizing."
+21,B.8,Evaluate expressions using properties of exponents,B,Exponents,Rewrite to canonical numeric form,Transform,,,Transform,1,Atomic,
+22,B.9,Identify equivalent expressions involving exponents,B,Exponents,"Rewrite candidates, then test sameness",Transform,Compare,,Transform -> Compare,2,Composed,
+23,C.1,Convert between standard and scientific notation,C,Scientific notation,Rewrite the same value in another notation,Transform,,,Transform,1,Atomic,
+24,C.2,Compare numbers written in scientific notation,C,Scientific notation,Judge relative magnitude,Compare,,,Compare,1,Atomic,Was Compare alone. Unchanged.
+25,C.3,Multiply numbers written in scientific notation,C,Scientific notation,Rewrite a product into canonical notation,Transform,,,Transform,1,Atomic,
+26,C.4,Divide numbers written in scientific notation,C,Scientific notation,Rewrite a quotient into canonical notation,Transform,,,Transform,1,Atomic,
+27,D.1,Simplify radical expressions,D,Radical expressions,Rewrite an equivalent representation,Transform,,,Transform,1,Atomic,
+28,D.2,Simplify radical expressions by rationalizing the denominator,D,Radical expressions,Rewrite an equivalent representation,Transform,,,Transform,1,Atomic,
+29,D.3,Multiply radical expressions,D,Radical expressions,Rewrite an equivalent representation,Transform,,,Transform,1,Atomic,
+30,D.4,Add and subtract radical expressions,D,Radical expressions,Rewrite an equivalent representation,Transform,,,Transform,1,Atomic,
+31,D.5,Simplify radical expressions using the distributive property,D,Radical expressions,Rewrite an equivalent representation,Transform,,,Transform,1,Atomic,
+32,D.6,Simplify radical expressions: mixed review,D,Radical expressions,Rewrite an equivalent representation,Transform,,,Transform,1,Atomic,
+33,E.1,Evaluate rational exponents,E,Rational exponents,Rewrite to canonical numeric form,Transform,,,Transform,1,Atomic,
+34,E.2,Multiplication with rational exponents,E,Rational exponents,Rewrite using an equivalent-form rule,Transform,,,Transform,1,Atomic,
+35,E.3,Division with rational exponents,E,Rational exponents,Rewrite using an equivalent-form rule,Transform,,,Transform,1,Atomic,
+36,E.4,Power rule with rational exponents,E,Rational exponents,Apply a general rewrite rule to any instance,Transform,,,Transform,1,Atomic,Was Transform+Generalize. Same as B.7.
+37,E.5,Simplify expressions involving rational exponents I,E,Rational exponents,Rewrite an equivalent representation,Transform,,,Transform,1,Atomic,
+38,E.6,Simplify expressions involving rational exponents II,E,Rational exponents,Rewrite an equivalent representation,Transform,,,Transform,1,Atomic,
+39,F.1,Coordinate plane review,F,Coordinate plane,Map between points and coordinate notation,Represent,,,Represent,1,Atomic,
+40,F.2,Midpoints,F,Coordinate plane,Quantify a position from given magnitudes,Measure,,,Measure,1,Atomic,
+41,F.3,Distance between two points,F,Coordinate plane,Quantify a magnitude from a structure,Measure,,,Measure,1,Atomic,
+42,G.1,Model and solve equations using algebra tiles,G,Solve equations,"Build a concrete model, then satisfy a condition",Represent,Constrain,,Represent -> Constrain,2,Composed,
+43,G.2,Write and solve equations that represent diagrams,G,Solve equations,"Translate a diagram, then satisfy a condition",Represent,Constrain,,Represent -> Constrain,2,Composed,
+44,G.3,Solve one-step linear equations,G,Solve equations,Find the value satisfying a condition,Constrain,,,Constrain,1,Atomic,
+45,G.4,Solve two-step linear equations,G,Solve equations,Find the value satisfying a condition,Constrain,,,Constrain,1,Atomic,
+46,G.5,Solve advanced linear equations,G,Solve equations,Find the value satisfying a condition,Constrain,,,Constrain,1,Atomic,
+47,G.6,Solve equations with variables on both sides,G,Solve equations,Find the value satisfying a condition,Constrain,,,Constrain,1,Atomic,
+48,G.7,Solve equations: complete the solution,G,Solve equations,Find the value satisfying a condition,Constrain,,,Constrain,1,Atomic,
+49,G.8,Find the number of solutions,G,Solve equations,Characterize a constraint's solution set,Transform,Identify,,Transform -> Identify,2,Composed,"Was Identify+Constrain. Simplify to reveal form, then classify."
+50,G.9,Create equations with no solutions or infinitely many solutions,G,Solve equations,Construct a constraint with a target property,Represent,,,Represent,1,Atomic,Was Generalize+Constrain. Applies a known criterion to build an object; Represent.
+51,G.10,Solve linear equations: word problems,G,Solve equations,"Translate a situation, then satisfy a condition",Represent,Constrain,,Represent -> Constrain,2,Composed,
+52,G.11,Solve linear equations: mixed review,G,Solve equations,Find the value satisfying a condition,Constrain,,,Constrain,1,Atomic,
+53,H.1,Graph inequalities,H,Single-variable inequalities,Move a condition into a spatial representation,Represent,,,Represent,1,Atomic,
+54,H.2,Write inequalities from graphs,H,Single-variable inequalities,Move a spatial representation into symbols,Represent,,,Represent,1,Atomic,
+55,H.3,Identify solutions to inequalities,H,Single-variable inequalities,Test a candidate against a condition,Verify,,,Verify,1,Atomic,Was Verify. Unchanged.
+56,H.4,Solve one-step linear inequalities: addition and subtraction,H,Single-variable inequalities,Find values satisfying a condition,Constrain,,,Constrain,1,Atomic,
+57,H.5,Solve one-step linear inequalities: multiplication and division,H,Single-variable inequalities,Find values satisfying a condition,Constrain,,,Constrain,1,Atomic,
+58,H.6,Solve one-step linear inequalities,H,Single-variable inequalities,Find values satisfying a condition,Constrain,,,Constrain,1,Atomic,
+59,H.7,Graph solutions to one-step linear inequalities,H,Single-variable inequalities,"Satisfy a condition, then represent the set",Constrain,Represent,,Constrain -> Represent,2,Composed,
+60,H.8,Solve two-step linear inequalities,H,Single-variable inequalities,Find values satisfying a condition,Constrain,,,Constrain,1,Atomic,
+61,H.9,Graph solutions to two-step linear inequalities,H,Single-variable inequalities,"Satisfy a condition, then represent the set",Constrain,Represent,,Constrain -> Represent,2,Composed,
+62,H.10,Solve multi-step linear inequalities,H,Single-variable inequalities,Find values satisfying a condition,Constrain,,,Constrain,1,Atomic,
+63,H.11,Graph solutions to multi-step linear inequalities,H,Single-variable inequalities,"Satisfy a condition, then represent the set",Constrain,Represent,,Constrain -> Represent,2,Composed,
+64,H.12,Graph compound inequalities,H,Single-variable inequalities,Move a joined condition into a spatial representation,Represent,,,Represent,1,Atomic,
+65,H.13,Write compound inequalities from graphs,H,Single-variable inequalities,Move a spatial representation into symbols,Represent,,,Represent,1,Atomic,
+66,H.14,Solve compound inequalities,H,Single-variable inequalities,Find values satisfying several joined conditions,Constrain,,,Constrain,1,Atomic,
+67,H.15,Graph solutions to compound inequalities,H,Single-variable inequalities,"Satisfy conditions, then represent the set",Constrain,Represent,,Constrain -> Represent,2,Composed,
+68,I.1,"Interpret bar graphs, line graphs and histograms",I,Data and graphs,Read quantities out of a display,Represent,Measure,,Represent -> Measure,2,Composed,
+69,I.2,"Create bar graphs, line graphs and histograms",I,Data and graphs,Move data into a display,Represent,,,Represent,1,Atomic,
+70,I.3,Interpret circle graphs,I,Data and graphs,Read quantities out of a display,Represent,Measure,,Represent -> Measure,2,Composed,
+71,I.4,Interpret stem-and-leaf plots,I,Data and graphs,Read quantities out of a display,Represent,Measure,,Represent -> Measure,2,Composed,
+72,I.5,Box plots,I,Data and graphs,Move a distribution into a summary display,Measure,Represent,,Measure -> Represent,2,Composed,"Was Represent+Measure. Reordered: compute the five-number summary, then display it."
+73,I.6,Interpret a scatter plot,I,Data and graphs,Read a trend out of a display,Represent,Generalize,,Represent -> Generalize,2,Composed,"Was Represent+Generalize, kept - trend inference is genuine."
+74,I.7,Scatter plots: line of best fit,I,Data and graphs,Infer a general rule from many cases,Generalize,Represent,,Generalize -> Represent,2,Composed,"Was Generalize+Represent, kept."
+75,J.1,"Relations: convert between tables, graphs, mappings and lists of points",J,Relations and functions,Move the same relation across representations,Represent,,,Represent,1,Atomic,
+76,J.2,Domain and range of relations,J,Relations and functions,Extract the defining input/output sets,Identify,,,Identify,1,Atomic,
+77,J.3,Identify independent and dependent variables,J,Relations and functions,Assign roles within a structure,Identify,,,Identify,1,Atomic,
+78,J.4,Identify functions,J,Relations and functions,Assign an object to a category by its properties,Identify,,,Identify,1,Atomic,
+79,J.5,Identify functions: vertical line test,J,Relations and functions,Apply a test to decide category membership,Identify,,,Identify,1,Atomic,Was Identify+Verify. The vertical line test IS Identify's decision rule.
+80,J.6,Find values using function graphs,J,Relations and functions,Read a value out of a representation,Represent,,,Represent,1,Atomic,
+81,J.7,Evaluate a function,J,Relations and functions,Rewrite with a value substituted,Transform,,,Transform,1,Atomic,
+82,J.8,Evaluate a function: plug in an expression,J,Relations and functions,Rewrite with an expression substituted,Transform,,,Transform,1,Atomic,
+83,J.9,Complete a function table from a graph,J,Relations and functions,Move a relation between representations,Represent,,,Represent,1,Atomic,
+84,J.10,Complete a function table from an equation,J,Relations and functions,Move a relation between representations,Transform,Represent,,Transform -> Represent,2,Composed,"Was Represent+Transform. Reordered: compute, then tabulate."
+85,J.11,Interpret the graph of a function: word problems,J,Relations and functions,Read meaning out of a representation,Represent,,,Represent,1,Atomic,
+86,K.1,Identify proportional relationships,K,Direct and inverse variation,Assign an object to a category by its properties,Identify,,,Identify,1,Atomic,
+87,K.2,Find the constant of variation,K,Direct and inverse variation,Extract the invariant parameter from cases,Measure,,,Measure,1,Atomic,Was Generalize+Measure. k = y/x is a formula; this is Measure.
+88,K.3,Graph a proportional relationship,K,Direct and inverse variation,Move a relation into a spatial representation,Represent,,,Represent,1,Atomic,
+89,K.4,Write direct variation equations,K,Direct and inverse variation,Infer a general rule from given cases,Measure,Represent,,Measure -> Represent,2,Composed,Was Generalize+Represent. Template y=kx is given; find k then write it.
+90,K.5,Write and solve direct variation equations,K,Direct and inverse variation,"Infer a rule, then satisfy a condition",Measure,Represent,Constrain,Measure -> Represent -> Constrain,3,Composed,Was Generalize+Constrain. Expanded to Measure -> Represent -> Constrain.
+91,K.6,Identify direct variation and inverse variation,K,Direct and inverse variation,Distinguish two categories by their properties,Identify,,,Identify,1,Atomic,Was Identify+Compare. Same as Z.10.
+92,K.7,Write inverse variation equations,K,Direct and inverse variation,Infer a general rule from given cases,Measure,Represent,,Measure -> Represent,2,Composed,Was Generalize+Represent. Same as K.4.
+93,K.8,Write and solve inverse variation equations,K,Direct and inverse variation,"Infer a rule, then satisfy a condition",Measure,Represent,Constrain,Measure -> Represent -> Constrain,3,Composed,Was Generalize+Constrain. Expanded to Measure -> Represent -> Constrain.
+94,L.1,Identify linear functions,L,Linear functions,Assign an object to a category by its properties,Identify,,,Identify,1,Atomic,
+95,L.2,Find the slope of a graph,L,Linear functions,Quantify a rate from a representation,Measure,,,Measure,1,Atomic,
+96,L.3,Find the slope from two points,L,Linear functions,Quantify a rate from given magnitudes,Measure,,,Measure,1,Atomic,
+97,L.4,Find a missing coordinate using slope,L,Linear functions,Satisfy a rate condition to recover a value,Constrain,,,Constrain,1,Atomic,Was Constrain+Measure. Same as DD.1.
+98,L.5,Slope-intercept form: find the slope and y-intercept,L,Linear functions,Extract parameters from a canonical form,Identify,,,Identify,1,Atomic,Was Identify+Transform. Reading parameters off a canonical form is Identify.
+99,L.6,Slope-intercept form: graph an equation,L,Linear functions,Move symbols into a spatial representation,Represent,,,Represent,1,Atomic,
+100,L.7,Slope-intercept form: write an equation from a graph,L,Linear functions,Move a spatial representation into symbols,Represent,,,Represent,1,Atomic,
+101,L.8,Slope-intercept form: write an equation,L,Linear functions,Build a rule from given parameters,Represent,,,Represent,1,Atomic,"Was Represent+Generalize. Parameters are given; this is assembly, not inference."
+102,L.9,Linear equations: solve for y,L,Linear functions,Rewrite into an equivalent isolated form,Transform,,,Transform,1,Atomic,
+103,L.10,Slope-intercept form: write an equation from a table,L,Linear functions,"Infer a rule from cases, express symbolically",Generalize,Represent,,Generalize -> Represent,2,Composed,"Was Generalize+Represent, kept - genuine inference from a table."
+104,L.11,Slope-intercept form: write an equation from a word problem,L,Linear functions,Translate a situation into a general rule,Represent,Generalize,,Represent -> Generalize,2,Composed,"Was Represent+Generalize, kept."
+105,L.12,Write linear functions to solve word problems,L,Linear functions,Translate a situation into a general rule,Represent,Generalize,,Represent -> Generalize,2,Composed,"Was Represent+Generalize, kept."
+106,L.13,Complete a table and graph a linear function,L,Linear functions,Move a rule across representations,Transform,Represent,,Transform -> Represent,2,Composed,Was Represent alone. Transform step made explicit.
+107,L.14,"Compare linear functions: graphs, tables and equations",L,Linear functions,Judge relative properties across representations,Represent,Compare,,Represent -> Compare,2,Composed,
+108,L.15,Write equations in standard form,L,Linear functions,Rewrite into an equivalent canonical form,Transform,,,Transform,1,Atomic,
+109,L.16,Standard form: find x- and y-intercepts,L,Linear functions,Satisfy a zero condition to recover values,Constrain,,,Constrain,1,Atomic,Was Constrain alone. Unchanged.
+110,L.17,Standard form: graph an equation,L,Linear functions,Move symbols into a spatial representation,Represent,,,Represent,1,Atomic,
+111,L.18,Equations of horizontal and vertical lines,L,Linear functions,Match a special case to its symbolic form,Represent,,,Represent,1,Atomic,Was Represent+Identify. Matching to symbolic form is Represent.
+112,L.19,Graph a horizontal or vertical line,L,Linear functions,Move symbols into a spatial representation,Represent,,,Represent,1,Atomic,
+113,L.20,Point-slope form: graph an equation,L,Linear functions,Move symbols into a spatial representation,Represent,,,Represent,1,Atomic,
+114,L.21,Point-slope form: write an equation,L,Linear functions,Build a rule from given parameters,Represent,,,Represent,1,Atomic,Was Represent+Generalize. Same as L.8.
+115,L.22,Point-slope form: write an equation from a graph,L,Linear functions,Move a spatial representation into symbols,Represent,,,Represent,1,Atomic,
+116,L.23,Slopes of parallel and perpendicular lines,L,Linear functions,Relate two rates by a fixed relationship,Measure,Compare,,Measure -> Compare,2,Composed,
+117,L.24,Write an equation for a parallel or perpendicular line,L,Linear functions,"Satisfy a relational condition, then express it",Measure,Represent,,Measure -> Represent,2,Composed,"Was Constrain+Represent. Reordered: derive the slope, then write the equation."
+118,L.25,Find the distance between a point and a line,L,Linear functions,Quantify a magnitude from a structure,Measure,,,Measure,1,Atomic,
+119,L.26,Find the distance between two parallel lines,L,Linear functions,Quantify a magnitude from a structure,Measure,,,Measure,1,Atomic,
+120,L.27,Transformations of linear functions,L,Linear functions,Map a function to its image under an operation,Transform,,,Transform,1,Atomic,
+121,M.1,"Is (x, y) a solution to the system of equations?",M,Systems of linear equations,Test a candidate against conditions,Verify,,,Verify,1,Atomic,
+122,M.2,Solve a system of equations by graphing,M,Systems of linear equations,Satisfy simultaneous conditions via a display,Represent,Constrain,,Represent -> Constrain,2,Composed,
+123,M.3,Solve a system of equations by graphing: word problems,M,Systems of linear equations,"Translate, then satisfy simultaneous conditions",Represent,Constrain,,Represent -> Constrain,2,Composed,
+124,M.4,Find the number of solutions to a system of equations by graphing,M,Systems of linear equations,Characterize a solution set from a display,Represent,Identify,,Represent -> Identify,2,Composed,
+125,M.5,Find the number of solutions to a system of equations,M,Systems of linear equations,Characterize a solution set from structure,Transform,Identify,,Transform -> Identify,2,Composed,Was Identify alone. Transform step made explicit.
+126,M.6,Classify a system of equations by graphing,M,Systems of linear equations,Assign to a category using a display,Represent,Identify,,Represent -> Identify,2,Composed,
+127,M.7,Classify a system of equations,M,Systems of linear equations,Assign to a category by its properties,Transform,Identify,,Transform -> Identify,2,Composed,Was Identify alone. Transform step made explicit.
+128,M.8,Solve a system of equations using substitution,M,Systems of linear equations,Find values satisfying simultaneous conditions,Constrain,,,Constrain,1,Atomic,
+129,M.9,Solve a system of equations using substitution: word problems,M,Systems of linear equations,"Translate, then satisfy simultaneous conditions",Represent,Constrain,,Represent -> Constrain,2,Composed,
+130,M.10,Solve a system of equations using elimination,M,Systems of linear equations,Find values satisfying simultaneous conditions,Constrain,,,Constrain,1,Atomic,
+131,M.11,Solve a system of equations using elimination: word problems,M,Systems of linear equations,"Translate, then satisfy simultaneous conditions",Represent,Constrain,,Represent -> Constrain,2,Composed,
+132,M.12,Solve a system of equations using any method,M,Systems of linear equations,Find values satisfying simultaneous conditions,Constrain,,,Constrain,1,Atomic,
+133,M.13,Solve a system of equations using any method: word problems,M,Systems of linear equations,"Translate, then satisfy simultaneous conditions",Represent,Constrain,,Represent -> Constrain,2,Composed,
+134,N.1,Identify monomials,N,Monomials,Assign an object to a category by its properties,Identify,,,Identify,1,Atomic,
+135,N.2,Multiply monomials,N,Monomials,Rewrite a product in canonical form,Transform,,,Transform,1,Atomic,
+136,N.3,Divide monomials,N,Monomials,Rewrite a quotient in canonical form,Transform,,,Transform,1,Atomic,
+137,N.4,Multiply and divide monomials,N,Monomials,Rewrite in canonical form,Transform,,,Transform,1,Atomic,
+138,N.5,Powers of monomials,N,Monomials,Rewrite using an equivalent-form rule,Transform,,,Transform,1,Atomic,
+139,O.1,Polynomial vocabulary,O,Polynomials,Name parts and categories of a structure,Identify,,,Identify,1,Atomic,
+140,O.2,Model polynomials with algebra tiles,O,Polynomials,Move symbols into a concrete representation,Represent,,,Represent,1,Atomic,
+141,O.3,Add and subtract polynomials using algebra tiles,O,Polynomials,Combine within a concrete representation,Represent,Transform,,Represent -> Transform,2,Composed,
+142,O.4,Add and subtract polynomials,O,Polynomials,Rewrite a combination in canonical form,Transform,,,Transform,1,Atomic,
+143,O.5,Add polynomials to find perimeter,O,Polynomials,Assemble parts into a whole magnitude,Compose,Transform,,Compose -> Transform,2,Composed,Was Compose+Measure. Adding the side expressions is Transform.
+144,O.6,Multiply a polynomial by a monomial,O,Polynomials,Rewrite a product in expanded form,Transform,,,Transform,1,Atomic,
+145,O.7,Multiply two polynomials using algebra tiles,O,Polynomials,Expand a product within a concrete model,Represent,Transform,,Represent -> Transform,2,Composed,
+146,O.8,Multiply two binomials,O,Polynomials,Rewrite a product in expanded form,Transform,,,Transform,1,Atomic,
+147,O.9,Multiply two binomials: special cases,O,Polynomials,Apply a general pattern to rewrite a product,Transform,,,Transform,1,Atomic,"Was Transform+Generalize. Special-case products are stored patterns, applied not inferred."
+148,O.10,Multiply polynomials,O,Polynomials,Rewrite a product in expanded form,Transform,,,Transform,1,Atomic,
+149,P.1,GCF of monomials,P,Factoring,Break terms into shared components,Decompose,Compare,,Decompose -> Compare,2,Composed,Was Decompose alone. Compare step made explicit.
+150,P.2,Factor out a monomial,P,Factoring,Break a structure into simpler components,Decompose,,,Decompose,1,Atomic,
+151,P.3,Factor quadratics with leading coefficient 1,P,Factoring,Break a structure into simpler components,Decompose,,,Decompose,1,Atomic,
+152,P.4,Factor quadratics with other leading coefficients,P,Factoring,Break a structure into simpler components,Decompose,,,Decompose,1,Atomic,
+153,P.5,Factor quadratics using algebra tiles,P,Factoring,Decompose within a concrete representation,Represent,Decompose,,Represent -> Decompose,2,Composed,
+154,P.6,Factor quadratics: special cases,P,Factoring,"Recognize a pattern, then decompose",Decompose,,,Decompose,1,Atomic,Was Decompose+Identify. Pattern recognition is part of Decompose's rule.
+155,P.7,Factor by grouping,P,Factoring,Break a structure into simpler components,Decompose,,,Decompose,1,Atomic,
+156,P.8,Factor polynomials,P,Factoring,Break a structure into simpler components,Decompose,,,Decompose,1,Atomic,
+157,Q.1,Characteristics of quadratic functions,Q,Quadratic equations,Extract defining features of a structure,Identify,,,Identify,1,Atomic,
+158,Q.2,Complete a function table: quadratic functions,Q,Quadratic equations,Move a rule across representations,Transform,Represent,,Transform -> Represent,2,Composed,Was Represent+Transform. Reordered as J.10.
+159,Q.3,Solve a quadratic equation using square roots,Q,Quadratic equations,"Rewrite, then satisfy a condition",Transform,Constrain,,Transform -> Constrain,2,Composed,
+160,Q.4,Solve a quadratic equation using the zero product property,Q,Quadratic equations,Use factored parts to satisfy a condition,Constrain,,,Constrain,1,Atomic,
+161,Q.5,Solve a quadratic equation by factoring,Q,Quadratic equations,"Decompose, then satisfy a condition",Transform,Decompose,Constrain,Transform -> Decompose -> Constrain,3,Composed,Was Decompose+Constrain. Cap hid a step: Transform -> Decompose -> Constrain.
+162,Q.6,Complete the square,Q,Quadratic equations,Rewrite into an equivalent canonical form,Transform,,,Transform,1,Atomic,
+163,Q.7,Solve a quadratic equation by completing the square,Q,Quadratic equations,"Rewrite, then satisfy a condition",Transform,Constrain,,Transform -> Constrain,2,Composed,
+164,Q.8,Solve a quadratic equation using the quadratic formula,Q,Quadratic equations,Find values satisfying a condition,Constrain,,,Constrain,1,Atomic,
+165,Q.9,Using the discriminant,Q,Quadratic equations,Quantify a feature to characterize a solution set,Measure,Identify,,Measure -> Identify,2,Composed,"Was Identify+Measure. Reordered: compute discriminant, then classify."
+166,R.1,Identify the direction a parabola opens,R,Parabolas,Extract a feature from a structure,Identify,,,Identify,1,Atomic,
+167,R.2,Find the vertex of a parabola,R,Parabolas,Locate a defining feature,Measure,,,Measure,1,Atomic,Was Identify+Measure. -b/2a is a computation; Measure.
+168,R.3,Find the axis of symmetry of a parabola,R,Parabolas,Locate a defining feature,Measure,,,Measure,1,Atomic,Was Identify+Measure. Same as R.2.
+169,R.4,Write equations of parabolas in vertex form from graphs,R,Parabolas,Move a display into symbolic form,Represent,,,Represent,1,Atomic,
+170,R.5,Write equations of parabolas in vertex form using properties,R,Parabolas,Build a rule from given features,Represent,,,Represent,1,Atomic,Was Represent+Generalize. Properties are given; template is applied.
+171,R.6,Graph parabolas,R,Parabolas,Move symbols into a spatial representation,Represent,,,Represent,1,Atomic,
+172,S.1,"Identify linear, quadratic and exponential functions from graphs",S,"Functions: linear, quadratic, exponential",Distinguish categories by their properties,Identify,,,Identify,1,Atomic,Was Identify+Compare. Same as Z.10.
+173,S.2,"Identify linear, quadratic and exponential functions from tables",S,"Functions: linear, quadratic, exponential",Distinguish categories by their properties,Identify,,,Identify,1,Atomic,Was Identify+Compare. Same as Z.10.
+174,S.3,"Write linear, quadratic and exponential functions",S,"Functions: linear, quadratic, exponential",Infer a general rule from given cases,Generalize,Represent,,Generalize -> Represent,2,Composed,"Was Generalize+Represent, kept."
+175,S.4,Linear functions over unit intervals,S,"Functions: linear, quadratic, exponential",Quantify change and compare it across intervals,Measure,Compare,,Measure -> Compare,2,Composed,
+176,S.5,Exponential functions over unit intervals,S,"Functions: linear, quadratic, exponential",Quantify change and compare it across intervals,Measure,Compare,,Measure -> Compare,2,Composed,
+177,S.6,Describe linear and exponential growth and decay,S,"Functions: linear, quadratic, exponential",Characterize a global behaviour pattern,Identify,,,Identify,1,Atomic,Was Identify+Generalize. Naming a growth pattern is classification.
+178,T.1,Rational functions: asymptotes and excluded values,T,Rational functions and expressions,Find values a condition forbids or approaches,Constrain,,,Constrain,1,Atomic,Was Constrain+Identify. Excluded values are the Constrain output; no second step.
+179,T.2,Simplify complex fractions,T,Rational functions and expressions,Rewrite an equivalent representation,Transform,,,Transform,1,Atomic,
+180,T.3,Simplify rational expressions,T,Rational functions and expressions,"Decompose, then rewrite in reduced form",Decompose,Transform,,Decompose -> Transform,2,Composed,"Was Transform+Decompose. Reordered: factor first, then reduce."
+181,T.4,Multiply and divide rational expressions,T,Rational functions and expressions,Rewrite an equivalent representation,Transform,,,Transform,1,Atomic,
+182,T.5,Divide polynomials,T,Rational functions and expressions,Break a structure into quotient and remainder,Decompose,,,Decompose,1,Atomic,Was Decompose+Transform. Polynomial division is Decompose alone.
+183,T.6,Add and subtract rational expressions,T,Rational functions and expressions,Rewrite an equivalent representation,Transform,,,Transform,1,Atomic,
+184,T.7,Solve rational equations,T,Rational functions and expressions,Find values satisfying a condition,Transform,Constrain,,Transform -> Constrain,2,Composed,Was Constrain alone. Transform step made explicit.
+185,U.1,Find the centre of a circle,U,Circles in the coordinate plane,Extract a defining feature,Identify,,,Identify,1,Atomic,
+186,U.2,Find the radius or diameter of a circle,U,Circles in the coordinate plane,Quantify a magnitude of a structure,Measure,,,Measure,1,Atomic,
+187,U.3,Write equations of circles in standard form from graphs,U,Circles in the coordinate plane,Move a display into symbolic form,Represent,,,Represent,1,Atomic,
+188,U.4,Write equations of circles in standard form using properties,U,Circles in the coordinate plane,Build a rule from given features,Represent,,,Represent,1,Atomic,Was Represent+Generalize. Same as R.5.
+189,U.5,Graph circles,U,Circles in the coordinate plane,Move symbols into a spatial representation,Represent,,,Represent,1,Atomic,
+190,V.1,Identify hypotheses and conclusions,V,Logic,Split a statement into its parts,Decompose,,,Decompose,1,Atomic,Was Decompose+Identify. Splitting the statement is the whole act.
+191,V.2,Counterexamples,V,Logic,Refute a claim by exhibiting a failing case,Verify,,,Verify,1,Atomic,
+192,V.3,Truth tables,V,Logic,Move logical structure into a systematic display,Represent,,,Represent,1,Atomic,Was Represent+Verify. Building the table is Represent.
+193,V.4,Truth values,V,Logic,Evaluate whether a statement holds,Verify,,,Verify,1,Atomic,
+194,V.5,Conditionals,V,Logic,Express a relationship in canonical logical form,Represent,,,Represent,1,Atomic,Was Represent+Identify. Same as L.18.
+195,V.6,Negations,V,Logic,Rewrite a statement under an operation,Transform,,,Transform,1,Atomic,
+196,V.7,"Converses, inverses and contrapositives",V,Logic,Rewrite a statement under structural operations,Transform,,,Transform,1,Atomic,
+197,V.8,Biconditionals,V,Logic,Join two conditionals and test them together,Compose,Verify,,Compose -> Verify,2,Composed,"Was Compose+Verify, kept."
+198,W.1,Estimate metric measurements,W,Measurement,Assign a plausible magnitude to a quantity,Measure,,,Measure,1,Atomic,
+199,W.2,Convert rates and measurements: metric units,W,Measurement,Rewrite a magnitude in another unit,Transform,,,Transform,1,Atomic,Was Transform+Measure. Unit conversion is Transform alone.
+200,W.3,Estimate imperial measurements of length,W,Measurement,Assign a plausible magnitude to a quantity,Measure,,,Measure,1,Atomic,
+201,W.4,Convert rates and measurements: imperial units of length,W,Measurement,Rewrite a magnitude in another unit,Transform,,,Transform,1,Atomic,Was Transform+Measure. Same as W.2.
+202,W.5,Unit rates,W,Measurement,Quantify a ratio as a normalized magnitude,Measure,,,Measure,1,Atomic,
+203,W.6,Unit prices with imperial length conversions,W,Measurement,"Rewrite units, then quantify a rate",Transform,Measure,,Transform -> Measure,2,Composed,"Was Transform+Measure, kept, order made explicit."
+204,W.7,Mixed imperial units of length,W,Measurement,Rewrite a magnitude in another unit,Transform,,,Transform,1,Atomic,Was Transform+Measure. Same as W.2.
+205,W.8,Convert between metric and imperial units of length,W,Measurement,Rewrite a magnitude in another unit,Transform,,,Transform,1,Atomic,Was Transform+Measure. Same as W.2.
+206,W.9,Scale drawings: word problems,W,Measurement,Map a scaled representation to real magnitudes,Represent,Measure,,Represent -> Measure,2,Composed,"Was Represent+Measure, kept."
+207,X.1,Construct an angle bisector,X,Constructions,Build a figure meeting stated conditions,Compose,,,Compose,1,Atomic,
+208,X.2,Construct a congruent angle,X,Constructions,Build a figure meeting stated conditions,Compose,,,Compose,1,Atomic,
+209,Y.1,Polygon vocabulary,Y,Two-dimensional figures,Name parts and categories of a structure,Identify,,,Identify,1,Atomic,
+210,Y.2,Interior angles of polygons,Y,Two-dimensional figures,Apply a general rule to quantify angles,Measure,,,Measure,1,Atomic,"Was Measure+Generalize. (n-2)x180 is Measure's formula, not an act of generalization."
+211,Y.3,Perimeter,Y,Two-dimensional figures,Quantify a magnitude of a figure,Measure,,,Measure,1,Atomic,
+212,Y.4,Area of triangles and quadrilaterals,Y,Two-dimensional figures,Quantify a magnitude of a figure,Measure,,,Measure,1,Atomic,
+213,Y.5,Area and perimeter in the coordinate plane I,Y,Two-dimensional figures,"Read a figure from coordinates, then quantify",Represent,Measure,,Represent -> Measure,2,Composed,
+214,Y.6,Area and perimeter in the coordinate plane II,Y,Two-dimensional figures,"Read a figure from coordinates, then quantify",Represent,Measure,,Represent -> Measure,2,Composed,
+215,Y.7,Area and circumference of circles,Y,Two-dimensional figures,Quantify a magnitude of a figure,Measure,,,Measure,1,Atomic,
+216,Y.8,Area of compound figures,Y,Two-dimensional figures,"Split a figure into parts, then quantify",Decompose,Measure,Compose,Decompose -> Measure -> Compose,3,Composed,Was Decompose+Measure. Cap hid the Compose step that totals the parts.
+217,Y.9,Area between two shapes,Y,Two-dimensional figures,"Split a region into parts, then quantify",Decompose,Measure,Compose,Decompose -> Measure -> Compose,3,Composed,Was Decompose+Measure. Cap hid the Compose step.
+218,Y.10,Area and perimeter of similar figures,Y,Two-dimensional figures,Relate magnitudes by a scale factor,Compare,Measure,,Compare -> Measure,2,Composed,"Was Compare+Measure, kept."
+219,Y.11,Identify trapezoids,Y,Two-dimensional figures,Assign an object to a category by its properties,Identify,,,Identify,1,Atomic,
+220,Y.12,Classify quadrilaterals,Y,Two-dimensional figures,Assign an object to a category by its properties,Identify,,,Identify,1,Atomic,
+221,Y.13,Graph quadrilaterals,Y,Two-dimensional figures,Move coordinates into a spatial representation,Represent,,,Represent,1,Atomic,
+222,Y.14,Properties of parallelograms,Y,Two-dimensional figures,Use category properties as conditions on values,Constrain,,,Constrain,1,Atomic,Was Constrain+Identify. Using properties as conditions is Constrain.
+223,Y.15,Properties of rhombuses,Y,Two-dimensional figures,Use category properties as conditions on values,Constrain,,,Constrain,1,Atomic,Was Constrain+Identify. Same as Y.14.
+224,Z.1,Three-dimensional figure vocabulary,Z,Three-dimensional figures,Name parts and categories of a structure,Identify,,,Identify,1,Atomic,
+225,Z.2,Parts of three-dimensional figures,Z,Three-dimensional figures,Split a solid into its named parts,Decompose,,,Decompose,1,Atomic,Was Decompose+Identify. Same as V.1.
+226,Z.3,Nets and drawings of three-dimensional figures,Z,Three-dimensional figures,Unfold a solid into a planar representation,Represent,,,Represent,1,Atomic,Was Represent+Decompose. Unfolding to a net is Represent.
+227,Z.4,Introduction to surface area and volume,Z,Three-dimensional figures,Quantify a magnitude of a solid,Measure,,,Measure,1,Atomic,
+228,Z.5,Surface area of prisms and cylinders,Z,Three-dimensional figures,"Split into faces, then quantify and total",Decompose,Measure,Compose,Decompose -> Measure -> Compose,3,Composed,"Was Measure+Decompose. Now Decompose -> Measure -> Compose, in solving order."
+229,Z.6,Surface area of pyramids and cones,Z,Three-dimensional figures,"Split into faces, then quantify and total",Decompose,Measure,Compose,Decompose -> Measure -> Compose,3,Composed,Was Measure+Decompose. Same as Z.5.
+230,Z.7,Volume of prisms and cylinders,Z,Three-dimensional figures,Quantify a magnitude of a solid,Measure,,,Measure,1,Atomic,
+231,Z.8,Volume of pyramids and cones,Z,Three-dimensional figures,Quantify a magnitude of a solid,Measure,,,Measure,1,Atomic,
+232,Z.9,Surface area and volume of spheres,Z,Three-dimensional figures,Quantify a magnitude of a solid,Measure,,,Measure,1,Atomic,
+233,Z.10,Introduction to similar solids,Z,Three-dimensional figures,Assign to a category by proportional properties,Identify,,,Identify,1,Atomic,Was Identify+Compare. Category assignment is Identify.
+234,Z.11,Surface area and volume of similar solids,Z,Three-dimensional figures,Relate magnitudes by a scale factor,Compare,Measure,,Compare -> Measure,2,Composed,"Was Compare+Measure, kept."
+235,Z.12,Surface area and volume review,Z,Three-dimensional figures,Quantify a magnitude of a solid,Measure,,,Measure,1,Atomic,
+236,Z.13,Cross-sections of three-dimensional figures,Z,Three-dimensional figures,Slice a solid and read the resulting figure,Decompose,Represent,,Decompose -> Represent,2,Composed,"Was Decompose+Represent, kept."
+237,Z.14,Solids of revolution,Z,Three-dimensional figures,Map a plane figure to a solid under an operation,Transform,Represent,,Transform -> Represent,2,Composed,"Was Transform+Represent, kept."
+238,AA.1,Congruent line segments,AA,Congruent figures,Judge sameness of two magnitudes,Compare,,,Compare,1,Atomic,
+239,AA.2,Congruence statements and corresponding parts,AA,Congruent figures,Match parts across two structures,Compare,,,Compare,1,Atomic,Was Compare+Identify. Matching parts is Compare.
+240,AA.3,Solve problems involving corresponding parts,AA,Congruent figures,Use a matching to recover unknown values,Compare,Constrain,,Compare -> Constrain,2,Composed,"Was Constrain+Compare. Reordered: establish the matching, then solve."
+241,AA.4,Identify congruent figures,AA,Congruent figures,Judge sameness of two structures,Compare,,,Compare,1,Atomic,Was Compare+Identify. Judging sameness is Compare.
+242,AA.5,SSS and SAS Theorems,AA,Congruent figures,Test whether criteria establish sameness,Verify,,,Verify,1,Atomic,Was Verify+Compare. Criterion application is Verify alone.
+243,AA.6,ASA and AAS Theorems,AA,Congruent figures,Test whether criteria establish sameness,Verify,,,Verify,1,Atomic,Was Verify+Compare. Same as AA.5.
+244,AA.7,"SSS, SAS, ASA and AAS Theorems",AA,Congruent figures,Test whether criteria establish sameness,Verify,,,Verify,1,Atomic,Was Verify+Compare. Same as AA.5.
+245,AA.8,SSS Theorem in the coordinate plane,AA,Congruent figures,"Quantify sides, then test the criterion",Measure,Verify,,Measure -> Verify,2,Composed,"Was Measure+Verify, kept."
+246,AA.9,Congruency in isosceles and equilateral triangles,AA,Congruent figures,Use congruence properties as conditions,Constrain,,,Constrain,1,Atomic,Was Constrain+Verify. Using the property to find values is Constrain.
+247,AA.10,Hypotenuse-Leg Theorem,AA,Congruent figures,Test whether criteria establish sameness,Verify,,,Verify,1,Atomic,Was Verify+Compare. Same as AA.5.
+248,BB.1,Classify triangles,BB,Triangles,Assign an object to a category by its properties,Identify,,,Identify,1,Atomic,
+249,BB.2,Triangle Angle-Sum Theorem,BB,Triangles,Use a fixed total as a condition on values,Constrain,,,Constrain,1,Atomic,Was Constrain+Measure. Same as DD.1.
+250,BB.3,Midsegments of triangles,BB,Triangles,Apply a general relationship to quantify,Measure,,,Measure,1,Atomic,"Was Measure+Generalize. Midsegment relationship is applied, not derived."
+251,BB.4,Triangles and bisectors,BB,Triangles,Use a defining property as a condition on values,Constrain,,,Constrain,1,Atomic,Was Constrain+Measure. Same as DD.1.
+252,BB.5,"Identify medians, altitudes, angle bisectors and perpendicular bisectors",BB,Triangles,Name parts by their defining properties,Identify,,,Identify,1,Atomic,
+253,BB.6,Angle-side relationships in triangles,BB,Triangles,Order parts by relative magnitude,Compare,,,Compare,1,Atomic,
+254,BB.7,Triangle Inequality Theorem,BB,Triangles,Test whether a condition can be satisfied,Verify,,,Verify,1,Atomic,Was Verify+Compare. The comparison is inside Verify's criterion.
+255,CC.1,Identify similar figures,CC,Similarity,Judge proportional sameness of structures,Identify,,,Identify,1,Atomic,Was Identify+Compare. Similarity judgement resolves to Identify.
+256,CC.2,Ratios in similar figures,CC,Similarity,Quantify the relationship between magnitudes,Compare,,,Compare,1,Atomic,Was Compare+Measure. Producing the ratio is Compare.
+257,CC.3,Similarity statements,CC,Similarity,Match parts across two structures,Compare,,,Compare,1,Atomic,Was Identify+Compare. Matching corresponding parts is Compare.
+258,CC.4,Side lengths and angle measures in similar figures,CC,Similarity,Use proportionality as a condition on values,Compare,Constrain,,Compare -> Constrain,2,Composed,Was Constrain+Compare. Reordered as CC.10/AA.3.
+259,CC.5,Similar triangles and indirect measurement,CC,Similarity,Use proportionality to quantify an unknown,Compare,Measure,,Compare -> Measure,2,Composed,"Was Compare+Measure, kept, order made explicit."
+260,CC.6,Perimeters of similar figures,CC,Similarity,Relate magnitudes by a scale factor,Compare,Measure,,Compare -> Measure,2,Composed,"Was Compare+Measure, kept."
+261,CC.7,Similarity rules for triangles,CC,Similarity,Test whether criteria establish similarity,Verify,,,Verify,1,Atomic,Was Verify+Compare. Same as AA.5.
+262,CC.8,Similar triangles and similarity transformations,CC,Similarity,Map one figure to another by an operation,Transform,,,Transform,1,Atomic,Was Transform+Compare. The mapping is the act; comparison is incidental.
+263,CC.9,Similarity of circles,CC,Similarity,Test whether criteria establish similarity,Verify,,,Verify,1,Atomic,Was Verify+Compare. Same as AA.5.
+264,CC.10,Triangle Proportionality Theorem,CC,Similarity,Use proportionality as a condition on values,Compare,Constrain,,Compare -> Constrain,2,Composed,Was Constrain+Compare. Reordered.
+265,CC.11,Areas of similar figures,CC,Similarity,Relate magnitudes by a scale factor,Compare,Measure,,Compare -> Measure,2,Composed,"Was Compare+Measure, kept."
+266,DD.1,Pythagorean Theorem,DD,Right triangles,Use a fixed relation to quantify an unknown side,Constrain,,,Constrain,1,Atomic,Was Constrain+Measure. The relation is Constrain's rule.
+267,DD.2,Converse of the Pythagorean theorem,DD,Right triangles,Test whether a relation holds to decide a category,Verify,,,Verify,1,Atomic,
+268,DD.3,Pythagorean Inequality Theorems,DD,Right triangles,Test a relation to classify a triangle,Verify,,,Verify,1,Atomic,Was Verify+Compare. Same as AA.5.
+269,DD.4,Special right triangles,DD,Right triangles,Apply a known ratio pattern to quantify sides,Measure,,,Measure,1,Atomic,"Was Measure+Generalize. Special-triangle ratios are recalled, not inferred."
+270,EE.1,"Trigonometric ratios: sin, cos and tan",EE,Trigonometry,Express a side relationship as a named ratio,Represent,,,Represent,1,Atomic,Was Represent+Measure. Setting up the named ratio is Represent.
+271,EE.2,"Trigonometric ratios: csc, sec and cot",EE,Trigonometry,Express a side relationship as a named ratio,Represent,,,Represent,1,Atomic,Was Represent+Measure. Same as EE.1.
+272,EE.3,Find trigonometric functions of special angles,EE,Trigonometry,Recall/derive a value from a known pattern,Measure,,,Measure,1,Atomic,Was Identify+Measure. Producing the value is Measure.
+273,EE.4,Find trigonometric functions using a calculator,EE,Trigonometry,Quantify a ratio for a given angle,Measure,,,Measure,1,Atomic,
+274,EE.5,Inverses of trigonometric functions,EE,Trigonometry,Rewrite a ratio back into an angle,Transform,,,Transform,1,Atomic,Was Transform+Measure. Inverse trig is Transform.
+275,EE.6,Trigonometric ratios: find a side length,EE,Trigonometry,Use a ratio condition to recover a value,Constrain,,,Constrain,1,Atomic,Was Constrain+Measure. Same as DD.1.
+276,EE.7,Trigonometric ratios: find an angle measure,EE,Trigonometry,Use a ratio condition to recover a value,Constrain,,,Constrain,1,Atomic,Was Constrain+Measure. Same as DD.1.
+277,EE.8,Solve a right triangle,EE,Trigonometry,Satisfy all relations to recover every part,Constrain,,,Constrain,1,Atomic,Was Constrain+Measure. Same as DD.1.
+278,FF.1,Translations: graph the image,FF,Transformations,Map a figure to its image under an operation,Transform,Represent,,Transform -> Represent,2,Composed,
+279,FF.2,Translations: find the coordinates,FF,Transformations,Map points to images under an operation,Transform,,,Transform,1,Atomic,
+280,FF.3,Translations: write the rule,FF,Transformations,Infer the general operation from cases,Generalize,,,Generalize,1,Atomic,Was Generalize+Transform. Inferring the rule is the whole act.
+281,FF.4,Reflections: graph the image,FF,Transformations,Map a figure to its image under an operation,Transform,Represent,,Transform -> Represent,2,Composed,
+282,FF.5,Reflections: find the coordinates,FF,Transformations,Map points to images under an operation,Transform,,,Transform,1,Atomic,
+283,FF.6,Rotate polygons about a point,FF,Transformations,Map a figure to its image under an operation,Transform,,,Transform,1,Atomic,
+284,FF.7,Rotations: graph the image,FF,Transformations,Map a figure to its image under an operation,Transform,Represent,,Transform -> Represent,2,Composed,
+285,FF.8,Rotations: find the coordinates,FF,Transformations,Map points to images under an operation,Transform,,,Transform,1,Atomic,
+286,FF.9,Classify congruence transformations,FF,Transformations,Assign an operation to a category,Identify,,,Identify,1,Atomic,
+287,FF.10,Compositions of congruence transformations: graph the image,FF,Transformations,Chain operations into a single combined one,Compose,Transform,Represent,Compose -> Transform -> Represent,3,Composed,Was Compose+Transform. Cap hid the graphing step.
+288,FF.11,Transformations that carry a polygon onto itself,FF,Transformations,Find operations satisfying an invariance condition,Constrain,,,Constrain,1,Atomic,
+289,FF.12,Congruence transformations: mixed review,FF,Transformations,Map a figure to its image under an operation,Transform,,,Transform,1,Atomic,
+290,FF.13,Dilations: graph the image,FF,Transformations,Map a figure to its image under an operation,Transform,Represent,,Transform -> Represent,2,Composed,
+291,FF.14,Dilations: find the coordinates,FF,Transformations,Map points to images under an operation,Transform,,,Transform,1,Atomic,
+292,FF.15,Dilations: scale factor and classification,FF,Transformations,"Quantify the factor, then categorize",Measure,Identify,,Measure -> Identify,2,Composed,"Was Measure+Identify, kept, order made explicit."
+293,FF.16,Dilations and parallel lines,FF,Transformations,Test which properties an operation preserves,Verify,,,Verify,1,Atomic,Was Verify+Transform. Testing preservation is Verify.
+294,GG.1,Theoretical and experimental probability,GG,Probability,Quantify likelihood and compare two estimates,Measure,Compare,,Measure -> Compare,2,Composed,"Was Measure+Compare, kept."
+295,GG.2,Compound events: find the number of outcomes,GG,Probability,Build a combined outcome set and count it,Compose,Measure,,Compose -> Measure,2,Composed,"Was Compose+Measure, kept."
+296,GG.3,Independent and dependent events,GG,Probability,"Categorize a relationship, then quantify",Identify,,,Identify,1,Atomic,Was Identify+Measure. Categorising the relationship is Identify.
+297,GG.4,Factorials,GG,Probability,Rewrite a notation into a numeric value,Transform,,,Transform,1,Atomic,
+298,GG.5,Permutations,GG,Probability,Count arrangements built from parts,Compose,Measure,,Compose -> Measure,2,Composed,"Was Compose+Measure, kept."
+299,GG.6,Counting principle,GG,Probability,Count combined possibilities from stages,Compose,Measure,,Compose -> Measure,2,Composed,"Was Compose+Measure, kept."
+300,GG.7,Permutation and combination notation,GG,Probability,Match a situation to the correct notation,Represent,,,Represent,1,Atomic,Was Identify+Represent. Choosing notation is Represent.
+301,GG.8,Geometric probability,GG,Probability,Quantify likelihood as a ratio of magnitudes,Measure,,,Measure,1,Atomic,
+302,HH.1,"Mean, median, mode and range",HH,Statistics,Summarize a data set as a single magnitude,Measure,,,Measure,1,Atomic,
+303,HH.2,Quartiles,HH,Statistics,Summarize a distribution by position,Measure,,,Measure,1,Atomic,
+304,HH.3,Identify biased samples,HH,Statistics,Test a method against a validity condition,Verify,,,Verify,1,Atomic,Was Verify+Identify. Testing against a validity criterion is Verify.
+305,HH.4,Mean absolute deviation,HH,Statistics,Quantify spread as a single magnitude,Measure,,,Measure,1,Atomic,
+306,HH.5,Variance and standard deviation,HH,Statistics,Quantify spread as a single magnitude,Measure,,,Measure,1,Atomic,
