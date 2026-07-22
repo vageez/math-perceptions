@@ -19,7 +19,15 @@ export default defineConfig({
         { label: 'Start Here', link: '/' },
         {
           label: 'Grade 10',
-          items: [{ label: 'Overview', link: '/levels/grade10/' }],
+          items: [
+            { label: 'Overview', link: '/levels/grade10/' },
+            {
+              label: 'Unit 1 — Linear Relations',
+              items: [
+                { autogenerate: { directory: 'levels/grade10/unit-1-linear-relations' } },
+              ],
+            },
+          ],
         },
       ],
     }),
