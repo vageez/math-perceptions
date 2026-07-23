@@ -1,0 +1,247 @@
+---
+// Interactive Cartesian plane: drag a point, read its coordinates and location.
+// Renders a complete labelled SVG at build time, so it still works (statically)
+// if JavaScript never runs. The script only adds dragging.
+interface Props {
+  range?: number;      // grid spans -range..range
+  snapStep?: number;   // 1 = integers, 0.5 = halves
+  start?: [number, number];
+  label?: string;      // point label, e.g. "P"
+}
+
+const { range = 6, snapStep = 1, start = [-3, 2], label = 'P' } = Astro.props;
+
+const R = range;
+const pad = 1.4;
+const min = -R - pad;
+const size = (R + pad) * 2;
+const [sx, sy] = start;
+
+// Tick values: every 2 units to stay readable on a phone (skip 0, the axes label it)
+const ticks = [];
+for (let i = -R; i <= R; i++) if (i !== 0 && i % 2 === 0) ticks.push(i);
+const lines = [];
+for (let i = -R; i <= R; i++) lines.push(i);
+---
+
+<figure class="cplane" data-cplane data-range={R} data-step={snapStep}>
+  <svg
+    viewBox={`${min} ${min} ${size} ${size}`}
+    role="img"
+    aria-label={`Cartesian plane from ${-R} to ${R} with a draggable point`}
+  >
+    <!-- grid -->
+    <g class="cplane-grid">
+      {lines.map((i) => (
+        <>
+          <line x1={i} y1={-R} x2={i} y2={R} />
+          <line x1={-R} y1={i} x2={R} y2={i} />
+        </>
+      ))}
+    </g>
+
+    <!-- quadrant labels -->
+    <g class="cplane-quad">
+      <text x={R / 2} y={-R / 2}>I</text>
+      <text x={-R / 2} y={-R / 2}>II</text>
+      <text x={-R / 2} y={R / 2}>III</text>
+      <text x={R / 2} y={R / 2}>IV</text>
+    </g>
+
+    <!-- axes -->
+    <g class="cplane-axis">
+      <line x1={-R} y1="0" x2={R} y2="0" />
+      <line x1="0" y1={-R} x2="0" y2={R} />
+    </g>
+
+    <!-- tick numbers (y is negated: SVG y grows downward) -->
+    <g class="cplane-tick">
+      {ticks.map((t) => <text x={t} y="0.85" text-anchor="middle">{t}</text>)}
+      {ticks.map((t) => <text x="-0.3" y={-t + 0.2} text-anchor="end">{t}</text>)}
+      <text x={R + 0.7} y="0.85" class="cplane-axis-name">x</text>
+      <text x="0.35" y={-R - 0.6} class="cplane-axis-name">y</text>
+    </g>
+
+    <!-- dashed guides from the point to each axis -->
+    <g class="cplane-guide" data-guides>
+      <line data-guide-x x1={sx} y1={-sy} x2={sx} y2="0" />
+      <line data-guide-y x1={sx} y1={-sy} x2="0" y2={-sy} />
+    </g>
+
+    <!-- the draggable point (large transparent hit area for touch) -->
+    <g data-dot class="cplane-dot" style={`transform: translate(${sx}px, ${-sy}px)`}>
+      <circle class="cplane-hit" r="1.1" />
+      <circle class="cplane-point" r="0.34" />
+      <text class="cplane-plabel" x="0.5" y="-0.5">{label}</text>
+    </g>
+  </svg>
+
+  <figcaption class="cplane-readout">
+    <strong data-coords>{label}({sx}, {sy})</strong>
+    <span data-place></span>
+    <em data-why></em>
+  </figcaption>
+</figure>
+
+<style>
+  .cplane {
+    margin: 1.5rem auto;
+    max-width: 26rem;
+  }
+  .cplane svg {
+    width: 100%;
+    height: auto;
+    display: block;
+    touch-action: none; /* let us handle drag without the page scrolling */
+    background: var(--sl-color-bg);
+    border: 1px solid var(--sl-color-gray-5);
+    border-radius: 0.5rem;
+  }
+  .cplane-grid line {
+    stroke: var(--sl-color-gray-5);
+    stroke-width: 0.03;
+  }
+  .cplane-axis line {
+    stroke: var(--sl-color-gray-2);
+    stroke-width: 0.07;
+  }
+  .cplane-tick text {
+    font-size: 0.55px;
+    fill: var(--sl-color-gray-3);
+  }
+  .cplane-axis-name {
+    font-size: 0.7px;
+    font-style: italic;
+    fill: var(--sl-color-gray-2);
+  }
+  .cplane-quad text {
+    font-size: 0.9px;
+    fill: var(--sl-color-gray-4);
+    text-anchor: middle;
+    dominant-baseline: middle;
+  }
+  .cplane-guide line {
+    stroke: var(--sl-color-accent);
+    stroke-width: 0.05;
+    stroke-dasharray: 0.2 0.2;
+    opacity: 0.7;
+  }
+  .cplane-point {
+    fill: var(--sl-color-accent);
+    stroke: var(--sl-color-bg);
+    stroke-width: 0.06;
+  }
+  .cplane-hit {
+    fill: transparent;
+    cursor: grab;
+  }
+  .cplane-dot.is-dragging .cplane-hit { cursor: grabbing; }
+  .cplane-dot.is-dragging .cplane-point { fill: var(--sl-color-accent-high); }
+  .cplane-plabel {
+    font-size: 0.7px;
+    font-weight: 700;
+    fill: var(--sl-color-accent-high);
+  }
+  .cplane-readout {
+    margin-top: 0.6rem;
+    text-align: center;
+    line-height: 1.5;
+  }
+  .cplane-readout strong {
+    font-size: 1.15rem;
+    display: inline-block;
+    margin-right: 0.4rem;
+  }
+  .cplane-readout em {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--sl-color-gray-3);
+    font-style: normal;
+  }
+</style>
+
+<script>
+  function place(x: number, y: number) {
+    if (x === 0 && y === 0) return { place: 'At the origin', why: 'Both x and y are 0 → the origin' };
+    if (x === 0) return { place: 'On the y-axis', why: 'x is 0, so the point sits on the y-axis — not in any quadrant' };
+    if (y === 0) return { place: 'On the x-axis', why: 'y is 0, so the point sits on the x-axis — not in any quadrant' };
+    const q = x > 0 ? (y > 0 ? 'I' : 'IV') : y > 0 ? 'II' : 'III';
+    const xs = x > 0 ? 'positive' : 'negative';
+    const ys = y > 0 ? 'positive' : 'negative';
+    return { place: `Quadrant ${q}`, why: `x is ${xs} and y is ${ys} → Quadrant ${q}` };
+  }
+
+  const fmt = (n: number) => (Object.is(n, -0) ? 0 : n).toString();
+
+  document.querySelectorAll<HTMLElement>('[data-cplane]').forEach((root) => {
+    const svg = root.querySelector('svg')!;
+    const dot = root.querySelector<SVGGElement>('[data-dot]')!;
+    const gx = root.querySelector<SVGLineElement>('[data-guide-x]')!;
+    const gy = root.querySelector<SVGLineElement>('[data-guide-y]')!;
+    const coordsEl = root.querySelector('[data-coords]')!;
+    const placeEl = root.querySelector('[data-place]')!;
+    const whyEl = root.querySelector('[data-why]')!;
+    const labelText = root.querySelector('.cplane-plabel')?.textContent ?? 'P';
+
+    const R = Number(root.dataset.range || 6);
+    const step = Number(root.dataset.step || 1);
+    const clamp = (v: number) => Math.max(-R, Math.min(R, v));
+    const snap = (v: number) => Math.round(v / step) * step;
+
+    // Visual position may be free (mid-drag); the readout always shows the snapped value.
+    function render(vx: number, vy: number) {
+      dot.style.transform = `translate(${vx}px, ${-vy}px)`;
+      gx.setAttribute('x1', String(vx));
+      gx.setAttribute('y1', String(-vy));
+      gx.setAttribute('x2', String(vx));
+      gy.setAttribute('x1', String(vx));
+      gy.setAttribute('y1', String(-vy));
+      gy.setAttribute('y2', String(-vy));
+
+      const sx = snap(vx);
+      const sy = snap(vy);
+      const info = place(sx, sy);
+      coordsEl.textContent = `${labelText}(${fmt(sx)}, ${fmt(sy)})`;
+      placeEl.textContent = `· ${info.place}`;
+      whyEl.textContent = info.why;
+    }
+
+    function toGraph(evt: PointerEvent) {
+      const ctm = svg.getScreenCTM();
+      if (!ctm) return null;
+      const pt = new DOMPoint(evt.clientX, evt.clientY).matrixTransform(ctm.inverse());
+      return { x: clamp(pt.x), y: clamp(-pt.y) };
+    }
+
+    let dragging = false;
+    const hit = root.querySelector<SVGCircleElement>('.cplane-hit')!;
+
+    hit.addEventListener('pointerdown', (e) => {
+      dragging = true;
+      dot.classList.add('is-dragging');
+      hit.setPointerCapture(e.pointerId);
+      e.preventDefault();
+    });
+
+    hit.addEventListener('pointermove', (e) => {
+      if (!dragging) return;
+      const p = toGraph(e);
+      if (p) render(p.x, p.y); // free while dragging
+      e.preventDefault();
+    });
+
+    const end = (e: PointerEvent) => {
+      if (!dragging) return;
+      dragging = false;
+      dot.classList.remove('is-dragging');
+      const p = toGraph(e);
+      if (p) render(snap(p.x), snap(p.y)); // snap on release
+    };
+    hit.addEventListener('pointerup', end);
+    hit.addEventListener('pointercancel', end);
+
+    // Initialise readout from the server-rendered start position
+    const t = /translate\(([-\d.]+)px,\s*([-\d.]+)px\)/.exec(dot.style.transform);
+    render(t ? Number(t[1]) : 0, t ? -Number(t[2]) : 0);
+  });
+</script>
