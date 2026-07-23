@@ -5,24 +5,23 @@ sidebar:
   order: 20
 ---
 
+import CoordinatePlane from '../../../../../components/CoordinatePlane.astro';
+
 > **Question:** How do I recognize and calculate the steepness of a line?
 
 ## Think of walking on a hill
 
 Slope describes how much your height changes for each step forward.
 
+<CoordinatePlane mode="slope" start={[[-2, -1], [3, 3]]} labels={['A', 'B']} />
+
+**Drag either point.** The line, the rise/run triangle, and the slope formula all update as you move it.
+
 ```text
 positive slope       negative slope       zero slope       undefined slope
        /                   \              ─────────              │
    up / right          down \ right          flat              vertical
       m > 0               m < 0              m = 0          denominator = 0
-
-                   • (x₂, y₂)
-                  /│
-                 / │ rise = y₂ − y₁
-                /  │
-      (x₁, y₁) •───┘
-                  run = x₂ − x₁
 ```
 
 ## The formula

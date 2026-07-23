@@ -1,36 +1,47 @@
 ---
-// Interactive Cartesian plane: drag a point, read its coordinates and location.
-// Renders a complete labelled SVG at build time, so it still works (statically)
-// if JavaScript never runs. The script only adds dragging.
+// Interactive Cartesian plane. Drag points; the readout updates live.
+//
+// mode="point"  one point   -> coordinates, quadrant / axis, why-line
+// mode="slope"  two points  -> line through them, rise/run triangle, live m = Δy/Δx
+//
+// The full labelled SVG is rendered at build time, so without JavaScript the
+// student still sees a correct static plane. The script only adds dragging.
 interface Props {
-  range?: number;      // grid spans -range..range
-  snapStep?: number;   // 1 = integers, 0.5 = halves
-  start?: [number, number];
-  label?: string;      // point label, e.g. "P"
+  mode?: 'point' | 'slope';
+  range?: number; // grid spans -range..range
+  snapStep?: number; // 1 = integers, 0.5 = halves
+  start?: [number, number][];
+  labels?: string[];
 }
 
-const { range = 6, snapStep = 1, start = [-3, 2], label = 'P' } = Astro.props;
+const {
+  mode = 'point',
+  range = 6,
+  snapStep = 1,
+  start = mode === 'slope' ? [[-2, -1], [3, 3]] : [[-3, 2]],
+  labels = mode === 'slope' ? ['A', 'B'] : ['P'],
+} = Astro.props;
 
 const R = range;
 const pad = 1.4;
 const min = -R - pad;
 const size = (R + pad) * 2;
-const [sx, sy] = start;
 
-// Tick values: every 2 units to stay readable on a phone (skip 0, the axes label it)
-const ticks = [];
+const ticks: number[] = [];
 for (let i = -R; i <= R; i++) if (i !== 0 && i % 2 === 0) ticks.push(i);
-const lines = [];
+const lines: number[] = [];
 for (let i = -R; i <= R; i++) lines.push(i);
+
+const pts = start.slice(0, mode === 'slope' ? 2 : 1);
+const uid = `cp${Math.random().toString(36).slice(2, 8)}`;
 ---
 
-<figure class="cplane" data-cplane data-range={R} data-step={snapStep}>
-  <svg
-    viewBox={`${min} ${min} ${size} ${size}`}
-    role="img"
-    aria-label={`Cartesian plane from ${-R} to ${R} with a draggable point`}
-  >
-    <!-- grid -->
+<figure class="cplane" data-cplane data-mode={mode} data-range={R} data-step={snapStep}>
+  <svg viewBox={`${min} ${min} ${size} ${size}`} role="img" aria-label={`Interactive coordinate plane from ${-R} to ${R}`}>
+    <defs>
+      <clipPath id={uid}><rect x={-R} y={-R} width={R * 2} height={R * 2} /></clipPath>
+    </defs>
+
     <g class="cplane-grid">
       {lines.map((i) => (
         <>
@@ -40,21 +51,20 @@ for (let i = -R; i <= R; i++) lines.push(i);
       ))}
     </g>
 
-    <!-- quadrant labels -->
-    <g class="cplane-quad">
-      <text x={R / 2} y={-R / 2}>I</text>
-      <text x={-R / 2} y={-R / 2}>II</text>
-      <text x={-R / 2} y={R / 2}>III</text>
-      <text x={R / 2} y={R / 2}>IV</text>
-    </g>
+    {mode === 'point' && (
+      <g class="cplane-quad">
+        <text x={R - 0.9} y={-R + 1}>I</text>
+        <text x={-R + 0.9} y={-R + 1}>II</text>
+        <text x={-R + 0.9} y={R - 0.6}>III</text>
+        <text x={R - 0.9} y={R - 0.6}>IV</text>
+      </g>
+    )}
 
-    <!-- axes -->
     <g class="cplane-axis">
       <line x1={-R} y1="0" x2={R} y2="0" />
       <line x1="0" y1={-R} x2="0" y2={R} />
     </g>
 
-    <!-- tick numbers (y is negated: SVG y grows downward) -->
     <g class="cplane-tick">
       {ticks.map((t) => <text x={t} y="0.85" text-anchor="middle">{t}</text>)}
       {ticks.map((t) => <text x="-0.3" y={-t + 0.2} text-anchor="end">{t}</text>)}
@@ -62,186 +72,229 @@ for (let i = -R; i <= R; i++) lines.push(i);
       <text x="0.35" y={-R - 0.6} class="cplane-axis-name">y</text>
     </g>
 
-    <!-- dashed guides from the point to each axis -->
-    <g class="cplane-guide" data-guides>
-      <line data-guide-x x1={sx} y1={-sy} x2={sx} y2="0" />
-      <line data-guide-y x1={sx} y1={-sy} x2="0" y2={-sy} />
-    </g>
+    {mode === 'slope' && (
+      <g clip-path={`url(#${uid})`}>
+        <line data-line class="cplane-line" x1="0" y1="0" x2="0" y2="0" />
+        <g data-triangle class="cplane-triangle">
+          <line data-run x1="0" y1="0" x2="0" y2="0" />
+          <line data-rise x1="0" y1="0" x2="0" y2="0" />
+          <text data-run-label text-anchor="middle"></text>
+          <text data-rise-label text-anchor="middle"></text>
+        </g>
+      </g>
+    )}
 
-    <!-- the draggable point (large transparent hit area for touch) -->
-    <g data-dot class="cplane-dot" style={`transform: translate(${sx}px, ${-sy}px)`}>
-      <circle class="cplane-hit" r="1.1" />
-      <circle class="cplane-point" r="0.34" />
-      <text class="cplane-plabel" x="0.5" y="-0.5">{label}</text>
-    </g>
+    {mode === 'point' && (
+      <g class="cplane-guide">
+        <line data-guide-x x1={pts[0][0]} y1={-pts[0][1]} x2={pts[0][0]} y2="0" />
+        <line data-guide-y x1={pts[0][0]} y1={-pts[0][1]} x2="0" y2={-pts[0][1]} />
+      </g>
+    )}
+
+    {pts.map((p, i) => (
+      <g data-dot data-index={i} class="cplane-dot" style={`transform: translate(${p[0]}px, ${-p[1]}px)`}>
+        <circle class="cplane-hit" r="1.1" />
+        <circle class="cplane-point" r="0.34" />
+        <text class="cplane-plabel" x="0.5" y="-0.5">{labels[i] ?? 'P'}</text>
+      </g>
+    ))}
   </svg>
 
-  <figcaption class="cplane-readout">
-    <strong data-coords>{label}({sx}, {sy})</strong>
-    <span data-place></span>
-    <em data-why></em>
+  <figcaption class="cplane-readout" data-readout>
+    {mode === 'point' ? (
+      <>
+        <strong data-coords></strong><span data-place></span>
+        <em data-why></em>
+      </>
+    ) : (
+      <>
+        <div class="cplane-eq" data-eq></div>
+        <em data-why></em>
+      </>
+    )}
   </figcaption>
 </figure>
 
 <style>
-  .cplane {
-    margin: 1.5rem auto;
-    max-width: 26rem;
-  }
+  .cplane { margin: 1.5rem auto; max-width: 26rem; }
   .cplane svg {
-    width: 100%;
-    height: auto;
-    display: block;
-    touch-action: none; /* let us handle drag without the page scrolling */
+    width: 100%; height: auto; display: block;
+    touch-action: none;
     background: var(--sl-color-bg);
     border: 1px solid var(--sl-color-gray-5);
     border-radius: 0.5rem;
   }
-  .cplane-grid line {
-    stroke: var(--sl-color-gray-5);
-    stroke-width: 0.03;
-  }
-  .cplane-axis line {
-    stroke: var(--sl-color-gray-2);
-    stroke-width: 0.07;
-  }
-  .cplane-tick text {
-    font-size: 0.55px;
-    fill: var(--sl-color-gray-3);
-  }
-  .cplane-axis-name {
-    font-size: 0.7px;
-    font-style: italic;
-    fill: var(--sl-color-gray-2);
-  }
+  .cplane-grid line { stroke: var(--sl-color-gray-5); stroke-width: 0.03; }
+  .cplane-axis line { stroke: var(--sl-color-gray-2); stroke-width: 0.07; }
+  .cplane-tick text { font-size: 0.55px; fill: var(--sl-color-gray-3); }
+  .cplane-axis-name { font-size: 0.7px; font-style: italic; fill: var(--sl-color-gray-2); }
   .cplane-quad text {
-    font-size: 0.9px;
-    fill: var(--sl-color-gray-4);
-    text-anchor: middle;
-    dominant-baseline: middle;
+    font-size: 0.8px; fill: var(--sl-color-gray-4);
+    text-anchor: middle; dominant-baseline: middle;
   }
   .cplane-guide line {
-    stroke: var(--sl-color-accent);
-    stroke-width: 0.05;
-    stroke-dasharray: 0.2 0.2;
-    opacity: 0.7;
+    stroke: var(--sl-color-accent); stroke-width: 0.05;
+    stroke-dasharray: 0.2 0.2; opacity: 0.7;
   }
-  .cplane-point {
-    fill: var(--sl-color-accent);
-    stroke: var(--sl-color-bg);
-    stroke-width: 0.06;
+  .cplane-line { stroke: var(--sl-color-accent); stroke-width: 0.09; opacity: 0.95; }
+  .cplane-triangle line {
+    stroke: var(--study-warning, #b45309); stroke-width: 0.07; stroke-dasharray: 0.25 0.18;
   }
-  .cplane-hit {
-    fill: transparent;
-    cursor: grab;
-  }
+  .cplane-triangle text { font-size: 0.6px; fill: var(--study-warning, #b45309); font-weight: 700; }
+  .cplane-point { fill: var(--sl-color-accent); stroke: var(--sl-color-bg); stroke-width: 0.06; }
+  .cplane-hit { fill: transparent; cursor: grab; }
   .cplane-dot.is-dragging .cplane-hit { cursor: grabbing; }
-  .cplane-dot.is-dragging .cplane-point { fill: var(--sl-color-accent-high); }
-  .cplane-plabel {
-    font-size: 0.7px;
-    font-weight: 700;
-    fill: var(--sl-color-accent-high);
-  }
-  .cplane-readout {
-    margin-top: 0.6rem;
-    text-align: center;
-    line-height: 1.5;
-  }
-  .cplane-readout strong {
-    font-size: 1.15rem;
-    display: inline-block;
-    margin-right: 0.4rem;
-  }
+  .cplane-dot.is-dragging .cplane-point { fill: var(--sl-color-text-accent, var(--sl-color-accent)); r: 0.42; }
+  .cplane-plabel { font-size: 0.7px; font-weight: 700; fill: var(--sl-color-text); paint-order: stroke; stroke: var(--sl-color-bg); stroke-width: 0.12; }
+
+  .cplane-readout { margin-top: 0.6rem; text-align: center; line-height: 1.5; }
+  .cplane-readout strong { font-size: 1.15rem; margin-right: 0.4rem; }
   .cplane-readout em {
-    display: block;
-    font-size: 0.9rem;
-    color: var(--sl-color-gray-3);
-    font-style: normal;
+    display: block; margin-top: 0.35rem; font-size: 0.9rem;
+    color: var(--sl-color-gray-3); font-style: normal;
   }
+  /* live-updating equation: CSS fractions, so no KaTeX runtime is shipped */
+  .cplane-eq {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+    gap: 0.4rem; font-size: 1.05rem;
+  }
+  /* These nodes are injected at runtime via innerHTML, so they never receive
+     Astro's scope attribute — they must be targeted with :global(). */
+  .cplane-eq :global(.frac) {
+    display: inline-flex; flex-direction: column; align-items: center;
+    vertical-align: middle; line-height: 1.15;
+  }
+  .cplane-eq :global(.frac > span:first-child) { border-bottom: 2px solid currentColor; padding: 0 0.25rem; }
+  .cplane-eq :global(.frac > span:last-child) { padding: 0 0.25rem; }
+  .cplane-eq :global(.val) { font-weight: 700; color: var(--sl-color-text-accent, var(--sl-color-accent)); font-size: 1.15rem; }
+  .cplane-eq :global(.undef) { font-weight: 700; color: var(--study-warning, #b45309); }
 </style>
 
 <script>
-  function place(x: number, y: number) {
-    if (x === 0 && y === 0) return { place: 'At the origin', why: 'Both x and y are 0 → the origin' };
-    if (x === 0) return { place: 'On the y-axis', why: 'x is 0, so the point sits on the y-axis — not in any quadrant' };
-    if (y === 0) return { place: 'On the x-axis', why: 'y is 0, so the point sits on the x-axis — not in any quadrant' };
-    const q = x > 0 ? (y > 0 ? 'I' : 'IV') : y > 0 ? 'II' : 'III';
-    const xs = x > 0 ? 'positive' : 'negative';
-    const ys = y > 0 ? 'positive' : 'negative';
-    return { place: `Quadrant ${q}`, why: `x is ${xs} and y is ${ys} → Quadrant ${q}` };
-  }
+  import { describePoint, describeSlope } from './coordinate-plane/readouts';
 
-  const fmt = (n: number) => (Object.is(n, -0) ? 0 : n).toString();
+  const frac = (num: string, den: string) =>
+    `<span class="frac"><span>${num}</span><span>${den}</span></span>`;
 
   document.querySelectorAll<HTMLElement>('[data-cplane]').forEach((root) => {
     const svg = root.querySelector('svg')!;
-    const dot = root.querySelector<SVGGElement>('[data-dot]')!;
-    const gx = root.querySelector<SVGLineElement>('[data-guide-x]')!;
-    const gy = root.querySelector<SVGLineElement>('[data-guide-y]')!;
-    const coordsEl = root.querySelector('[data-coords]')!;
-    const placeEl = root.querySelector('[data-place]')!;
-    const whyEl = root.querySelector('[data-why]')!;
-    const labelText = root.querySelector('.cplane-plabel')?.textContent ?? 'P';
-
+    const mode = root.dataset.mode === 'slope' ? 'slope' : 'point';
     const R = Number(root.dataset.range || 6);
     const step = Number(root.dataset.step || 1);
     const clamp = (v: number) => Math.max(-R, Math.min(R, v));
     const snap = (v: number) => Math.round(v / step) * step;
 
-    // Visual position may be free (mid-drag); the readout always shows the snapped value.
-    function render(vx: number, vy: number) {
-      dot.style.transform = `translate(${vx}px, ${-vy}px)`;
-      gx.setAttribute('x1', String(vx));
-      gx.setAttribute('y1', String(-vy));
-      gx.setAttribute('x2', String(vx));
-      gy.setAttribute('x1', String(vx));
-      gy.setAttribute('y1', String(-vy));
-      gy.setAttribute('y2', String(-vy));
+    const dots = [...root.querySelectorAll<SVGGElement>('[data-dot]')];
+    const pos = dots.map((d) => {
+      const m = /translate\(([-\d.]+)px,\s*([-\d.]+)px\)/.exec(d.style.transform);
+      return m ? { x: Number(m[1]), y: -Number(m[2]) } : { x: 0, y: 0 };
+    });
 
-      const sx = snap(vx);
-      const sy = snap(vy);
-      const info = place(sx, sy);
-      coordsEl.textContent = `${labelText}(${fmt(sx)}, ${fmt(sy)})`;
-      placeEl.textContent = `· ${info.place}`;
-      whyEl.textContent = info.why;
+    const whyEl = root.querySelector('[data-why]')!;
+
+    function paint() {
+      dots.forEach((d, i) => {
+        d.style.transform = `translate(${pos[i].x}px, ${-pos[i].y}px)`;
+      });
+
+      if (mode === 'point') {
+        const gx = root.querySelector<SVGLineElement>('[data-guide-x]')!;
+        const gy = root.querySelector<SVGLineElement>('[data-guide-y]')!;
+        const { x, y } = pos[0];
+        gx.setAttribute('x1', `${x}`); gx.setAttribute('y1', `${-y}`); gx.setAttribute('x2', `${x}`);
+        gy.setAttribute('x1', `${x}`); gy.setAttribute('y1', `${-y}`); gy.setAttribute('y2', `${-y}`);
+
+        const sx = snap(x), sy = snap(y);
+        const info = describePoint(sx, sy);
+        const label = dots[0].querySelector('.cplane-plabel')?.textContent ?? 'P';
+        root.querySelector('[data-coords]')!.textContent = `${label}(${sx}, ${sy})`;
+        root.querySelector('[data-place]')!.textContent = `· ${info.place}`;
+        whyEl.textContent = info.why;
+        return;
+      }
+
+      // slope mode
+      const a = { x: snap(pos[0].x), y: snap(pos[0].y) };
+      const b = { x: snap(pos[1].x), y: snap(pos[1].y) };
+      const r = describeSlope(a, b);
+
+      // line through both points, extended across the grid (clipped by the SVG clipPath)
+      const lineEl = root.querySelector<SVGLineElement>('[data-line]')!;
+      if (r.run === 0) {
+        lineEl.setAttribute('x1', `${a.x}`); lineEl.setAttribute('y1', `${-R}`);
+        lineEl.setAttribute('x2', `${a.x}`); lineEl.setAttribute('y2', `${R}`);
+      } else {
+        const m = r.rise / r.run;
+        const yAt = (x: number) => a.y + m * (x - a.x);
+        lineEl.setAttribute('x1', `${-R}`); lineEl.setAttribute('y1', `${-yAt(-R)}`);
+        lineEl.setAttribute('x2', `${R}`); lineEl.setAttribute('y2', `${-yAt(R)}`);
+      }
+
+      // rise/run right triangle: A -> (B.x, A.y) -> B
+      const tri = root.querySelector<SVGGElement>('[data-triangle]')!;
+      const runL = root.querySelector<SVGLineElement>('[data-run]')!;
+      const riseL = root.querySelector<SVGLineElement>('[data-rise]')!;
+      const runT = root.querySelector<SVGTextElement>('[data-run-label]')!;
+      const riseT = root.querySelector<SVGTextElement>('[data-rise-label]')!;
+      const degenerate = r.rise === 0 && r.run === 0;
+      tri.style.display = degenerate ? 'none' : '';
+      if (!degenerate) {
+        runL.setAttribute('x1', `${a.x}`); runL.setAttribute('y1', `${-a.y}`);
+        runL.setAttribute('x2', `${b.x}`); runL.setAttribute('y2', `${-a.y}`);
+        riseL.setAttribute('x1', `${b.x}`); riseL.setAttribute('y1', `${-a.y}`);
+        riseL.setAttribute('x2', `${b.x}`); riseL.setAttribute('y2', `${-b.y}`);
+        runT.setAttribute('x', `${(a.x + b.x) / 2}`);
+        runT.setAttribute('y', `${-a.y + (r.rise >= 0 ? 0.8 : -0.45)}`);
+        runT.textContent = r.run === 0 ? '' : `run ${r.run}`;
+        riseT.setAttribute('x', `${b.x + (r.run >= 0 ? 1.15 : -1.15)}`);
+        riseT.setAttribute('y', `${-(a.y + b.y) / 2}`);
+        riseT.textContent = r.rise === 0 ? '' : `rise ${r.rise}`;
+      }
+
+      const eq = root.querySelector('[data-eq]')!;
+      const tail = r.undefinedSlope
+        ? `<span class="undef">undefined</span>`
+        : `<span class="val">${r.value}</span>`;
+      eq.innerHTML =
+        `<span>m =</span>${frac(r.substituted.num, r.substituted.den)}` +
+        `<span>=</span>${frac(r.raw.num, r.raw.den)}<span>=</span>${tail}`;
+      whyEl.textContent = r.meaning;
     }
 
     function toGraph(evt: PointerEvent) {
       const ctm = svg.getScreenCTM();
       if (!ctm) return null;
-      const pt = new DOMPoint(evt.clientX, evt.clientY).matrixTransform(ctm.inverse());
-      return { x: clamp(pt.x), y: clamp(-pt.y) };
+      const p = new DOMPoint(evt.clientX, evt.clientY).matrixTransform(ctm.inverse());
+      return { x: clamp(p.x), y: clamp(-p.y) };
     }
 
-    let dragging = false;
-    const hit = root.querySelector<SVGCircleElement>('.cplane-hit')!;
+    dots.forEach((dot, i) => {
+      const hit = dot.querySelector<SVGCircleElement>('.cplane-hit')!;
+      let dragging = false;
 
-    hit.addEventListener('pointerdown', (e) => {
-      dragging = true;
-      dot.classList.add('is-dragging');
-      hit.setPointerCapture(e.pointerId);
-      e.preventDefault();
+      hit.addEventListener('pointerdown', (e) => {
+        dragging = true;
+        dot.classList.add('is-dragging');
+        hit.setPointerCapture(e.pointerId);
+        e.preventDefault();
+      });
+      hit.addEventListener('pointermove', (e) => {
+        if (!dragging) return;
+        const p = toGraph(e);
+        if (p) { pos[i] = p; paint(); } // free while dragging
+        e.preventDefault();
+      });
+      const end = (e: PointerEvent) => {
+        if (!dragging) return;
+        dragging = false;
+        dot.classList.remove('is-dragging');
+        const p = toGraph(e);
+        if (p) { pos[i] = { x: snap(p.x), y: snap(p.y) }; paint(); } // snap on release
+      };
+      hit.addEventListener('pointerup', end);
+      hit.addEventListener('pointercancel', end);
     });
 
-    hit.addEventListener('pointermove', (e) => {
-      if (!dragging) return;
-      const p = toGraph(e);
-      if (p) render(p.x, p.y); // free while dragging
-      e.preventDefault();
-    });
-
-    const end = (e: PointerEvent) => {
-      if (!dragging) return;
-      dragging = false;
-      dot.classList.remove('is-dragging');
-      const p = toGraph(e);
-      if (p) render(snap(p.x), snap(p.y)); // snap on release
-    };
-    hit.addEventListener('pointerup', end);
-    hit.addEventListener('pointercancel', end);
-
-    // Initialise readout from the server-rendered start position
-    const t = /translate\(([-\d.]+)px,\s*([-\d.]+)px\)/.exec(dot.style.transform);
-    render(t ? Number(t[1]) : 0, t ? -Number(t[2]) : 0);
+    paint();
   });
 </script>
