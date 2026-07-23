@@ -147,7 +147,17 @@ const uid = `cp${Math.random().toString(36).slice(2, 8)}`;
         </details>
       </>
     )}
-    {mode === 'line' && (<><strong class="cplane-lineeq" data-lineeq></strong><em data-why></em></>)}
+    {mode === 'line' && (
+      <>
+        <strong class="cplane-lineeq" data-lineeq></strong>
+        <em data-why></em>
+        <details class="cplane-steps">
+          <summary>Solve it for these points</summary>
+          <ol data-steps></ol>
+          <p class="cplane-steps-answer" data-steps-answer></p>
+        </details>
+      </>
+    )}
     {mode === 'types' && (
       <>
         <div class="cplane-types">
@@ -224,7 +234,7 @@ const uid = `cp${Math.random().toString(36).slice(2, 8)}`;
 </style>
 
 <script>
-  import { describePoint, describeSlope, describeLine, describeTypes, slopeSteps } from './coordinate-plane/readouts';
+  import { describePoint, describeSlope, describeLine, describeTypes, slopeSteps, lineSteps } from './coordinate-plane/readouts';
 
   const frac = (num: string, den: string) =>
     `<span class="frac"><span>${num}</span><span>${den}</span></span>`;
@@ -245,6 +255,13 @@ const uid = `cp${Math.random().toString(36).slice(2, 8)}`;
     });
 
     const whyEl = root.querySelector('[data-why]')!;
+
+    function renderSteps(st: { steps: string[]; answer: string } | null) {
+      const el = root.querySelector('[data-steps]');
+      if (!el || !st) return;
+      el.innerHTML = st.steps.map((t) => `<li>${t}</li>`).join('');
+      root.querySelector('[data-steps-answer]')!.textContent = st.answer;
+    }
 
     function paint() {
       dots.forEach((d, i) => {
@@ -292,6 +309,7 @@ const uid = `cp${Math.random().toString(36).slice(2, 8)}`;
         if (showB) { marker.setAttribute('cx', '0'); marker.setAttribute('cy', `${-r.bValue!}`); }
         root.querySelector('[data-lineeq]')!.textContent = r.equation;
         whyEl.textContent = r.meaning;
+        renderSteps(lineSteps(p, q));
         return;
       }
 
@@ -345,12 +363,7 @@ const uid = `cp${Math.random().toString(36).slice(2, 8)}`;
         riseT.textContent = r.rise === 0 ? '' : `rise ${r.rise}`;
       }
 
-      const stepsEl = root.querySelector('[data-steps]');
-      if (stepsEl) {
-        const st = slopeSteps(a, b);
-        stepsEl.innerHTML = st.steps.map((t) => `<li>${t}</li>`).join('');
-        root.querySelector('[data-steps-answer]')!.textContent = st.answer;
-      }
+      renderSteps(slopeSteps(a, b));
 
       const eq = root.querySelector('[data-eq]')!;
       const tail = r.undefinedSlope
