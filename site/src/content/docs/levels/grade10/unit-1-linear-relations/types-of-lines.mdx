@@ -5,11 +5,17 @@ sidebar:
   order: 40
 ---
 
+import CoordinatePlane from '../../../../../components/CoordinatePlane.astro';
+
 > **Question:** How do I recognize special, parallel, and perpendicular lines?
 
 ## Think of roads
 
 Parallel roads never meet. Perpendicular roads meet at a square corner. A horizontal road is flat; a vertical road goes straight up and down on the map.
+
+<CoordinatePlane mode="types" start={[[-4, -2], [0, 2], [1, -3], [4, 0]]} labels={['A', 'B', 'C', 'D']} />
+
+**Drag any of the four points.** Line AB is blue, line CD is orange — the readout tells you whether they are parallel, perpendicular, or neither.
 
 ```text
 parallel                 perpendicular         special lines

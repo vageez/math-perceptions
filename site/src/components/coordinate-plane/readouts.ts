@@ -50,7 +50,7 @@ function gcd(a: number, b: number): number {
 }
 
 /** Reduce rise/run to a signed fraction string: 2/1 -> "2", -6/6 -> "-1", 3/-2 -> "-3/2" */
-function reduceFraction(rise: number, run: number): string {
+export function reduceFraction(rise: number, run: number): string {
   if (run === 0) return 'undefined';
   if (rise === 0) return '0';
   // Work in integers where possible (snapStep 0.5 can produce halves)
@@ -113,4 +113,120 @@ export function describeSlope(p1: Pt, p2: Pt): SlopeReadout {
   }
 
   return { substituted, raw, value, undefinedSlope: false, meaning, rise, run };
+}
+
+// ---------------------------------------------------------------------------
+// mode="line"  ->  y = mx + b
+// ---------------------------------------------------------------------------
+
+export type LineReadout = {
+  equation: string;   // "y = 2x + 3", "y = -1/2x - 4", "y = 3", or "x = 2"
+  isVertical: boolean;
+  meaning: string;
+  /** y-intercept as a number, or null for a vertical line (no y-intercept form) */
+  bValue: number | null;
+};
+
+/** Format the "mx" term: 1 -> "x", -1 -> "-x", 0 -> "", else "3/2x" */
+function slopeTerm(rise: number, run: number): string {
+  if (rise === 0) return '';
+  const s = reduceFraction(rise, run);
+  if (s === '1') return 'x';
+  if (s === '-1') return '-x';
+  return `${s}x`;
+}
+
+export function describeLine(p1: Pt, p2: Pt): LineReadout {
+  const rise = n(p2.y - p1.y);
+  const run = n(p2.x - p1.x);
+
+  if (run === 0 && rise === 0) {
+    return { equation: '—', isVertical: false, bValue: null,
+      meaning: 'Both points are in the same place — drag them apart to define a line.' };
+  }
+
+  if (run === 0) {
+    return { equation: `x = ${n(p1.x)}`, isVertical: true, bValue: null,
+      meaning: 'A vertical line has no slope, so it cannot be written as y = mx + b. It is written x = a number.' };
+  }
+
+  // b = y1 - (rise/run) * x1, kept exact as (y1*run - rise*x1)/run
+  const bNum = n(p1.y * run - rise * p1.x);
+  const bStr = reduceFraction(bNum, run);
+  const bValue = bNum / run;
+
+  if (rise === 0) {
+    return { equation: `y = ${bStr}`, isVertical: false, bValue,
+      meaning: 'The slope is 0, so the line is horizontal: y stays the same for every x.' };
+  }
+
+  const mTerm = slopeTerm(rise, run);
+  let eq = `y = ${mTerm}`;
+  if (bValue !== 0) {
+    const sign = bValue > 0 ? '+' : '-';
+    const mag = bStr.startsWith('-') ? bStr.slice(1) : bStr;
+    eq += ` ${sign} ${mag}`;
+  }
+
+  const dir = rise / run > 0 ? 'rises' : 'falls';
+  const crosses = bValue === 0 ? 'through the origin' : `crossing the y-axis at ${bStr}`;
+  return { equation: eq, isVertical: false, bValue,
+    meaning: `The line ${dir} from left to right, ${crosses}.` };
+}
+
+// ---------------------------------------------------------------------------
+// mode="types" ->  relationship between two lines
+// ---------------------------------------------------------------------------
+
+export type TypesReadout = {
+  m1: string;
+  m2: string;
+  label: string;   // "Parallel" | "Perpendicular" | "Neither" | "The same line"
+  meaning: string;
+};
+
+function slopeLabel(rise: number, run: number): string {
+  if (run === 0 && rise === 0) return '—';
+  if (run === 0) return 'undefined';
+  return reduceFraction(rise, run);
+}
+
+export function describeTypes(a1: Pt, a2: Pt, b1: Pt, b2: Pt): TypesReadout {
+  const r1 = n(a2.y - a1.y), u1 = n(a2.x - a1.x);
+  const r2 = n(b2.y - b1.y), u2 = n(b2.x - b1.x);
+  const m1 = slopeLabel(r1, u1);
+  const m2 = slopeLabel(r2, u2);
+
+  const degenerate = (r1 === 0 && u1 === 0) || (r2 === 0 && u2 === 0);
+  if (degenerate) {
+    return { m1, m2, label: '—',
+      meaning: 'Each line needs two different points — drag them apart.' };
+  }
+
+  // Direction vectors (run, rise). Integer cross/dot products avoid float error.
+  const cross = u1 * r2 - r1 * u2; // 0 => parallel
+  const dot = u1 * u2 + r1 * r2;   // 0 => perpendicular
+
+  if (cross === 0) {
+    // collinear? does b1 lie on line a1->a2
+    const onSame = u1 * (b1.y - a1.y) - r1 * (b1.x - a1.x) === 0;
+    if (onSame) {
+      return { m1, m2, label: 'The same line',
+        meaning: 'Same slope and they share points, so this is one line drawn twice.' };
+    }
+    const why = u1 === 0
+      ? 'Both lines are vertical, so they never meet.'
+      : `Both slopes are ${m1}. Equal slopes mean the lines never meet.`;
+    return { m1, m2, label: 'Parallel', meaning: why };
+  }
+
+  if (dot === 0) {
+    const why = (u1 === 0 || u2 === 0)
+      ? 'One line is vertical and the other is horizontal — they meet at a right angle.'
+      : `${m1} × ${m2} = -1, so the lines meet at a right angle.`;
+    return { m1, m2, label: 'Perpendicular', meaning: why };
+  }
+
+  return { m1, m2, label: 'Neither',
+    meaning: `Slopes ${m1} and ${m2} are different, and their product is not -1, so the lines cross at an angle.` };
 }

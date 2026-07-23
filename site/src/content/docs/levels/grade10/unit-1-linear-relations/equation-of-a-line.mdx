@@ -5,26 +5,17 @@ sidebar:
   order: 30
 ---
 
+import CoordinatePlane from '../../../../../components/CoordinatePlane.astro';
+
 > **Question:** How do I read, write, and graph a straight line?
 
 ## Think of a starting point and a movement rule
 
 `b` tells you where to start on the y-axis. `m` tells you how to move from there.
 
-```text
-                         y
-                         ↑
-                     •   │
-                  ↑ 2  / │
-                  │   /  │
-                  └1→    │
-                  /      │
-        b = 1 → •────────┼────────→ x
-              y-intercept
+<CoordinatePlane mode="line" start={[[0, -1], [2, 3]]} labels={['A', 'B']} />
 
-              y = 2x + 1
-              start at 1; rise 2, run 1
-```
+**Drag either point.** The equation rewrites itself, and the hollow dot marks `b` — where the line crosses the y-axis.
 
 ## Slope-intercept form
 

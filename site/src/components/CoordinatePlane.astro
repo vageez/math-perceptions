@@ -7,20 +7,35 @@
 // The full labelled SVG is rendered at build time, so without JavaScript the
 // student still sees a correct static plane. The script only adds dragging.
 interface Props {
-  mode?: 'point' | 'slope';
+  mode?: 'point' | 'slope' | 'line' | 'types';
   range?: number; // grid spans -range..range
   snapStep?: number; // 1 = integers, 0.5 = halves
   start?: [number, number][];
   labels?: string[];
 }
 
+const DEFAULT_START: Record<string, [number, number][]> = {
+  point: [[-3, 2]],
+  slope: [[-2, -1], [3, 3]],
+  line: [[0, -1], [2, 3]],
+  types: [[-4, -2], [0, 2], [1, -3], [4, 0]],
+};
+const DEFAULT_LABELS: Record<string, string[]> = {
+  point: ['P'], slope: ['A', 'B'], line: ['A', 'B'], types: ['A', 'B', 'C', 'D'],
+};
+
 const {
   mode = 'point',
   range = 6,
   snapStep = 1,
-  start = mode === 'slope' ? [[-2, -1], [3, 3]] : [[-3, 2]],
-  labels = mode === 'slope' ? ['A', 'B'] : ['P'],
+  start = DEFAULT_START[mode] ?? DEFAULT_START.point,
+  labels = DEFAULT_LABELS[mode] ?? DEFAULT_LABELS.point,
 } = Astro.props;
+
+const POINT_COUNT: Record<string, number> = { point: 1, slope: 2, line: 2, types: 4 };
+const nPoints = POINT_COUNT[mode] ?? 1;
+const twoLines = mode === 'types';
+const oneLine = mode === 'slope' || mode === 'line';
 
 const R = range;
 const pad = 1.4;
@@ -32,7 +47,7 @@ for (let i = -R; i <= R; i++) if (i !== 0 && i % 2 === 0) ticks.push(i);
 const lines: number[] = [];
 for (let i = -R; i <= R; i++) lines.push(i);
 
-const pts = start.slice(0, mode === 'slope' ? 2 : 1);
+const pts = start.slice(0, nPoints);
 const uid = `cp${Math.random().toString(36).slice(2, 8)}`;
 ---
 
@@ -72,10 +87,12 @@ const uid = `cp${Math.random().toString(36).slice(2, 8)}`;
       <text x="0.35" y={-R - 0.6} class="cplane-axis-name">y</text>
     </g>
 
-    {mode === 'slope' && (
+    {(oneLine || twoLines) && (
       <g clip-path={`url(#${uid})`}>
         <line data-line class="cplane-line" x1="0" y1="0" x2="0" y2="0" />
-        <g data-triangle class="cplane-triangle">
+        {twoLines && <line data-line2 class="cplane-line2" x1="0" y1="0" x2="0" y2="0" />}
+        {mode === 'line' && <circle data-intercept class="cplane-intercept" r="0.3" cx="0" cy="0" />}
+        <g data-triangle class="cplane-triangle" style={mode === 'slope' ? '' : 'display:none'}>
           <line data-run x1="0" y1="0" x2="0" y2="0" />
           <line data-rise x1="0" y1="0" x2="0" y2="0" />
           <text data-run-label text-anchor="middle"></text>
@@ -101,14 +118,16 @@ const uid = `cp${Math.random().toString(36).slice(2, 8)}`;
   </svg>
 
   <figcaption class="cplane-readout" data-readout>
-    {mode === 'point' ? (
+    {mode === 'point' && (<><strong data-coords></strong><span data-place></span><em data-why></em></>)}
+    {mode === 'slope' && (<><div class="cplane-eq" data-eq></div><em data-why></em></>)}
+    {mode === 'line' && (<><strong class="cplane-lineeq" data-lineeq></strong><em data-why></em></>)}
+    {mode === 'types' && (
       <>
-        <strong data-coords></strong><span data-place></span>
-        <em data-why></em>
-      </>
-    ) : (
-      <>
-        <div class="cplane-eq" data-eq></div>
+        <div class="cplane-types">
+          <span class="cplane-m1" data-m1></span>
+          <strong class="cplane-rel" data-rel></strong>
+          <span class="cplane-m2" data-m2></span>
+        </div>
         <em data-why></em>
       </>
     )}
@@ -137,6 +156,10 @@ const uid = `cp${Math.random().toString(36).slice(2, 8)}`;
     stroke-dasharray: 0.2 0.2; opacity: 0.7;
   }
   .cplane-line { stroke: var(--sl-color-accent); stroke-width: 0.09; opacity: 0.95; }
+  .cplane-line2 { stroke: var(--study-warning, #b45309); stroke-width: 0.09; opacity: 0.95; }
+  .cplane-intercept { fill: var(--sl-color-bg); stroke: var(--sl-color-accent); stroke-width: 0.09; }
+  .cplane-dot[data-index='2'] .cplane-point,
+  .cplane-dot[data-index='3'] .cplane-point { fill: var(--study-warning, #b45309); }
   .cplane-triangle line {
     stroke: var(--study-warning, #b45309); stroke-width: 0.07; stroke-dasharray: 0.25 0.18;
   }
@@ -171,14 +194,14 @@ const uid = `cp${Math.random().toString(36).slice(2, 8)}`;
 </style>
 
 <script>
-  import { describePoint, describeSlope } from './coordinate-plane/readouts';
+  import { describePoint, describeSlope, describeLine, describeTypes } from './coordinate-plane/readouts';
 
   const frac = (num: string, den: string) =>
     `<span class="frac"><span>${num}</span><span>${den}</span></span>`;
 
   document.querySelectorAll<HTMLElement>('[data-cplane]').forEach((root) => {
     const svg = root.querySelector('svg')!;
-    const mode = root.dataset.mode === 'slope' ? 'slope' : 'point';
+    const mode = root.dataset.mode ?? 'point';
     const R = Number(root.dataset.range || 6);
     const step = Number(root.dataset.step || 1);
     const clamp = (v: number) => Math.max(-R, Math.min(R, v));
@@ -210,6 +233,46 @@ const uid = `cp${Math.random().toString(36).slice(2, 8)}`;
         root.querySelector('[data-coords]')!.textContent = `${label}(${sx}, ${sy})`;
         root.querySelector('[data-place]')!.textContent = `· ${info.place}`;
         whyEl.textContent = info.why;
+        return;
+      }
+
+      // draw an infinite line through two points, clipped to the grid
+      function drawLine(el: SVGLineElement, p: {x:number;y:number}, q: {x:number;y:number}) {
+        const run = q.x - p.x, rise = q.y - p.y;
+        if (run === 0) {
+          el.setAttribute('x1', `${p.x}`); el.setAttribute('y1', `${-R}`);
+          el.setAttribute('x2', `${p.x}`); el.setAttribute('y2', `${R}`);
+        } else {
+          const m = rise / run;
+          const yAt = (x: number) => p.y + m * (x - p.x);
+          el.setAttribute('x1', `${-R}`); el.setAttribute('y1', `${-yAt(-R)}`);
+          el.setAttribute('x2', `${R}`); el.setAttribute('y2', `${-yAt(R)}`);
+        }
+      }
+      const S = (i: number) => ({ x: snap(pos[i].x), y: snap(pos[i].y) });
+
+      if (mode === 'line') {
+        const p = S(0), q = S(1);
+        drawLine(root.querySelector<SVGLineElement>('[data-line]')!, p, q);
+        const r = describeLine(p, q);
+        const marker = root.querySelector<SVGCircleElement>('[data-intercept]')!;
+        const showB = r.bValue !== null && Math.abs(r.bValue) <= R;
+        marker.style.display = showB ? '' : 'none';
+        if (showB) { marker.setAttribute('cx', '0'); marker.setAttribute('cy', `${-r.bValue!}`); }
+        root.querySelector('[data-lineeq]')!.textContent = r.equation;
+        whyEl.textContent = r.meaning;
+        return;
+      }
+
+      if (mode === 'types') {
+        const a1 = S(0), a2 = S(1), b1 = S(2), b2 = S(3);
+        drawLine(root.querySelector<SVGLineElement>('[data-line]')!, a1, a2);
+        drawLine(root.querySelector<SVGLineElement>('[data-line2]')!, b1, b2);
+        const r = describeTypes(a1, a2, b1, b2);
+        root.querySelector('[data-m1]')!.textContent = `AB: m = ${r.m1}`;
+        root.querySelector('[data-rel]')!.textContent = r.label;
+        root.querySelector('[data-m2]')!.textContent = `CD: m = ${r.m2}`;
+        whyEl.textContent = r.meaning;
         return;
       }
 
