@@ -8,7 +8,7 @@
 // student still sees a correct static plane. The script only adds dragging.
 interface Props {
   mode?: 'point' | 'slope' | 'line' | 'types';
-  range?: number; // grid spans -range..range
+  range?: number; // grid spans -range..range (default 10)
   snapStep?: number; // 1 = integers, 0.5 = halves
   start?: [number, number][];
   labels?: string[];
@@ -26,7 +26,7 @@ const DEFAULT_LABELS: Record<string, string[]> = {
 
 const {
   mode = 'point',
-  range = 6,
+  range = 10,
   snapStep = 1,
   start = DEFAULT_START[mode] ?? DEFAULT_START.point,
   labels = DEFAULT_LABELS[mode] ?? DEFAULT_LABELS.point,
@@ -38,9 +38,14 @@ const twoLines = mode === 'types';
 const oneLine = mode === 'slope' || mode === 'line';
 
 const R = range;
-const pad = 1.4;
+// Everything is drawn in GRAPH units, so a larger range would shrink text and
+// strokes on screen. `sc` rescales typography, stroke widths, radii and label
+// offsets so the widget looks identical at any range.
+const sc = R / 6;
+const pad = 1.4 * sc;
 const min = -R - pad;
 const size = (R + pad) * 2;
+const r2 = (v: number) => Math.round(v * 1000) / 1000;
 
 const ticks: number[] = [];
 for (let i = -R; i <= R; i++) if (i !== 0 && i % 2 === 0) ticks.push(i);
@@ -51,7 +56,7 @@ const pts = start.slice(0, nPoints);
 const uid = `cp${Math.random().toString(36).slice(2, 8)}`;
 ---
 
-<figure class="cplane" data-cplane data-mode={mode} data-range={R} data-step={snapStep}>
+<figure class="cplane" data-cplane data-mode={mode} data-range={R} data-step={snapStep} data-sc={sc} style={`--cp-s:${sc}`}>
   <svg viewBox={`${min} ${min} ${size} ${size}`} role="img" aria-label={`Interactive coordinate plane from ${-R} to ${R}`}>
     <defs>
       <clipPath id={uid}><rect x={-R} y={-R} width={R * 2} height={R * 2} /></clipPath>
@@ -68,10 +73,10 @@ const uid = `cp${Math.random().toString(36).slice(2, 8)}`;
 
     {mode === 'point' && (
       <g class="cplane-quad">
-        <text x={R - 0.9} y={-R + 1}>I</text>
-        <text x={-R + 0.9} y={-R + 1}>II</text>
-        <text x={-R + 0.9} y={R - 0.6}>III</text>
-        <text x={R - 0.9} y={R - 0.6}>IV</text>
+        <text x={r2(R - 0.9 * sc)} y={r2(-R + 1 * sc)}>I</text>
+        <text x={r2(-R + 0.9 * sc)} y={r2(-R + 1 * sc)}>II</text>
+        <text x={r2(-R + 0.9 * sc)} y={r2(R - 0.6 * sc)}>III</text>
+        <text x={r2(R - 0.9 * sc)} y={r2(R - 0.6 * sc)}>IV</text>
       </g>
     )}
 
@@ -81,17 +86,17 @@ const uid = `cp${Math.random().toString(36).slice(2, 8)}`;
     </g>
 
     <g class="cplane-tick">
-      {ticks.map((t) => <text x={t} y="0.85" text-anchor="middle">{t}</text>)}
-      {ticks.map((t) => <text x="-0.3" y={-t + 0.2} text-anchor="end">{t}</text>)}
-      <text x={R + 0.7} y="0.85" class="cplane-axis-name">x</text>
-      <text x="0.35" y={-R - 0.6} class="cplane-axis-name">y</text>
+      {ticks.map((t) => <text x={t} y={r2(0.85 * sc)} text-anchor="middle">{t}</text>)}
+      {ticks.map((t) => <text x={r2(-0.3 * sc)} y={r2(-t + 0.2 * sc)} text-anchor="end">{t}</text>)}
+      <text x={r2(R + 0.7 * sc)} y={r2(0.85 * sc)} class="cplane-axis-name">x</text>
+      <text x={r2(0.35 * sc)} y={r2(-R - 0.6 * sc)} class="cplane-axis-name">y</text>
     </g>
 
     {(oneLine || twoLines) && (
       <g clip-path={`url(#${uid})`}>
         <line data-line class="cplane-line" x1="0" y1="0" x2="0" y2="0" />
         {twoLines && <line data-line2 class="cplane-line2" x1="0" y1="0" x2="0" y2="0" />}
-        {mode === 'line' && <circle data-intercept class="cplane-intercept" r="0.3" cx="0" cy="0" />}
+        {mode === 'line' && <circle data-intercept class="cplane-intercept" r={r2(0.3 * sc)} cx="0" cy="0" />}
         <g data-triangle class="cplane-triangle" style={mode === 'slope' ? '' : 'display:none'}>
           <line data-run x1="0" y1="0" x2="0" y2="0" />
           <line data-rise x1="0" y1="0" x2="0" y2="0" />
@@ -110,9 +115,9 @@ const uid = `cp${Math.random().toString(36).slice(2, 8)}`;
 
     {pts.map((p, i) => (
       <g data-dot data-index={i} class="cplane-dot" style={`transform: translate(${p[0]}px, ${-p[1]}px)`}>
-        <circle class="cplane-hit" r="1.1" />
-        <circle class="cplane-point" r="0.34" />
-        <text class="cplane-plabel" x="0.5" y="-0.5">{labels[i] ?? 'P'}</text>
+        <circle class="cplane-hit" r={r2(1.1 * sc)} />
+        <circle class="cplane-point" r={r2(0.34 * sc)} />
+        <text class="cplane-plabel" x={r2(0.5 * sc)} y={r2(-0.5 * sc)}>{labels[i] ?? 'P'}</text>
       </g>
     ))}
   </svg>
@@ -143,35 +148,35 @@ const uid = `cp${Math.random().toString(36).slice(2, 8)}`;
     border: 1px solid var(--sl-color-gray-5);
     border-radius: 0.5rem;
   }
-  .cplane-grid line { stroke: var(--sl-color-gray-5); stroke-width: 0.03; }
-  .cplane-axis line { stroke: var(--sl-color-gray-2); stroke-width: 0.07; }
-  .cplane-tick text { font-size: 0.55px; fill: var(--sl-color-gray-3); }
-  .cplane-axis-name { font-size: 0.7px; font-style: italic; fill: var(--sl-color-gray-2); }
+  .cplane-grid line { stroke: var(--sl-color-gray-5); stroke-width: calc(0.03px * var(--cp-s)); }
+  .cplane-axis line { stroke: var(--sl-color-gray-2); stroke-width: calc(0.07px * var(--cp-s)); }
+  .cplane-tick text { font-size: calc(0.55px * var(--cp-s)); fill: var(--sl-color-gray-3); }
+  .cplane-axis-name { font-size: calc(0.7px * var(--cp-s)); font-style: italic; fill: var(--sl-color-gray-2); }
   .cplane-quad text {
-    font-size: 0.8px; fill: var(--sl-color-gray-4);
+    font-size: calc(0.8px * var(--cp-s)); fill: var(--sl-color-gray-4);
     text-anchor: middle; dominant-baseline: middle;
   }
   .cplane-guide line {
-    stroke: var(--sl-color-accent); stroke-width: 0.05;
-    stroke-dasharray: 0.2 0.2; opacity: 0.7;
+    stroke: var(--sl-color-accent); stroke-width: calc(0.05px * var(--cp-s));
+    stroke-dasharray: calc(0.2px * var(--cp-s)) calc(0.2px * var(--cp-s)); opacity: 0.7;
   }
-  .cplane-line { stroke: var(--sl-color-accent); stroke-width: 0.09; opacity: 0.95; }
-  .cplane-line2 { stroke: var(--study-warning, #b45309); stroke-width: 0.09; opacity: 0.95; }
-  .cplane-intercept { fill: var(--sl-color-bg); stroke: var(--sl-color-accent); stroke-width: 0.09; }
+  .cplane-line { stroke: var(--sl-color-accent); stroke-width: calc(0.09px * var(--cp-s)); opacity: 0.95; }
+  .cplane-line2 { stroke: var(--study-warning, #b45309); stroke-width: calc(0.09px * var(--cp-s)); opacity: 0.95; }
+  .cplane-intercept { fill: var(--sl-color-bg); stroke: var(--sl-color-accent); stroke-width: calc(0.09px * var(--cp-s)); }
   .cplane-dot[data-index='2'] .cplane-point,
   .cplane-dot[data-index='3'] .cplane-point { fill: var(--study-warning, #b45309); }
   .cplane-triangle line {
-    stroke: var(--study-warning, #b45309); stroke-width: 0.07; stroke-dasharray: 0.25 0.18;
+    stroke: var(--study-warning, #b45309); stroke-width: calc(0.07px * var(--cp-s)); stroke-dasharray: calc(0.25px * var(--cp-s)) calc(0.18px * var(--cp-s));
   }
   .cplane-triangle text {
-    font-size: 0.6px; fill: var(--study-warning, #b45309); font-weight: 700;
-    paint-order: stroke; stroke: var(--sl-color-bg); stroke-width: 0.16;
+    font-size: calc(0.6px * var(--cp-s)); fill: var(--study-warning, #b45309); font-weight: 700;
+    paint-order: stroke; stroke: var(--sl-color-bg); stroke-width: calc(0.16px * var(--cp-s));
   }
-  .cplane-point { fill: var(--sl-color-accent); stroke: var(--sl-color-bg); stroke-width: 0.06; }
+  .cplane-point { fill: var(--sl-color-accent); stroke: var(--sl-color-bg); stroke-width: calc(0.06px * var(--cp-s)); }
   .cplane-hit { fill: transparent; cursor: grab; }
   .cplane-dot.is-dragging .cplane-hit { cursor: grabbing; }
-  .cplane-dot.is-dragging .cplane-point { fill: var(--sl-color-accent-high); r: 0.42; }
-  .cplane-plabel { font-size: 0.7px; font-weight: 700; fill: var(--sl-color-text); paint-order: stroke; stroke: var(--sl-color-bg); stroke-width: 0.12; }
+  .cplane-dot.is-dragging .cplane-point { fill: var(--sl-color-accent-high); r: calc(0.42px * var(--cp-s)); }
+  .cplane-plabel { font-size: calc(0.7px * var(--cp-s)); font-weight: 700; fill: var(--sl-color-text); paint-order: stroke; stroke: var(--sl-color-bg); stroke-width: calc(0.12px * var(--cp-s)); }
 
   .cplane-readout { margin-top: 0.6rem; text-align: center; line-height: 1.5; }
   .cplane-readout strong { font-size: 1.15rem; margin-right: 0.4rem; }
@@ -207,6 +212,7 @@ const uid = `cp${Math.random().toString(36).slice(2, 8)}`;
     const mode = root.dataset.mode ?? 'point';
     const R = Number(root.dataset.range || 6);
     const step = Number(root.dataset.step || 1);
+    const sc = Number(root.dataset.sc || 1);
     const clamp = (v: number) => Math.max(-R, Math.min(R, v));
     const snap = (v: number) => Math.round(v / step) * step;
 
@@ -310,9 +316,9 @@ const uid = `cp${Math.random().toString(36).slice(2, 8)}`;
         riseL.setAttribute('x1', `${b.x}`); riseL.setAttribute('y1', `${-a.y}`);
         riseL.setAttribute('x2', `${b.x}`); riseL.setAttribute('y2', `${-b.y}`);
         runT.setAttribute('x', `${(a.x + b.x) / 2}`);
-        runT.setAttribute('y', `${-a.y + (r.rise >= 0 ? 0.8 : -0.45)}`);
+        runT.setAttribute('y', `${-a.y + (r.rise >= 0 ? 0.8 : -0.45) * sc}`);
         runT.textContent = r.run === 0 ? '' : `run ${r.run}`;
-        riseT.setAttribute('x', `${b.x + (r.run >= 0 ? 1.15 : -1.15)}`);
+        riseT.setAttribute('x', `${b.x + (r.run >= 0 ? 1.15 : -1.15) * sc}`);
         riseT.setAttribute('y', `${-(a.y + b.y) / 2}`);
         riseT.textContent = r.rise === 0 ? '' : `rise ${r.rise}`;
       }
