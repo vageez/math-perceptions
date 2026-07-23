@@ -266,3 +266,53 @@ export function slopeSteps(p1: Pt, p2: Pt): Steps {
   }
   return { steps, answer: `m = ${r.value}. ${r.meaning}` };
 }
+
+export function lineSteps(p1: Pt, p2: Pt): Steps {
+  const rise = n(p2.y - p1.y);
+  const run = n(p2.x - p1.x);
+  const label = `Label the points: (x1, y1) = (${n(p1.x)}, ${n(p1.y)}) and (x2, y2) = (${n(p2.x)}, ${n(p2.y)})`;
+
+  if (run === 0 && rise === 0) {
+    return { steps: [label, 'Both points are in the same place, so there is no line yet.'],
+             answer: 'Drag the points apart.' };
+  }
+
+  const sub = { num: `${n(p2.y)} - ${paren(p1.y)}`, den: `${n(p2.x)} - ${paren(p1.x)}` };
+  const slopeStep = `Find the slope: m = (${sub.num}) / (${sub.den}) = ${rise} / ${run}`;
+
+  if (run === 0) {
+    return {
+      steps: [label, `Find the slope: m = (${sub.num}) / (${sub.den}) = ${rise} / 0`,
+              'Dividing by 0 has no value, so the slope is undefined.',
+              'A line with no slope cannot be written as y = mx + b.',
+              `Both points share x = ${n(p1.x)}.`],
+      answer: `x = ${n(p1.x)} — a vertical line.`,
+    };
+  }
+
+  const m = reduceFraction(rise, run);
+  const r = describeLine(p1, p2);
+
+  if (rise === 0) {
+    return {
+      steps: [label, `${slopeStep} = 0`, 'With m = 0 the form becomes y = 0x + b, which is just y = b.',
+              `Every point has the same y, and y1 = ${n(p1.y)}.`],
+      answer: `${r.equation} — a horizontal line.`,
+    };
+  }
+
+  // b = y1 - m*x1, kept exact: (y1*run - rise*x1)/run
+  const prod = reduceFraction(rise * p1.x, run);           // m * x1
+  const bStr = reduceFraction(n(p1.y * run - rise * p1.x), run);
+  const steps = [
+    label,
+    `${slopeStep}${m !== `${rise}/${run}` ? ` = ${m}` : ''}`,
+    `Start from y = mx + b and put in the slope: y = ${m}x + b`,
+    `Substitute the point (${n(p1.x)}, ${n(p1.y)}): ${n(p1.y)} = ${m}(${n(p1.x)}) + b`,
+    p1.x === 0
+      ? `Anything times 0 is 0, so b = ${bStr} — x = 0 means this point IS the y-intercept.`
+      : `Work out the product: ${n(p1.y)} = ${prod} + b, so b = ${bStr}`,
+    `Write the equation: ${r.equation}`,
+  ];
+  return { steps, answer: `${r.equation}` };
+}
