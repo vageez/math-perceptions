@@ -1,0 +1,363 @@
+---
+// Interactive Cartesian plane. Drag points; the readout updates live.
+//
+// mode="point"  one point   -> coordinates, quadrant / axis, why-line
+// mode="slope"  two points  -> line through them, rise/run triangle, live m = Δy/Δx
+//
+// The full labelled SVG is rendered at build time, so without JavaScript the
+// student still sees a correct static plane. The script only adds dragging.
+interface Props {
+  mode?: 'point' | 'slope' | 'line' | 'types';
+  range?: number; // grid spans -range..range
+  snapStep?: number; // 1 = integers, 0.5 = halves
+  start?: [number, number][];
+  labels?: string[];
+}
+
+const DEFAULT_START: Record<string, [number, number][]> = {
+  point: [[-3, 2]],
+  slope: [[-2, -1], [3, 3]],
+  line: [[0, -1], [2, 3]],
+  types: [[-4, -2], [0, 2], [1, -3], [4, 0]],
+};
+const DEFAULT_LABELS: Record<string, string[]> = {
+  point: ['P'], slope: ['A', 'B'], line: ['A', 'B'], types: ['A', 'B', 'C', 'D'],
+};
+
+const {
+  mode = 'point',
+  range = 6,
+  snapStep = 1,
+  start = DEFAULT_START[mode] ?? DEFAULT_START.point,
+  labels = DEFAULT_LABELS[mode] ?? DEFAULT_LABELS.point,
+} = Astro.props;
+
+const POINT_COUNT: Record<string, number> = { point: 1, slope: 2, line: 2, types: 4 };
+const nPoints = POINT_COUNT[mode] ?? 1;
+const twoLines = mode === 'types';
+const oneLine = mode === 'slope' || mode === 'line';
+
+const R = range;
+const pad = 1.4;
+const min = -R - pad;
+const size = (R + pad) * 2;
+
+const ticks: number[] = [];
+for (let i = -R; i <= R; i++) if (i !== 0 && i % 2 === 0) ticks.push(i);
+const lines: number[] = [];
+for (let i = -R; i <= R; i++) lines.push(i);
+
+const pts = start.slice(0, nPoints);
+const uid = `cp${Math.random().toString(36).slice(2, 8)}`;
+---
+
+<figure class="cplane" data-cplane data-mode={mode} data-range={R} data-step={snapStep}>
+  <svg viewBox={`${min} ${min} ${size} ${size}`} role="img" aria-label={`Interactive coordinate plane from ${-R} to ${R}`}>
+    <defs>
+      <clipPath id={uid}><rect x={-R} y={-R} width={R * 2} height={R * 2} /></clipPath>
+    </defs>
+
+    <g class="cplane-grid">
+      {lines.map((i) => (
+        <>
+          <line x1={i} y1={-R} x2={i} y2={R} />
+          <line x1={-R} y1={i} x2={R} y2={i} />
+        </>
+      ))}
+    </g>
+
+    {mode === 'point' && (
+      <g class="cplane-quad">
+        <text x={R - 0.9} y={-R + 1}>I</text>
+        <text x={-R + 0.9} y={-R + 1}>II</text>
+        <text x={-R + 0.9} y={R - 0.6}>III</text>
+        <text x={R - 0.9} y={R - 0.6}>IV</text>
+      </g>
+    )}
+
+    <g class="cplane-axis">
+      <line x1={-R} y1="0" x2={R} y2="0" />
+      <line x1="0" y1={-R} x2="0" y2={R} />
+    </g>
+
+    <g class="cplane-tick">
+      {ticks.map((t) => <text x={t} y="0.85" text-anchor="middle">{t}</text>)}
+      {ticks.map((t) => <text x="-0.3" y={-t + 0.2} text-anchor="end">{t}</text>)}
+      <text x={R + 0.7} y="0.85" class="cplane-axis-name">x</text>
+      <text x="0.35" y={-R - 0.6} class="cplane-axis-name">y</text>
+    </g>
+
+    {(oneLine || twoLines) && (
+      <g clip-path={`url(#${uid})`}>
+        <line data-line class="cplane-line" x1="0" y1="0" x2="0" y2="0" />
+        {twoLines && <line data-line2 class="cplane-line2" x1="0" y1="0" x2="0" y2="0" />}
+        {mode === 'line' && <circle data-intercept class="cplane-intercept" r="0.3" cx="0" cy="0" />}
+        <g data-triangle class="cplane-triangle" style={mode === 'slope' ? '' : 'display:none'}>
+          <line data-run x1="0" y1="0" x2="0" y2="0" />
+          <line data-rise x1="0" y1="0" x2="0" y2="0" />
+          <text data-run-label text-anchor="middle"></text>
+          <text data-rise-label text-anchor="middle"></text>
+        </g>
+      </g>
+    )}
+
+    {mode === 'point' && (
+      <g class="cplane-guide">
+        <line data-guide-x x1={pts[0][0]} y1={-pts[0][1]} x2={pts[0][0]} y2="0" />
+        <line data-guide-y x1={pts[0][0]} y1={-pts[0][1]} x2="0" y2={-pts[0][1]} />
+      </g>
+    )}
+
+    {pts.map((p, i) => (
+      <g data-dot data-index={i} class="cplane-dot" style={`transform: translate(${p[0]}px, ${-p[1]}px)`}>
+        <circle class="cplane-hit" r="1.1" />
+        <circle class="cplane-point" r="0.34" />
+        <text class="cplane-plabel" x="0.5" y="-0.5">{labels[i] ?? 'P'}</text>
+      </g>
+    ))}
+  </svg>
+
+  <figcaption class="cplane-readout" data-readout>
+    {mode === 'point' && (<><strong data-coords></strong><span data-place></span><em data-why></em></>)}
+    {mode === 'slope' && (<><div class="cplane-eq" data-eq></div><em data-why></em></>)}
+    {mode === 'line' && (<><strong class="cplane-lineeq" data-lineeq></strong><em data-why></em></>)}
+    {mode === 'types' && (
+      <>
+        <div class="cplane-types">
+          <span class="cplane-m1" data-m1></span>
+          <strong class="cplane-rel" data-rel></strong>
+          <span class="cplane-m2" data-m2></span>
+        </div>
+        <em data-why></em>
+      </>
+    )}
+  </figcaption>
+</figure>
+
+<style>
+  .cplane { margin: 1.5rem auto; max-width: 26rem; }
+  .cplane svg {
+    width: 100%; height: auto; display: block;
+    touch-action: none;
+    background: var(--sl-color-bg);
+    border: 1px solid var(--sl-color-gray-5);
+    border-radius: 0.5rem;
+  }
+  .cplane-grid line { stroke: var(--sl-color-gray-5); stroke-width: 0.03; }
+  .cplane-axis line { stroke: var(--sl-color-gray-2); stroke-width: 0.07; }
+  .cplane-tick text { font-size: 0.55px; fill: var(--sl-color-gray-3); }
+  .cplane-axis-name { font-size: 0.7px; font-style: italic; fill: var(--sl-color-gray-2); }
+  .cplane-quad text {
+    font-size: 0.8px; fill: var(--sl-color-gray-4);
+    text-anchor: middle; dominant-baseline: middle;
+  }
+  .cplane-guide line {
+    stroke: var(--sl-color-accent); stroke-width: 0.05;
+    stroke-dasharray: 0.2 0.2; opacity: 0.7;
+  }
+  .cplane-line { stroke: var(--sl-color-accent); stroke-width: 0.09; opacity: 0.95; }
+  .cplane-line2 { stroke: var(--study-warning, #b45309); stroke-width: 0.09; opacity: 0.95; }
+  .cplane-intercept { fill: var(--sl-color-bg); stroke: var(--sl-color-accent); stroke-width: 0.09; }
+  .cplane-dot[data-index='2'] .cplane-point,
+  .cplane-dot[data-index='3'] .cplane-point { fill: var(--study-warning, #b45309); }
+  .cplane-triangle line {
+    stroke: var(--study-warning, #b45309); stroke-width: 0.07; stroke-dasharray: 0.25 0.18;
+  }
+  .cplane-triangle text { font-size: 0.6px; fill: var(--study-warning, #b45309); font-weight: 700; }
+  .cplane-point { fill: var(--sl-color-accent); stroke: var(--sl-color-bg); stroke-width: 0.06; }
+  .cplane-hit { fill: transparent; cursor: grab; }
+  .cplane-dot.is-dragging .cplane-hit { cursor: grabbing; }
+  .cplane-dot.is-dragging .cplane-point { fill: var(--sl-color-text-accent, var(--sl-color-accent)); r: 0.42; }
+  .cplane-plabel { font-size: 0.7px; font-weight: 700; fill: var(--sl-color-text); paint-order: stroke; stroke: var(--sl-color-bg); stroke-width: 0.12; }
+
+  .cplane-readout { margin-top: 0.6rem; text-align: center; line-height: 1.5; }
+  .cplane-readout strong { font-size: 1.15rem; margin-right: 0.4rem; }
+  .cplane-readout em {
+    display: block; margin-top: 0.35rem; font-size: 0.9rem;
+    color: var(--sl-color-gray-3); font-style: normal;
+  }
+  /* live-updating equation: CSS fractions, so no KaTeX runtime is shipped */
+  .cplane-eq {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+    gap: 0.4rem; font-size: 1.05rem;
+  }
+  /* These nodes are injected at runtime via innerHTML, so they never receive
+     Astro's scope attribute — they must be targeted with :global(). */
+  .cplane-eq :global(.frac) {
+    display: inline-flex; flex-direction: column; align-items: center;
+    vertical-align: middle; line-height: 1.15;
+  }
+  .cplane-eq :global(.frac > span:first-child) { border-bottom: 2px solid currentColor; padding: 0 0.25rem; }
+  .cplane-eq :global(.frac > span:last-child) { padding: 0 0.25rem; }
+  .cplane-eq :global(.val) { font-weight: 700; color: var(--sl-color-text-accent, var(--sl-color-accent)); font-size: 1.15rem; }
+  .cplane-eq :global(.undef) { font-weight: 700; color: var(--study-warning, #b45309); }
+</style>
+
+<script>
+  import { describePoint, describeSlope, describeLine, describeTypes } from './coordinate-plane/readouts';
+
+  const frac = (num: string, den: string) =>
+    `<span class="frac"><span>${num}</span><span>${den}</span></span>`;
+
+  document.querySelectorAll<HTMLElement>('[data-cplane]').forEach((root) => {
+    const svg = root.querySelector('svg')!;
+    const mode = root.dataset.mode ?? 'point';
+    const R = Number(root.dataset.range || 6);
+    const step = Number(root.dataset.step || 1);
+    const clamp = (v: number) => Math.max(-R, Math.min(R, v));
+    const snap = (v: number) => Math.round(v / step) * step;
+
+    const dots = [...root.querySelectorAll<SVGGElement>('[data-dot]')];
+    const pos = dots.map((d) => {
+      const m = /translate\(([-\d.]+)px,\s*([-\d.]+)px\)/.exec(d.style.transform);
+      return m ? { x: Number(m[1]), y: -Number(m[2]) } : { x: 0, y: 0 };
+    });
+
+    const whyEl = root.querySelector('[data-why]')!;
+
+    function paint() {
+      dots.forEach((d, i) => {
+        d.style.transform = `translate(${pos[i].x}px, ${-pos[i].y}px)`;
+      });
+
+      if (mode === 'point') {
+        const gx = root.querySelector<SVGLineElement>('[data-guide-x]')!;
+        const gy = root.querySelector<SVGLineElement>('[data-guide-y]')!;
+        const { x, y } = pos[0];
+        gx.setAttribute('x1', `${x}`); gx.setAttribute('y1', `${-y}`); gx.setAttribute('x2', `${x}`);
+        gy.setAttribute('x1', `${x}`); gy.setAttribute('y1', `${-y}`); gy.setAttribute('y2', `${-y}`);
+
+        const sx = snap(x), sy = snap(y);
+        const info = describePoint(sx, sy);
+        const label = dots[0].querySelector('.cplane-plabel')?.textContent ?? 'P';
+        root.querySelector('[data-coords]')!.textContent = `${label}(${sx}, ${sy})`;
+        root.querySelector('[data-place]')!.textContent = `· ${info.place}`;
+        whyEl.textContent = info.why;
+        return;
+      }
+
+      // draw an infinite line through two points, clipped to the grid
+      function drawLine(el: SVGLineElement, p: {x:number;y:number}, q: {x:number;y:number}) {
+        const run = q.x - p.x, rise = q.y - p.y;
+        if (run === 0) {
+          el.setAttribute('x1', `${p.x}`); el.setAttribute('y1', `${-R}`);
+          el.setAttribute('x2', `${p.x}`); el.setAttribute('y2', `${R}`);
+        } else {
+          const m = rise / run;
+          const yAt = (x: number) => p.y + m * (x - p.x);
+          el.setAttribute('x1', `${-R}`); el.setAttribute('y1', `${-yAt(-R)}`);
+          el.setAttribute('x2', `${R}`); el.setAttribute('y2', `${-yAt(R)}`);
+        }
+      }
+      const S = (i: number) => ({ x: snap(pos[i].x), y: snap(pos[i].y) });
+
+      if (mode === 'line') {
+        const p = S(0), q = S(1);
+        drawLine(root.querySelector<SVGLineElement>('[data-line]')!, p, q);
+        const r = describeLine(p, q);
+        const marker = root.querySelector<SVGCircleElement>('[data-intercept]')!;
+        const showB = r.bValue !== null && Math.abs(r.bValue) <= R;
+        marker.style.display = showB ? '' : 'none';
+        if (showB) { marker.setAttribute('cx', '0'); marker.setAttribute('cy', `${-r.bValue!}`); }
+        root.querySelector('[data-lineeq]')!.textContent = r.equation;
+        whyEl.textContent = r.meaning;
+        return;
+      }
+
+      if (mode === 'types') {
+        const a1 = S(0), a2 = S(1), b1 = S(2), b2 = S(3);
+        drawLine(root.querySelector<SVGLineElement>('[data-line]')!, a1, a2);
+        drawLine(root.querySelector<SVGLineElement>('[data-line2]')!, b1, b2);
+        const r = describeTypes(a1, a2, b1, b2);
+        root.querySelector('[data-m1]')!.textContent = `AB: m = ${r.m1}`;
+        root.querySelector('[data-rel]')!.textContent = r.label;
+        root.querySelector('[data-m2]')!.textContent = `CD: m = ${r.m2}`;
+        whyEl.textContent = r.meaning;
+        return;
+      }
+
+      // slope mode
+      const a = { x: snap(pos[0].x), y: snap(pos[0].y) };
+      const b = { x: snap(pos[1].x), y: snap(pos[1].y) };
+      const r = describeSlope(a, b);
+
+      // line through both points, extended across the grid (clipped by the SVG clipPath)
+      const lineEl = root.querySelector<SVGLineElement>('[data-line]')!;
+      if (r.run === 0) {
+        lineEl.setAttribute('x1', `${a.x}`); lineEl.setAttribute('y1', `${-R}`);
+        lineEl.setAttribute('x2', `${a.x}`); lineEl.setAttribute('y2', `${R}`);
+      } else {
+        const m = r.rise / r.run;
+        const yAt = (x: number) => a.y + m * (x - a.x);
+        lineEl.setAttribute('x1', `${-R}`); lineEl.setAttribute('y1', `${-yAt(-R)}`);
+        lineEl.setAttribute('x2', `${R}`); lineEl.setAttribute('y2', `${-yAt(R)}`);
+      }
+
+      // rise/run right triangle: A -> (B.x, A.y) -> B
+      const tri = root.querySelector<SVGGElement>('[data-triangle]')!;
+      const runL = root.querySelector<SVGLineElement>('[data-run]')!;
+      const riseL = root.querySelector<SVGLineElement>('[data-rise]')!;
+      const runT = root.querySelector<SVGTextElement>('[data-run-label]')!;
+      const riseT = root.querySelector<SVGTextElement>('[data-rise-label]')!;
+      const degenerate = r.rise === 0 && r.run === 0;
+      tri.style.display = degenerate ? 'none' : '';
+      if (!degenerate) {
+        runL.setAttribute('x1', `${a.x}`); runL.setAttribute('y1', `${-a.y}`);
+        runL.setAttribute('x2', `${b.x}`); runL.setAttribute('y2', `${-a.y}`);
+        riseL.setAttribute('x1', `${b.x}`); riseL.setAttribute('y1', `${-a.y}`);
+        riseL.setAttribute('x2', `${b.x}`); riseL.setAttribute('y2', `${-b.y}`);
+        runT.setAttribute('x', `${(a.x + b.x) / 2}`);
+        runT.setAttribute('y', `${-a.y + (r.rise >= 0 ? 0.8 : -0.45)}`);
+        runT.textContent = r.run === 0 ? '' : `run ${r.run}`;
+        riseT.setAttribute('x', `${b.x + (r.run >= 0 ? 1.15 : -1.15)}`);
+        riseT.setAttribute('y', `${-(a.y + b.y) / 2}`);
+        riseT.textContent = r.rise === 0 ? '' : `rise ${r.rise}`;
+      }
+
+      const eq = root.querySelector('[data-eq]')!;
+      const tail = r.undefinedSlope
+        ? `<span class="undef">undefined</span>`
+        : `<span class="val">${r.value}</span>`;
+      eq.innerHTML =
+        `<span>m =</span>${frac(r.substituted.num, r.substituted.den)}` +
+        `<span>=</span>${frac(r.raw.num, r.raw.den)}<span>=</span>${tail}`;
+      whyEl.textContent = r.meaning;
+    }
+
+    function toGraph(evt: PointerEvent) {
+      const ctm = svg.getScreenCTM();
+      if (!ctm) return null;
+      const p = new DOMPoint(evt.clientX, evt.clientY).matrixTransform(ctm.inverse());
+      return { x: clamp(p.x), y: clamp(-p.y) };
+    }
+
+    dots.forEach((dot, i) => {
+      const hit = dot.querySelector<SVGCircleElement>('.cplane-hit')!;
+      let dragging = false;
+
+      hit.addEventListener('pointerdown', (e) => {
+        dragging = true;
+        dot.classList.add('is-dragging');
+        hit.setPointerCapture(e.pointerId);
+        e.preventDefault();
+      });
+      hit.addEventListener('pointermove', (e) => {
+        if (!dragging) return;
+        const p = toGraph(e);
+        if (p) { pos[i] = p; paint(); } // free while dragging
+        e.preventDefault();
+      });
+      const end = (e: PointerEvent) => {
+        if (!dragging) return;
+        dragging = false;
+        dot.classList.remove('is-dragging');
+        const p = toGraph(e);
+        if (p) { pos[i] = { x: snap(p.x), y: snap(p.y) }; paint(); } // snap on release
+      };
+      hit.addEventListener('pointerup', end);
+      hit.addEventListener('pointercancel', end);
+    });
+
+    paint();
+  });
+</script>

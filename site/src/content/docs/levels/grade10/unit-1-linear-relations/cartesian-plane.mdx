@@ -5,28 +5,17 @@ sidebar:
   order: 10
 ---
 
+import CoordinatePlane from '../../../../../components/CoordinatePlane.astro';
+
 > **Question:** How do I read and plot points?
 
 ## Think of a street map
 
 The origin is your starting point. The x-coordinate moves you left or right; the y-coordinate moves you up or down.
 
-```text
-                         +y (up)
-                            ↑
-             Quadrant II    │    Quadrant I
-                (−, +)       │       (+, +)
-                      A •    │           • B (4, 3)
-                        ↖    │           ↑ 3
-                             │     4 →   │
- −x (left)  ←──────────────(0,0)──────────────→  +x (right)
-                           origin
-                             │
-             Quadrant III   │    Quadrant IV
-                (−, −)       │       (+, −)
-                             ↓
-                         −y (down)
-```
+<CoordinatePlane start={[-3, 2]} label="P" />
+
+**Drag the point.** Watch the coordinates and the quadrant change as it moves.
 
 ## The one rule to remember
 
