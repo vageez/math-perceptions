@@ -346,17 +346,33 @@ Use gaps of 10 so another page can be inserted later without renumbering everyth
 Each concept page should preserve this student-facing sequence:
 
 ```text
-1. Question the page answers
-2. Hero diagram or mental picture
-3. Think of… layman's analogy
-4. Mathematical meaning
-5. Formula or key rules
-6. Worked example
-7. When you see… think… recognition table
-8. Common exam mistakes
-9. Quick check with hidden answers
-10. Mission complete checklist
+1.  Question the page answers
+2.  Hero visual — the interactive coordinate plane where one applies
+3.  Think of… layman's analogy
+4.  Worked example — the anchor, solved in numbered steps (steps visible)
+5.  Mathematical meaning
+6.  Formula or key rules
+7.  More worked examples — Examples 2 and 3, harder (steps visible)
+8.  When you see… think… recognition table
+9.  Common exam mistakes
+10. Quick check — hidden answers that show full working, not bare answers
+11. Mission complete checklist
 ```
+
+The anchor worked example sits high on the page on purpose: a student should
+see a solved question — and so recognise the *shape* of the question — before
+meeting the notation. Examples 2 and 3 come after the vocabulary exists, so
+they can be genuinely harder.
+
+Every example follows the same shape: a bolded question, a numbered solution
+where each step gives the action **and** the reason, then a bolded **Answer:**.
+Difficulty ramps deliberately — (1) the clean canonical case, (2) typical exam
+phrasing with negatives or fractions, (3) the trap that costs marks (a point on
+an axis, an undefined slope, a system with no solution).
+
+Write example mathematics in KaTeX (`$…$`). **Never write a bare `$` for
+currency** — remark-math reads it as a math delimiter and silently swallows the
+rest of the line into an equation. Escape it (`\$10`) or write the word.
 
 Use Starlight asides for short signals:
 

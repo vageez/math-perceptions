@@ -26,6 +26,18 @@ Each equation is a road. The solution is the point that lies on both roads.
  Same line        → infinitely many solutions
 ```
 
+## Worked example
+
+**Solve the system $y = 2x + 1$ and $y = x + 4$.**
+
+1. Both equations are already solved for $y$, so the two right-hand sides must be equal: $2x + 1 = x + 4$.
+2. Subtract $x$ from both sides: $x + 1 = 4$.
+3. Subtract $1$ from both sides: $x = 3$.
+4. Substitute $x = 3$ into the simpler equation: $y = 3 + 4 = 7$.
+5. Check in the *other* equation: $2(3) + 1 = 7$. ✓
+
+**Answer:** $(3,\ 7)$ — the point where the two lines cross.
+
 ## Formal meaning
 
 A **system of linear equations** contains two or more equations considered together. A solution is an ordered pair that satisfies every equation in the system.
@@ -195,7 +207,7 @@ For `(4, 3)`:
 3. Solve the system.
 4. Answer in words with units.
 
-Example: Adult tickets cost $10 and student tickets cost $6. A total of 20 tickets brought in $152.
+Example: Adult tickets cost \$10 and student tickets cost \$6. A total of 20 tickets brought in \$152.
 
 Let `a` = adult tickets and `s` = student tickets.
 
@@ -208,6 +220,33 @@ $$
 $$
 
 Solving gives `a = 8` and `s = 12`.
+
+## More worked examples
+
+### Example 2 — Elimination when a variable already matches
+
+**Solve $2x + 3y = 12$ and $2x - y = 4$.**
+
+1. Both equations have the same $x$ term, $2x$, so subtracting removes it.
+2. Subtract the second from the first: $(2x + 3y) - (2x - y) = 12 - 4$.
+3. The $x$ terms cancel and $3y - (-y) = 4y$, so $4y = 8$.
+4. Divide by $4$: $y = 2$.
+5. Substitute into $2x - y = 4$: $2x - 2 = 4$, so $2x = 6$ and $x = 3$.
+6. Check in the first equation: $2(3) + 3(2) = 6 + 6 = 12$. ✓
+
+**Answer:** $(3,\ 2)$.
+
+### Example 3 — A system with no solution
+
+**Solve $x + y = 5$ and $2x + 2y = 3$.**
+
+1. Rearrange each into $y = mx + b$ to compare them.
+2. First: $y = -x + 5$.
+3. Second: $2y = 3 - 2x$, so $y = -x + \tfrac{3}{2}$.
+4. Both slopes are $-1$, but the intercepts $5$ and $\tfrac{3}{2}$ are different.
+5. Equal slopes with different intercepts means the lines are parallel, and parallel lines never cross.
+
+**Answer:** **No solution.** Do not keep solving — if the variables cancel and leave a false statement, that is the signal.
 
 ## When you see… think…
 
@@ -245,7 +284,15 @@ $$
 <details>
 <summary>Answer</summary>
 
-Compare: `x + 4 = 3x`, so `4 = 2x` and `x = 2`. Then `y = 3(2) = 6`. Solution: `(2, 6)`.
+**Solve $y = x + 4$ and $y = 3x$**
+
+1. Both equations are solved for $y$, so set the right-hand sides equal: $x + 4 = 3x$.
+2. Subtract $x$ from both sides: $4 = 2x$.
+3. Divide by $2$: $x = 2$.
+4. Substitute into $y = 3x$: $y = 3(2) = 6$.
+5. Check in the other equation: $2 + 4 = 6$. ✓
+
+**Answer:** $(2,\ 6)$.
 
 </details>
 

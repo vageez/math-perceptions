@@ -163,11 +163,14 @@ const uid = `cp${Math.random().toString(36).slice(2, 8)}`;
   .cplane-triangle line {
     stroke: var(--study-warning, #b45309); stroke-width: 0.07; stroke-dasharray: 0.25 0.18;
   }
-  .cplane-triangle text { font-size: 0.6px; fill: var(--study-warning, #b45309); font-weight: 700; }
+  .cplane-triangle text {
+    font-size: 0.6px; fill: var(--study-warning, #b45309); font-weight: 700;
+    paint-order: stroke; stroke: var(--sl-color-bg); stroke-width: 0.16;
+  }
   .cplane-point { fill: var(--sl-color-accent); stroke: var(--sl-color-bg); stroke-width: 0.06; }
   .cplane-hit { fill: transparent; cursor: grab; }
   .cplane-dot.is-dragging .cplane-hit { cursor: grabbing; }
-  .cplane-dot.is-dragging .cplane-point { fill: var(--sl-color-text-accent, var(--sl-color-accent)); r: 0.42; }
+  .cplane-dot.is-dragging .cplane-point { fill: var(--sl-color-accent-high); r: 0.42; }
   .cplane-plabel { font-size: 0.7px; font-weight: 700; fill: var(--sl-color-text); paint-order: stroke; stroke: var(--sl-color-bg); stroke-width: 0.12; }
 
   .cplane-readout { margin-top: 0.6rem; text-align: center; line-height: 1.5; }
@@ -189,7 +192,7 @@ const uid = `cp${Math.random().toString(36).slice(2, 8)}`;
   }
   .cplane-eq :global(.frac > span:first-child) { border-bottom: 2px solid currentColor; padding: 0 0.25rem; }
   .cplane-eq :global(.frac > span:last-child) { padding: 0 0.25rem; }
-  .cplane-eq :global(.val) { font-weight: 700; color: var(--sl-color-text-accent, var(--sl-color-accent)); font-size: 1.15rem; }
+  .cplane-eq :global(.val) { font-weight: 700; color: var(--sl-color-accent-high); font-size: 1.25rem; }
   .cplane-eq :global(.undef) { font-weight: 700; color: var(--study-warning, #b45309); }
 </style>
 
