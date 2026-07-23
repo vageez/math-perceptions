@@ -230,3 +230,39 @@ export function describeTypes(a1: Pt, a2: Pt, b1: Pt, b2: Pt): TypesReadout {
   return { m1, m2, label: 'Neither',
     meaning: `Slopes ${m1} and ${m2} are different, and their product is not -1, so the lines cross at an angle.` };
 }
+
+// ---------------------------------------------------------------------------
+// Live "solve it for these points" derivation, shown under the widget.
+// Deliberately NOT tied to the page's hand-written worked example: that one is
+// a fixed reference whose wording justifies its particular numbers.
+// ---------------------------------------------------------------------------
+
+export type Steps = { steps: string[]; answer: string };
+
+export function slopeSteps(p1: Pt, p2: Pt): Steps {
+  const r = describeSlope(p1, p2);
+  const label = `Label the points: (x1, y1) = (${n(p1.x)}, ${n(p1.y)}) and (x2, y2) = (${n(p2.x)}, ${n(p2.y)})`;
+  const formula = 'Write the formula: m = (y2 - y1) / (x2 - x1)';
+  const substitute = `Substitute: m = (${r.substituted.num}) / (${r.substituted.den})`;
+
+  if (r.run === 0 && r.rise === 0) {
+    return { steps: [label, 'Both points are in the same place, so there is no line yet.'],
+             answer: 'Drag the points apart.' };
+  }
+
+  if (r.undefinedSlope) {
+    return {
+      steps: [label, formula, substitute, `Simplify: m = ${r.raw.num} / 0`,
+              'Dividing by 0 has no value, so the slope is undefined.'],
+      answer: `m is undefined. The line is vertical, written x = ${n(p1.x)}.`,
+    };
+  }
+
+  const steps = [label, formula, substitute, `Simplify: m = ${r.raw.num} / ${r.raw.den}`];
+  if (r.rise === 0) {
+    steps.push('0 divided by any number is 0.');
+  } else if (`${r.raw.num}/${r.raw.den}` !== r.value) {
+    steps.push(`Reduce: m = ${r.value}`);
+  }
+  return { steps, answer: `m = ${r.value}. ${r.meaning}` };
+}

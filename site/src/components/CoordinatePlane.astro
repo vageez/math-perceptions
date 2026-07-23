@@ -52,7 +52,19 @@ for (let i = -R; i <= R; i++) if (i !== 0 && i % 2 === 0) ticks.push(i);
 const lines: number[] = [];
 for (let i = -R; i <= R; i++) lines.push(i);
 
-const pts = start.slice(0, nPoints);
+// Guard: accept a flat [x, y] as well as [[x, y]], drop anything malformed, and
+// top up from the mode's defaults. A bad prop previously rendered translate(NaN).
+const rawStart: unknown = start;
+const asPairs: [number, number][] = Array.isArray(rawStart) && typeof rawStart[0] === 'number'
+  ? [rawStart as unknown as [number, number]]
+  : ((rawStart as [number, number][]) ?? []);
+const fallback = DEFAULT_START[mode] ?? DEFAULT_START.point;
+const pts: [number, number][] = Array.from({ length: nPoints }, (_, i) => {
+  const p = asPairs[i];
+  return Array.isArray(p) && Number.isFinite(p[0]) && Number.isFinite(p[1])
+    ? [p[0], p[1]]
+    : (fallback[i] ?? fallback[0]);
+});
 const uid = `cp${Math.random().toString(36).slice(2, 8)}`;
 ---
 
@@ -124,7 +136,17 @@ const uid = `cp${Math.random().toString(36).slice(2, 8)}`;
 
   <figcaption class="cplane-readout" data-readout>
     {mode === 'point' && (<><strong data-coords></strong><span data-place></span><em data-why></em></>)}
-    {mode === 'slope' && (<><div class="cplane-eq" data-eq></div><em data-why></em></>)}
+    {mode === 'slope' && (
+      <>
+        <div class="cplane-eq" data-eq></div>
+        <em data-why></em>
+        <details class="cplane-steps">
+          <summary>Solve it for these points</summary>
+          <ol data-steps></ol>
+          <p class="cplane-steps-answer" data-steps-answer></p>
+        </details>
+      </>
+    )}
     {mode === 'line' && (<><strong class="cplane-lineeq" data-lineeq></strong><em data-why></em></>)}
     {mode === 'types' && (
       <>
@@ -202,7 +224,7 @@ const uid = `cp${Math.random().toString(36).slice(2, 8)}`;
 </style>
 
 <script>
-  import { describePoint, describeSlope, describeLine, describeTypes } from './coordinate-plane/readouts';
+  import { describePoint, describeSlope, describeLine, describeTypes, slopeSteps } from './coordinate-plane/readouts';
 
   const frac = (num: string, den: string) =>
     `<span class="frac"><span>${num}</span><span>${den}</span></span>`;
@@ -321,6 +343,13 @@ const uid = `cp${Math.random().toString(36).slice(2, 8)}`;
         riseT.setAttribute('x', `${b.x + (r.run >= 0 ? 1.15 : -1.15) * sc}`);
         riseT.setAttribute('y', `${-(a.y + b.y) / 2}`);
         riseT.textContent = r.rise === 0 ? '' : `rise ${r.rise}`;
+      }
+
+      const stepsEl = root.querySelector('[data-steps]');
+      if (stepsEl) {
+        const st = slopeSteps(a, b);
+        stepsEl.innerHTML = st.steps.map((t) => `<li>${t}</li>`).join('');
+        root.querySelector('[data-steps-answer]')!.textContent = st.answer;
       }
 
       const eq = root.querySelector('[data-eq]')!;
