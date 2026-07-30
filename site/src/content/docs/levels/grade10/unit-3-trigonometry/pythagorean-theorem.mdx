@@ -1,0 +1,133 @@
+---
+title: Pythagorean Theorem
+description: Find a missing side in a right triangle when two sides are known.
+sidebar:
+  order: 10
+---
+
+import TriangleVisual from '../../../../../components/TriangleVisual.astro';
+
+> **Question:** How do I find a missing side in a right triangle?
+
+## Think of three squares
+
+The square built on the longest side has exactly the same area as the two smaller squares added together.
+
+<TriangleVisual mode="pythagoras" />
+
+## The one formula
+
+$$
+a^2+b^2=c^2
+$$
+
+- `a` and `b` are the **legs** that form the right angle.
+- `c` is the **hypotenuse**, opposite the right angle.
+- The hypotenuse is always the longest side.
+
+## Worked example — find the hypotenuse
+
+**A right triangle has legs of 6 cm and 8 cm. Find the hypotenuse.**
+
+1. Mark the side opposite `90°` as `c`.
+2. Write the formula: $a^2+b^2=c^2$.
+3. Substitute: $6^2+8^2=c^2$.
+4. Simplify: $36+64=c^2$, so $100=c^2$.
+5. Take the square root: $c=10$.
+
+**Answer:** The hypotenuse is **10 cm**. It is longer than both legs, so the answer makes sense.
+
+## Add or subtract?
+
+| Missing side | Setup | Memory hook |
+|---|---|---|
+| Hypotenuse `c` | $c=\sqrt{a^2+b^2}$ | Finding the whole: add |
+| Leg `a` | $a=\sqrt{c^2-b^2}$ | Finding a part: subtract |
+| Leg `b` | $b=\sqrt{c^2-a^2}$ | Finding a part: subtract |
+
+## Worked example — find a leg
+
+**A ladder is 13 m long. Its foot is 5 m from a wall. How high does it reach?**
+
+The ladder is the hypotenuse because it is opposite the right angle.
+
+$$
+5^2+h^2=13^2
+$$
+
+$$
+25+h^2=169
+$$
+
+$$
+h^2=144 \quad\Rightarrow\quad h=12
+$$
+
+**Answer:** The ladder reaches **12 m** up the wall.
+
+## Formal meaning
+
+In any right triangle, the sum of the squares of the legs equals the square of the hypotenuse.
+
+## When you see… think…
+
+| When you see… | Think… |
+|---|---|
+| A marked or stated right angle | Pythagoras may be possible |
+| Two known sides and one missing side | Use $a^2+b^2=c^2$ |
+| Need the hypotenuse | Add the squared legs |
+| Need a leg | Subtract the other squared leg from $c^2$ |
+| Need an angle | Pythagoras will not find it; use SOH CAH TOA |
+
+## Reasonableness checks
+
+- A length must be positive.
+- The hypotenuse must be the longest side.
+- If finding a leg, it must be shorter than the hypotenuse.
+- The theorem cannot be used unless the triangle is right-angled.
+
+## Common exam mistakes
+
+- Calling a leg `c` instead of marking the side opposite `90°`.
+- Adding when a leg is missing.
+- Forgetting to square a known side.
+- Forgetting the final square root.
+- Rounding before the final step.
+- Using the theorem on a non-right triangle.
+
+## Quick check
+
+1. A right triangle has legs 9 cm and 12 cm. Find the hypotenuse.
+2. A right triangle has hypotenuse 17 cm and one leg 8 cm. Find the other leg.
+3. Can you use Pythagoras when all three angles are acute?
+
+<details>
+<summary>Answers</summary>
+
+**1. Hypotenuse**
+
+$$c=\sqrt{9^2+12^2}=\sqrt{81+144}=\sqrt{225}=15$$
+
+**Answer:** 15 cm.
+
+**2. Missing leg**
+
+$$b=\sqrt{17^2-8^2}=\sqrt{289-64}=\sqrt{225}=15$$
+
+**Answer:** 15 cm.
+
+**3. Right-angle check**
+
+No. Pythagoras requires a right triangle, and a triangle with three acute angles has no `90°` angle.
+
+</details>
+
+## Mission complete?
+
+- [ ] I identify the hypotenuse before substituting.
+- [ ] I use Pythagoras only in right triangles.
+- [ ] I add to find the hypotenuse and subtract to find a leg.
+- [ ] I take the final square root.
+- [ ] I check that the side length is reasonable.
+
+[Next: SOH CAH TOA →](soh-cah-toa.md)

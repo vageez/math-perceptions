@@ -1,0 +1,40 @@
+<div class="chooser" data-trig-chooser>
+  <p><strong>Tap the clue that matches your triangle:</strong></p>
+  <div class="choices" role="group" aria-label="Choose the information given in a triangle problem">
+    <button type="button" data-choice="pythagoras" aria-pressed="true">Right + 2 sides</button>
+    <button type="button" data-choice="soh" aria-pressed="false">Right + angle and side</button>
+    <button type="button" data-choice="sine" aria-pressed="false">Known opposite pair</button>
+    <button type="button" data-choice="heron" aria-pressed="false">3 sides → area</button>
+    <button type="button" data-choice="sas" aria-pressed="false">2 sides + included angle → area</button>
+  </div>
+  <div class="answer" aria-live="polite"><small>USE</small><strong data-method>Pythagorean Theorem</strong><span data-why>It connects the three sides of a right triangle.</span><code data-formula>a² + b² = c²</code></div>
+</div>
+
+<style>
+  .chooser { margin: 1.5rem 0; padding: 1rem; border: 1px solid var(--sl-color-gray-5); border-radius: .75rem; background: color-mix(in srgb, var(--sl-color-accent) 7%, var(--sl-color-bg)); }
+  .chooser p { margin-top: 0; } .choices { display: flex; flex-wrap: wrap; gap: .5rem; }
+  button { padding: .55rem .75rem; border: 1px solid var(--sl-color-gray-4); border-radius: 999px; background: var(--sl-color-bg); color: var(--sl-color-text); cursor: pointer; font: inherit; }
+  button:hover, button:focus-visible { border-color: var(--sl-color-accent); }
+  button[aria-pressed='true'] { border-color: var(--sl-color-accent); background: var(--sl-color-accent-low); color: var(--sl-color-accent-high); font-weight: 700; }
+  .answer { display: grid; gap: .2rem; margin-top: 1rem; padding: .8rem; border-left: .25rem solid var(--study-success); background: var(--sl-color-bg); }
+  .answer small { color: var(--sl-color-gray-3); letter-spacing: .08em; } .answer strong { color: var(--sl-color-accent-high); } .answer code { width: fit-content; margin-top: .2rem; }
+</style>
+
+<script>
+  const choices = {
+    pythagoras: ['Pythagorean Theorem', 'It connects the three sides of a right triangle.', 'a² + b² = c²'],
+    soh: ['SOH CAH TOA', 'Choose the ratio containing your known side, unknown side, and reference angle.', 'sin = O/H · cos = A/H · tan = O/A'],
+    sine: ['Sine Law', 'A complete side–opposite-angle pair connects to another pair.', 'a/sin A = b/sin B = c/sin C'],
+    heron: ['Heron’s Formula', 'It finds area from three sides without a height.', 's=(a+b+c)/2 · A=√[s(s−a)(s−b)(s−c)]'],
+    sas: ['SAS Area Formula', 'The known angle is pinched between the two known sides.', 'A = ½ab sin C'],
+  } as const;
+  document.querySelectorAll<HTMLElement>('[data-trig-chooser]').forEach((root) => {
+    root.querySelectorAll<HTMLButtonElement>('[data-choice]').forEach((button) => button.addEventListener('click', () => {
+      const value = choices[button.dataset.choice as keyof typeof choices];
+      root.querySelectorAll<HTMLButtonElement>('[data-choice]').forEach((item) => item.setAttribute('aria-pressed', String(item === button)));
+      root.querySelector<HTMLElement>('[data-method]')!.textContent = value[0];
+      root.querySelector<HTMLElement>('[data-why]')!.textContent = value[1];
+      root.querySelector<HTMLElement>('[data-formula]')!.textContent = value[2];
+    }));
+  });
+</script>

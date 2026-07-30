@@ -1,0 +1,130 @@
+---
+title: SOH CAH TOA
+description: Choose sine, cosine, or tangent to find a missing side or angle in a right triangle.
+sidebar:
+  order: 20
+---
+
+import TriangleVisual from '../../../../../components/TriangleVisual.astro';
+
+> **Question:** Which trigonometric ratio connects my angle, known side, and unknown side?
+
+## Think of choosing the right tool
+
+First label the triangle from the angle you are using. Then choose the ratio that contains the two sides in the question.
+
+<TriangleVisual mode="soh" />
+
+## Label before you calculate
+
+Choose the non-right **reference angle** $\theta$.
+
+- **H — Hypotenuse:** opposite the right angle; never changes.
+- **O — Opposite:** directly across from $\theta$.
+- **A — Adjacent:** beside $\theta$, but not the hypotenuse.
+
+If the reference angle changes, opposite and adjacent swap jobs.
+
+## The three ratios
+
+$$
+\sin\theta=\frac{O}{H}\qquad
+\cos\theta=\frac{A}{H}\qquad
+\tan\theta=\frac{O}{A}
+$$
+
+Cross out the side you do not have. The remaining two letters reveal the ratio.
+
+## Worked example — find a side
+
+**A ramp makes a $35°$ angle with the ground and is 4.8 m long. Find its vertical rise.**
+
+1. The ramp is opposite the right angle, so it is `H = 4.8`.
+2. The vertical rise is across from `35°`, so it is `O`.
+3. The ratio containing O and H is sine: $\sin\theta=O/H$.
+4. Substitute: $\sin35°=h/4.8$.
+5. Multiply: $h=4.8\sin35°\approx2.75$.
+
+**Answer:** The ramp rises approximately **2.8 m**.
+
+## Finding a side or an angle
+
+| Unknown | Calculator idea | Example form |
+|---|---|---|
+| Side | Use `sin`, `cos`, or `tan` | $x=12\tan38°$ |
+| Angle | Use inverse trig | $\theta=\tan^{-1}(O/A)$ |
+
+`sin⁻¹`, `cos⁻¹`, and `tan⁻¹` mean **inverse functions** here. They undo a ratio to return an angle; they do not mean `1/sin`, `1/cos`, or `1/tan`.
+
+## Worked example — find an angle
+
+**A right triangle has an opposite side of 7 cm and an adjacent side of 10 cm. Find $\theta$.**
+
+1. O and A point to tangent: $\tan\theta=O/A$.
+2. Substitute: $\tan\theta=7/10$.
+3. Undo tangent: $\theta=\tan^{-1}(7/10)$.
+4. In degree mode, $\theta\approx34.99°$.
+
+**Answer:** $\theta\approx35.0°$.
+
+## Calculator check
+
+Before pressing equals:
+
+- [ ] Degree mode is on.
+- [ ] The whole ratio is inside brackets.
+- [ ] I am using regular trig for a side or inverse trig for an angle.
+- [ ] I will round only the final result.
+
+## Multi-step pattern
+
+If the needed ratio is missing a side:
+
+1. use Pythagoras or another trig ratio to find that side;
+2. keep the unrounded value in the calculator;
+3. use it in the next step.
+
+## When you see… think…
+
+| When you see… | Think… |
+|---|---|
+| Right triangle + non-right angle | SOH CAH TOA |
+| O and H | Sine |
+| A and H | Cosine |
+| O and A | Tangent |
+| Need a side | Regular trig |
+| Need an angle | Inverse trig |
+
+## Common exam mistakes
+
+- Naming opposite and adjacent before choosing the reference angle.
+- Calling a leg the hypotenuse.
+- Picking a ratio that does not contain both needed sides.
+- Using regular trig to find an angle.
+- Leaving the calculator in radian mode.
+- Rounding an intermediate result.
+
+## Quick check
+
+1. Relative to angle $\theta$, which side is always opposite the right angle?
+2. Which ratio uses adjacent and hypotenuse?
+3. Find $\theta$ if `O = 9` and `H = 15`.
+
+<details>
+<summary>Answers</summary>
+
+1. The hypotenuse.
+2. Cosine: $\cos\theta=A/H$.
+3. $\sin\theta=9/15$, so $\theta=\sin^{-1}(0.6)\approx36.9°$.
+
+</details>
+
+## Mission complete?
+
+- [ ] I choose a reference angle before naming O and A.
+- [ ] I identify the hypotenuse from the right angle.
+- [ ] I choose the ratio containing the two relevant sides.
+- [ ] I use inverse trig to find an angle.
+- [ ] I use degree mode and round only at the end.
+
+[← Pythagorean Theorem](pythagorean-theorem.md) · [Next: Sine Law →](sine-law.md)

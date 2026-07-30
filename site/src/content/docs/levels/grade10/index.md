@@ -9,7 +9,7 @@ Grade 10 math, one unit at a time.
 
 - [Unit 1 — Linear Relations](unit-1-linear-relations/)
 - Unit 2 — Analytic Geometry *(coming soon)*
-- Unit 3 — Trigonometry *(coming soon)*
+- [Unit 3 — Trigonometry](unit-3-trigonometry/)
 - Unit 4 — Similarity & Congruency *(coming soon)*
 - Unit 5 — Functions *(coming soon)*
 - Unit 6 — Statistics *(coming soon)*
