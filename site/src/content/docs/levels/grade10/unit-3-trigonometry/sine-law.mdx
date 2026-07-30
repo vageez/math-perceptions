@@ -1,0 +1,143 @@
+---
+title: Sine Law
+description: Match opposite side-angle pairs to solve non-right triangles.
+sidebar:
+  order: 30
+---
+
+import TriangleVisual from '../../../../../components/TriangleVisual.astro';
+
+> **Question:** How do I solve a non-right triangle using a known opposite pair?
+
+## Think of matching partners
+
+Every angle is partnered with the side directly across from it. Never separate the partners.
+
+<TriangleVisual mode="sine" />
+
+## The formula
+
+For a missing side:
+
+$$
+\frac{a}{\sin A}=\frac{b}{\sin B}=\frac{c}{\sin C}
+$$
+
+For a missing angle, flipping every ratio can make the algebra easier:
+
+$$
+\frac{\sin A}{a}=\frac{\sin B}{b}=\frac{\sin C}{c}
+$$
+
+Lowercase side `a` is opposite uppercase angle `A`; the same pairing holds for `b/B` and `c/C`.
+
+## The recognition test
+
+Before using the Sine Law, circle:
+
+1. one **complete pair**: a known side and its known opposite angle;
+2. the **target pair**: the side or angle you need and its partner.
+
+If there is no complete pair, the Sine Law cannot start yet.
+
+## Worked example — find a side
+
+**In triangle ABC, $A=42°$, $a=9$ cm, and $B=71°$. Find side $b$.**
+
+1. The complete pair is `a = 9` opposite `A = 42°`.
+2. The target is `b` opposite `B = 71°`.
+3. Set up matching pairs:
+
+$$
+\frac{b}{\sin71°}=\frac{9}{\sin42°}
+$$
+
+4. Multiply:
+
+$$
+b=\frac{9\sin71°}{\sin42°}\approx12.72
+$$
+
+**Answer:** $b\approx12.7$ cm. Since `71° > 42°`, side `b` should be longer than side `a`; it is.
+
+## Worked example — find an angle
+
+**Side $a=8$ cm is opposite $A=35°$. Side $b=11$ cm is opposite $B$. Find $B$.**
+
+$$
+\frac{\sin B}{11}=\frac{\sin35°}{8}
+$$
+
+$$
+\sin B=\frac{11\sin35°}{8}\approx0.7887
+$$
+
+$$
+B=\sin^{-1}(0.7887)\approx52.1°
+$$
+
+**Answer:** $B\approx52.1°$. The longer side `11` faces the larger angle, so the size is reasonable.
+
+## The triangle check
+
+- Angles total `180°`.
+- A larger side must face a larger angle.
+- Every angle must be between `0°` and `180°`.
+
+### A caution about SSA
+
+When two sides and a non-included angle are given, the same sine value can sometimes produce a second possible angle: $180°-B$. Use the diagram and problem conditions to decide whether a second triangle is possible. Follow your teacher’s expectations for the **ambiguous case**.
+
+## Multi-step pattern
+
+Sometimes you must first:
+
+- find the third angle using $A+B+C=180°$;
+- use SOH CAH TOA in a right-triangle section;
+- find a missing length before a complete opposite pair exists.
+
+Do one step at a time and keep unrounded values.
+
+## When you see… think…
+
+| When you see… | Think… |
+|---|---|
+| A side and its opposite angle | Complete pair |
+| Non-right triangle + complete pair | Sine Law |
+| Need a side | Put sides on top |
+| Need an angle | Put sine expressions on top; use inverse sine |
+| Two known angles | Find the third with `180°` if needed |
+
+## Common exam mistakes
+
+- Pairing a side with a nearby angle instead of its opposite angle.
+- Starting without a complete known pair.
+- Using regular sine instead of inverse sine for an angle.
+- Mixing degrees and radians.
+- Rounding an intermediate ratio.
+- Ignoring the larger-side/larger-angle check.
+
+## Quick check
+
+1. Which side is paired with angle `C`?
+2. Can the Sine Law start if you know only sides `a`, `b`, and `c`?
+3. If `a = 5`, `A = 30°`, and `B = 80°`, find `b`.
+
+<details>
+<summary>Answers</summary>
+
+1. Side `c`, directly opposite angle `C`.
+2. Not directly: there is no known angle and therefore no complete side–angle pair. If area is required, use Heron’s Formula.
+3. $b=\dfrac{5\sin80°}{\sin30°}\approx9.85$.
+
+</details>
+
+## Mission complete?
+
+- [ ] I match each side with its opposite angle.
+- [ ] I find a complete pair before writing the formula.
+- [ ] I can find a missing side.
+- [ ] I use inverse sine to find a missing angle.
+- [ ] I check angle totals and side–angle sizes.
+
+[← SOH CAH TOA](soh-cah-toa.md) · [Next: Heron’s Formula →](herons-formula.md)

@@ -1,0 +1,88 @@
+---
+interface Props { mode: 'pythagoras' | 'soh' | 'sine' | 'heron' | 'sas' }
+const { mode } = Astro.props;
+const right = mode === 'pythagoras' || mode === 'soh';
+const descriptions = {
+  pythagoras: 'Right triangle with two legs, a hypotenuse, and a marked right angle',
+  soh: 'Right triangle labelled opposite, adjacent, and hypotenuse from angle theta',
+  sine: 'Non-right triangle with each side matched to its opposite angle',
+  heron: 'Triangle with three known sides and no known height',
+  sas: 'Triangle with two sides and the included angle between them',
+};
+---
+
+<figure class:list={['triangle-visual', `mode-${mode}`]} role="img" aria-label={descriptions[mode]}>
+  <div class="stage">
+    <span class:list={['edge', right ? 'right-base' : 'scale-base']}></span>
+    <span class:list={['edge', right ? 'right-side' : 'scale-left']}></span>
+    <span class:list={['edge', right ? 'right-hyp' : 'scale-right']}></span>
+    {right && <span class="right-mark"></span>}
+
+    {mode === 'pythagoras' && <>
+      <span class="tag base"><b>a</b><small>leg</small></span>
+      <span class="tag upright"><b>b</b><small>leg</small></span>
+      <span class="tag diagonal"><b>c</b><small>hypotenuse</small></span>
+      <strong class="formula centre">a² + b² = c²</strong>
+      <span class="note">c is opposite 90° and is the longest side</span>
+    </>}
+
+    {mode === 'soh' && <>
+      <span class="theta">θ</span>
+      <span class="tag base"><b>A</b><small>adjacent</small></span>
+      <span class="tag upright"><b>O</b><small>opposite</small></span>
+      <span class="tag diagonal"><b>H</b><small>hypotenuse</small></span>
+      <div class="ratios"><span><b>SOH</b> sin θ = O/H</span><span><b>CAH</b> cos θ = A/H</span><span><b>TOA</b> tan θ = O/A</span></div>
+    </>}
+
+    {mode === 'sine' && <>
+      <span class="angle angle-a">A</span><span class="angle angle-b">B</span><span class="angle angle-c">C</span>
+      <span class="tag side-a"><b>a</b><small>opposite A</small></span>
+      <span class="tag side-b"><b>b</b><small>opposite B</small></span>
+      <span class="tag side-c"><b>c</b><small>opposite C</small></span>
+      <strong class="formula wide">a / sin A = b / sin B = c / sin C</strong>
+    </>}
+
+    {mode === 'heron' && <>
+      <span class="tag side-a"><b>a</b></span><span class="tag side-b"><b>b</b></span><span class="tag side-c"><b>c</b></span>
+      <span class="ghost-height">height not needed</span>
+      <div class="formula stack"><span>s = (a + b + c) / 2</span><b>A = √[s(s − a)(s − b)(s − c)]</b></div>
+    </>}
+
+    {mode === 'sas' && <>
+      <span class="tag side-a"><b>a</b><small>known</small></span><span class="tag side-b"><b>b</b><small>known</small></span>
+      <span class="angle sas-angle">C</span><span class="pinch">↘ C ↙</span>
+      <strong class="formula centre">Area = ½ab sin C</strong>
+      <span class="note">C is pinched between sides a and b</span>
+    </>}
+  </div>
+</figure>
+
+<style>
+  .triangle-visual { max-width: 40rem; margin: 1.5rem auto; }
+  .stage { position: relative; aspect-ratio: 16 / 10; overflow: hidden; border: 1px solid var(--sl-color-gray-5); border-radius: .75rem; background: color-mix(in srgb, var(--sl-color-accent) 8%, var(--sl-color-bg)); }
+  .edge { position: absolute; height: .24rem; border-radius: 1rem; background: var(--sl-color-accent-high); transform-origin: left center; }
+  .right-base { left: 14%; top: 76%; width: 64%; }
+  .right-side { left: 78%; top: 76%; width: 58%; transform: rotate(-90deg); }
+  .right-hyp { left: 14%; top: 76%; width: 83%; transform: rotate(-36deg); }
+  .scale-base { left: 12%; top: 77%; width: 76%; }
+  .scale-left { left: 12%; top: 77%; width: 68%; transform: rotate(-60deg); }
+  .scale-right { left: 64%; top: 17%; width: 65%; transform: rotate(66deg); }
+  .right-mark { position: absolute; left: 72.5%; top: 67%; width: 2rem; height: 2rem; border-left: .2rem solid var(--study-warning); border-top: .2rem solid var(--study-warning); }
+  .tag, .formula, .note, .theta, .angle, .pinch, .ghost-height { position: absolute; z-index: 2; }
+  .tag { display: flex; flex-direction: column; align-items: center; padding: .18rem .42rem; border: 1px solid var(--sl-color-gray-5); border-radius: .4rem; background: var(--sl-color-bg); line-height: 1.1; }
+  .tag b { color: var(--sl-color-accent-high); } .tag small { color: var(--sl-color-gray-3); }
+  .formula { padding: .4rem .65rem; border: 1px solid var(--sl-color-accent); border-radius: .5rem; background: var(--sl-color-bg); color: var(--sl-color-accent-high); text-align: center; }
+  .base { left: 43%; top: 78%; } .upright { left: 80%; top: 43%; } .diagonal { left: 38%; top: 35%; transform: rotate(-36deg); }
+  .centre { left: 32%; top: 55%; } .wide { left: 24%; top: 56%; }
+  .note { left: 20%; bottom: 4%; color: var(--sl-color-gray-3); font-size: .85rem; }
+  .theta { left: 20%; top: 66%; color: var(--study-warning); font-weight: 800; }
+  .ratios { position: absolute; left: 7%; right: 7%; bottom: 3%; display: grid; grid-template-columns: repeat(3, 1fr); gap: .4rem; font-size: .8rem; }
+  .ratios span { padding: .3rem; border: 1px solid var(--sl-color-gray-5); border-radius: .4rem; background: var(--sl-color-bg); text-align: center; }
+  .ratios b { display: block; color: var(--sl-color-accent-high); }
+  .angle { color: var(--study-warning); font-weight: 800; } .angle-a { left: 14%; top: 68%; } .angle-b { left: 84%; top: 68%; } .angle-c { left: 62%; top: 19%; }
+  .side-a { left: 76%; top: 42%; transform: rotate(66deg); } .side-b { left: 29%; top: 39%; transform: rotate(-60deg); } .side-c { left: 46%; top: 79%; }
+  .ghost-height { left: 59%; top: 36%; height: 39%; padding-left: .35rem; border-left: 2px dashed var(--sl-color-gray-4); color: var(--sl-color-gray-3); font-size: .8rem; }
+  .stack { left: 18%; right: 18%; bottom: 3%; display: grid; gap: .15rem; }
+  .sas-angle { left: 61%; top: 20%; } .pinch { left: 52%; top: 21%; color: var(--study-warning); font-size: 1.25rem; }
+  @media (max-width: 34rem) { .stage { font-size: .78rem; } .tag { padding: .1rem .25rem; } .ratios { font-size: .65rem; gap: .2rem; } .formula { padding: .28rem .4rem; } .note { font-size: .68rem; } }
+</style>

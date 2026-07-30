@@ -30,6 +30,12 @@ export default defineConfig({
                 { autogenerate: { directory: 'levels/grade10/unit-1-linear-relations' } },
               ],
             },
+            {
+              label: 'Unit 3 — Trigonometry',
+              items: [
+                { autogenerate: { directory: 'levels/grade10/unit-3-trigonometry' } },
+              ],
+            },
           ],
         },
       ],

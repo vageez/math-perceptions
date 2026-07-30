@@ -1,0 +1,130 @@
+---
+title: Heron’s Formula
+description: Find the area of a triangle from its three side lengths.
+sidebar:
+  order: 40
+---
+
+import TriangleVisual from '../../../../../components/TriangleVisual.astro';
+
+> **Question:** How do I find triangle area when I know all three sides but not the height?
+
+## Think of area without dropping a height
+
+Heron’s Formula turns the three side lengths directly into area. The bridge is the **semiperimeter**—half the distance around the triangle.
+
+<TriangleVisual mode="heron" />
+
+## The two-step formula
+
+First find the semiperimeter:
+
+$$
+s=\frac{a+b+c}{2}
+$$
+
+Then find the area:
+
+$$
+A=\sqrt{s(s-a)(s-b)(s-c)}
+$$
+
+`a`, `b`, and `c` are the three side lengths. `s` is the semiperimeter. `A` is area.
+
+## Worked example
+
+**Find the area of a triangle with side lengths 5 cm, 5 cm, and 6 cm.**
+
+1. Find the semiperimeter:
+
+$$
+s=\frac{5+5+6}{2}=8
+$$
+
+2. Substitute every factor:
+
+$$
+A=\sqrt{8(8-5)(8-5)(8-6)}
+$$
+
+3. Simplify inside the root:
+
+$$
+A=\sqrt{8(3)(3)(2)}=\sqrt{144}=12
+$$
+
+**Answer:** The area is **12 cm²**.
+
+## Why “semi” matters
+
+The perimeter is `a + b + c`. Heron uses **half** of it.
+
+```text
+perimeter = a + b + c
+semiperimeter = perimeter ÷ 2
+```
+
+Using the full perimeter changes every factor and gives the wrong area.
+
+## Can the sides form a triangle?
+
+Before calculating, check the **triangle inequality**:
+
+> Any two sides added together must be longer than the third side.
+
+For `2, 3, 6`, the check fails because `2 + 3` is not greater than `6`. Those lengths cannot close into a triangle.
+
+## Calculator entry
+
+Enter the whole product under one square root:
+
+`√(s × (s−a) × (s−b) × (s−c))`
+
+Use brackets around each subtraction and round only the final answer.
+
+## Formal meaning
+
+Heron’s Formula gives the area of any triangle when all three side lengths are known. No height or angle is required.
+
+## When you see… think…
+
+| When you see… | Think… |
+|---|---|
+| Three sides and need area | Heron’s Formula |
+| Letter `s` | Semiperimeter, not full perimeter |
+| No height | That is fine; Heron does not need it |
+| Two sides plus included angle | Use the SAS area formula instead |
+
+## Common exam mistakes
+
+- Calling the formula “Hero’s Formula”; the standard name is **Heron’s Formula**.
+- Using the full perimeter instead of the semiperimeter.
+- Forgetting one of the four factors.
+- Taking the square root of only one factor.
+- Entering subtraction without brackets.
+- Reporting centimetres instead of square centimetres.
+
+## Quick check
+
+1. Find `s` for side lengths 7, 8, and 9.
+2. Which units should a triangle area use if the sides are metres?
+3. Can side lengths 4, 5, and 10 form a triangle?
+
+<details>
+<summary>Answers</summary>
+
+1. $s=(7+8+9)/2=12$.
+2. Square metres, `m²`.
+3. No. `4 + 5 = 9`, which is not greater than `10`.
+
+</details>
+
+## Mission complete?
+
+- [ ] I recognize the SSS-to-area pattern.
+- [ ] I calculate `s` before using the area formula.
+- [ ] I keep every factor under the square root.
+- [ ] I check that the sides can form a triangle.
+- [ ] I report area in square units.
+
+[← Sine Law](sine-law.md) · [Next: SAS Area Formula →](sas-area-formula.md)

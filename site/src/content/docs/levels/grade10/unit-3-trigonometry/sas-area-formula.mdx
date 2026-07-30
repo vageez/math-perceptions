@@ -1,0 +1,120 @@
+---
+title: SAS Area Formula
+description: Find triangle area from two sides and the included angle.
+sidebar:
+  order: 50
+---
+
+import TriangleVisual from '../../../../../components/TriangleVisual.astro';
+
+> **Question:** How do I find area from two sides and the angle between them?
+
+## Think of the angle being pinched
+
+The two known sides meet and **pinch** the included angle. The angle in the formula must be the one between those two sides.
+
+<TriangleVisual mode="sas" />
+
+## The formula
+
+$$
+A=\frac12 ab\sin C
+$$
+
+Sides `a` and `b` form angle `C`. Equivalent versions are:
+
+$$
+A=\frac12 bc\sin A
+\qquad
+A=\frac12 ca\sin B
+$$
+
+Each angle must be paired with the two sides that form it.
+
+## Worked example
+
+**Two sides of a triangle are 8 cm and 11 cm. The angle between them is $47°$. Find the area.**
+
+1. The known angle is between the two known sides, so this is SAS area.
+2. Write the formula: $A=\tfrac12 ab\sin C$.
+3. Substitute: $A=\tfrac12(8)(11)\sin47°$.
+4. Calculate in degree mode: $A\approx32.18$.
+
+**Answer:** The area is approximately **32.2 cm²**.
+
+## Why the included angle matters
+
+The formula is another way to write:
+
+$$
+A=\frac12(\text{base})(\text{height})
+$$
+
+If side `a` is the base, the vertical height created by side `b` is `b sin C`. Therefore:
+
+$$
+A=\frac12(a)(b\sin C)
+$$
+
+That is why `C` must sit between sides `a` and `b`.
+
+## A useful check at 90°
+
+Because $\sin90°=1$:
+
+$$
+A=\frac12 ab\sin90°=\frac12 ab
+$$
+
+So the formula becomes the familiar area of a right triangle.
+
+## Choose the correct pair
+
+| Known angle | Use the two sides that meet there | Formula |
+|---|---|---|
+| `A` | `b` and `c` | $A=\tfrac12bc\sin A$ |
+| `B` | `c` and `a` | $A=\tfrac12ca\sin B$ |
+| `C` | `a` and `b` | $A=\tfrac12ab\sin C$ |
+
+## When you see… think…
+
+| When you see… | Think… |
+|---|---|
+| Two sides + angle between them + area | SAS area formula |
+| Three sides + area | Heron’s Formula |
+| A non-included angle | Do not use it with those two sides |
+| A `90°` included angle | The formula reduces to `½ × base × height` |
+
+## Common exam mistakes
+
+- Using an angle that is not between the two chosen sides.
+- Forgetting the factor `1/2`.
+- Multiplying by the angle instead of `sin(angle)`.
+- Leaving the calculator in radian mode.
+- Mixing length units.
+- Reporting linear units instead of square units.
+
+## Quick check
+
+1. Which angle is included between sides `a` and `b`?
+2. Find the area when `a = 6`, `b = 9`, and `C = 30°`.
+3. If all three sides are known but no angle is known, which area method fits?
+
+<details>
+<summary>Answers</summary>
+
+1. Angle `C`.
+2. $A=\tfrac12(6)(9)\sin30°=13.5$ square units.
+3. Heron’s Formula.
+
+</details>
+
+## Mission complete?
+
+- [ ] I recognize the SAS-to-area pattern.
+- [ ] I choose the angle between the two known sides.
+- [ ] I include the factor `1/2` and the sine function.
+- [ ] I use degree mode and round only at the end.
+- [ ] I report area in square units.
+
+[← Heron’s Formula](herons-formula.md) · [Next: Formula Sheet →](formula-sheet.md)
